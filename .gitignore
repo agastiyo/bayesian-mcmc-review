@@ -1,3 +1,4 @@
 # Ignore Latex output
 /tex_files/output/
 
+.DS_Store
