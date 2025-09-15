@@ -1,4 +1,5 @@
 # Ignore Latex output
 /tex_files/output/
 
+# Ignore Mac files
 .DS_Store
