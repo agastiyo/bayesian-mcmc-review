@@ -36,24 +36,43 @@
   \end{enumerate}
   \item Case Studies
   \begin{enumerate}
-    \item Bayesian Frameworks for Exoplanet detection \\ (Ruffio)
+    \item Bayesian Frameworks for Exoplanet detection \\ (citing Ruffio, Jones, Li)
     \begin{itemize}
-      \item Problem
-      \item Methods
-      \item Pros/Cons
-      \item Extensions
+      \item The major challenge in exoplanet detection is distinguishing planetary signals from stellar activity. (cite Li)
+      \item MCMC methods are being used to create joint models of stellar and planetary signals (cite Jones)
+      \item Bayesian models are being used to destinguish between stars and planets too (cite Ruffio)
     \end{itemize}
-    \item Cosmological Parameter Estimation with MCMC Methods \\ (Akeret) \\ Notes: Make this even more specialized. Read some more about it
-    \item Bayesian approach to Gravity wave detection \\ (Littenberg) \\ Notes: Don't go too deep into this. Only talk about detection, don't get into fitting the graviatational waveform.
+    \item Cosmological Parameter Estimation with MCMC Methods \\ (citing Akeret, Christensen, Efstathiou)
+    \begin{itemize}
+      \item CMB parameter estimation faces a problem where different combinations of cosmological parameters can produce nearly identical CMB power spectra. (geometric degeneracies) (cite Efstathiou)
+      \item MCMC methods are being used for more efficient parameter estimation when such degeneracies are present (cite Akeret and Christensen)
+    \end{itemize}
+    \item Bayesian approach to Gravity wave detection \\ (citing Wong,Christensen)
+    \begin{itemize}
+      \item G-Wave data needs to be fitted to a waveform across a high-dimensional parameter space. This requires extreme computation costs. (cite Christensen)
+      \item Gradient-based MCMC is being used to reduce computation time (cite Wong)
+    \end{itemize}
   \end{enumerate}
   \item Conclusion
   \begin{itemize}
-    \item State of the field
-    \item Areas for future work
-    \item 
+    \item MCMC methods are evolving to address increasing computational demands, as seen in the three case studies.
+    \item Talk about areas of further work.
   \end{itemize}
 \end{enumerate}
 
 \section*{References}
+
+\begin{enumerate}
+  \item Akeret, Joel, Sebastian Seehars, Adam Amara, Alexandre Refregier, and Andre Csillaghy. “CosmoHammer: Cosmological Parameter Estimation with the MCMC Hammer.” Astronomy and Computing,\\arXiv:1212.1721, revised Oct. 2013.
+  \item Brewer, Brendon J. “Bayesian Inference and Computation: A Beginner's Guide.” Bayesian Astrophysics, edited by Andres Asensio Ramos and Inigo Arregui, Cambridge University Press, 2019, pp. 1-26.
+  \item Christensen, N., R. Meyer, L. Knox, and B. Luey. “Bayesian Methods for Cosmological Parameter Estimation from Cosmic Microwave Background Measurements.” Classical and Quantum Gravity, vol. 18, no. 14, 2001, pp. 2677-2688.
+  \item Christensen, Nelson, and Renate Meyer. “Parameter Estimation with Gravitational Waves.” Reviews of Modern Physics, vol. 94, no. 2, 2022, 025001.
+  \item Efstathiou, George. “Challenges to the $\Lambda$CDM Cosmology.” Philosophical Transactions of the Royal Society A, 2024, arXiv:2406.12106.
+  \item Jones, D. E., D. Stenning, E. B. Ford, R. L. Wolpert, T. J. Loredo, C. Gilbertson, and X. Dumusque. “Improving Exoplanet Detection Power: Multivariate Gaussian Process Models for Stellar Activity.” The Annals of Applied Statistics, 2022.
+  \item Li, J., et al. “Direct Imaging Challenges: Disentangling Embedded Protoplanets from Disk Structures with MagAO-X H$\alpha$.” Proceedings of SPIE: Adaptive Optics Systems IX, 2024.
+  \item Ruffio, Jean-Baptiste, et al. “A Bayesian Framework for Exoplanet Direct Detection and Non-detection.” The Astronomical Journal, vol. 156, no. 196, Nov. 2018, pp. 1-16.
+  \item von Toussaint, Udo. “Bayesian Inference in Physics.” Reviews of Modern Physics, vol. 83, no. 3, 2011, pp. 943-999.
+  \item Wong, Kaze W. K., Maximiliano Isi, and Thomas D. P. Edwards. “Fast Gravitational Wave Parameter Estimation without Compromises.” \\arXiv:2302.05333, 13 Feb. 2023.
+\end{enumerate}
 
 \end{document}
