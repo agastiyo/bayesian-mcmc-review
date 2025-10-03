@@ -1,4 +1,4 @@
-\documentclass[preprint2,longauthor]{aastex631}
+\documentclass[preprint,longauthor]{aastex631}
 \usepackage{blindtext}
 \usepackage{amsmath}
 
@@ -74,13 +74,11 @@ The aim of Bayesian statistics is simple: determine $P(H|D)$, or the probability
 
 Hypotheses live in the \textit{hypothesis space}, which is the set of all possible hypotheses of a system \citep{brewer1BayesianInference2018}. Going back to the die example, the hypothesis space is $\{1,2,3,4,5,6\}$. The hypothesis space will also have a probability distribution, or a \textit{prior}, written as $P(H)$. The prior is the probability of each hypothesis being true before seeing any data. For a fair die, the prior is uniform. It's $\frac{1}{6}$ for all $H$ in the hypothesis space. In other words, $P(H)$ is the probability of the hypothesis being true.
 
-Like the prior, the evidence is the probability of seeing the data $D$. The evidence lives in the \textit{data space}, which is the set of all possible data of a system. In the die example, the data space is also $\{1,2,3,4,5,6\}$. The data $D$ also has a probability distribution called the \textit{evidence}, $P(D)$ \citep{brewer1BayesianInference2018}. The evidence is the probability of seeing the data before knowing anything about the hypothesis. In the die example, if you roll a 3, then $P(D)$ is $\frac{1}{6}$ because there is a $\frac{1}{6}$ chance of rolling a 3 on a fair die.
+The data $D$ also has a probability distribution called the \textit{evidence}, $P(D)$ \citep{brewer1BayesianInference2018}. The evidence is the probability of seeing the data before knowing anything about the hypothesis. In the die example, if you roll a 3, then $P(D)$ is $\frac{1}{6}$ because there is a $\frac{1}{6}$ chance of rolling a 3 on a fair die. The evidence lives in the \textit{data space}, which is the set of all possible data of a system. In the die example, the data space is also $\{1,2,3,4,5,6\}$.
 
-A \textit{likelihood}, $P(D|H)$, is the probability of seeing the data assuming that the hypothesis is true. In the die example, if $H$ is that the die roll is a 3, then $P(D|H)$ is 1 if the die roll is a 3 and 0 otherwise. The likelihood is a function of the hypothesis, not the data. It tells you how likely you are to see the data if a hypothesis is true.
+A \textit{likelihood}, $P(D|H)$, is the probability of seeing the data assuming that the hypothesis is true. In the die example, if $H$ is that the die roll is a 3, then $P(D|H)$ is 1 if the die roll is a 3 and 0 otherwise. Using the prior, evidence, and likelihood to calculate $P(H|D)$, which is the probability of a hypothesis being true given the data. This is called the \textit{posterior}. In the die example, if you roll a 3, then $P(H|D)$ is 1 if $H$ is that the die roll is a 3 and 0 otherwise.
 
-Finally, you can use the prior and likelihood to calculate $P(H|D)$, the probability of a hypothesis being true given the data. This is called the \textit{posterior}. In the die example, if you roll a 3, then $P(H|D)$ is 1 if $H$ is that the die roll is a 3 and 0 otherwise. The posterior is a function of both the hypothesis and the data. It tells you how likely a hypothesis is to be true given the data.
-
-The framework for finding $P(H|D)$ is called Bayes' Theorem, and if forms the center of Bayesian inference. It can be derived using two rules \citep{coxProbabilityFrequencyReasonable1946}. Firstly, the probability that a hypothesis is true and the probability that it is not true add up to 1:
+The framework for finding $P(H|D)$ is called Bayes' Theorem, and it forms the center of Bayesian inference. It can be derived using two rules \citep{coxProbabilityFrequencyReasonable1946}. Firstly, the probability that a hypothesis is true and the probability that it is not true add up to 1:
 
 \begin{equation}
   P(H) + P(\tilde{H}) = 1.
@@ -110,8 +108,8 @@ The first step is to determine $H$ and $D$ from the hypotheses and data spaces. 
 Next, we determine the prior and evidence. There are 4 fair coins and 1 double-headed coin, so it is easy to find for the prior that $P(\text{fair}) = \frac{4}{5} = 0.8$ and $P(\text{double}) = \frac{1}{5} = 0.2$. The evidence is more complex to find in this case. Since the chance of flipping heads or tails includes the case that you picked up the double headed coin, the evidence cannot simply be 50-50. We must calculate the mean probability of getting heads and tails across all the coins:
 
 \begin{align*}
-  P(\text{heads}) &= \frac{0.5+0.5+0.5+0.5+1}{5} \\ &= 0.6 \\ \\
-  P(\text{tails}) &= \frac{0.5+0.5+0.5+0.5}{5} \\ &= 0.4 \\
+  P(\text{heads}) &= \frac{0.5+0.5+0.5+0.5+1}{5} = 0.6 \\
+  P(\text{tails}) &= \frac{0.5+0.5+0.5+0.5}{5} = 0.4
 \end{align*}
 
 Note the implicit rule for any space:
@@ -125,13 +123,16 @@ where $x_n$ is a value in a space.
 The final step before solving is to find the likelihood, $P(\text{heads}|\text{double})$. This is trivially 1, as you can only get heads from the double-headed coin. Now, we can solve for the posterior:
 
 \begin{align*}
-  P(\text{double}|\text{heads}) &= \frac{P(\text{double})P(\text{heads}|\text{double})}{P(\text{heads})} \\
-  &= \frac{0.2}{0.6} = \boxed{0.\bar{3}}
+  P(\text{double}|\text{heads}) &= \frac{P(\text{double})P(\text{heads}|\text{double})}{P(\text{heads})} = \frac{0.2}{0.6} = \boxed{0.\bar{3}}
 \end{align*}
 
 Before incorporating the data, the probability of picking the double headed coin was $0.2$, but by using Bayesian statistics, we were able to "learn" from the data and increase the probability to $0.\bar{3}$. This is a simple example, but it demonstrates the power of Bayesian statistics in the face of incomplete data.
 
 \subsection{Bayesian Statistics in Astrophysics}
+
+In an astrophysical context, Bayes' Theorem is used to calculate the probability of \textit{parameters}, $\theta$, of a model rather than a hypothesis \citep{brewer1BayesianInference2018}.
+
+% Cook up your own example here. Use the brewer and von toussaint examples for reference. Maybe use some data from the DS hw 1?
 
 \subsection{Monte Carlo Methods}
 \subsubsection{High-Dimensional Integration}
