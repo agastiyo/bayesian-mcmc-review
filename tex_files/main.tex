@@ -1,6 +1,9 @@
 \documentclass[preprint,longauthor]{aastex631}
+
 \usepackage{blindtext}
 \usepackage{amsmath}
+\usepackage{subfigure}
+\usepackage{graphicx}
 
 \numberwithin{equation}{section}
 
@@ -168,15 +171,15 @@ To start, we must determine the prior, $P(K,T,\phi)$. For simplicity, we can ass
   P(K,T,\phi) = P(K)P(T)P(\phi).
 \end{equation}
 
-Since we know nothing about the priors, it is reasonable to assume that they are uniformly distributed in a certain range. Looking at the data, we can see that the velocity semi-amplitude $K$ is between 0 and 20 m/s, the period $T$ is between 0 and 20 days, and the phase offset $\phi$ is between 0 and $2\pi$. Thus, the priors are:
+Since we know nothing about the priors, it is reasonable to assume that they are uniformly distributed in a certain range. Looking at the data, we can see that the velocity semi-amplitude $K$ is between 5 and 15 m/s, the period $T$ is between 20 and 30 days, and the phase offset $\phi$ is between 0 and $2\pi$. Thus, the priors are:
 
 \begin{equation*}
   P(K) = \begin{cases}
-    \frac{1}{20} & 0 < K < 20 \\
+    \frac{1}{10} & 5 < K < 15 \\
     0 & \text{otherwise}
   \end{cases} \qquad
   P(T) = \begin{cases}
-    \frac{1}{20} & 0 < T < 20 \\
+    \frac{1}{10} & 20 < T < 30 \\
     0 & \text{otherwise}
   \end{cases} \qquad
   P(\phi) = \begin{cases}
@@ -189,12 +192,62 @@ and the combined prior is then:
 
 \begin{equation}
   P(K,T,\phi) = \begin{cases}
-    \frac{1}{800\pi} & 0 < K < 20, 0 < T < 20, 0 < \phi < 2\pi \\
+    \frac{1}{200\pi} & 5 < K < 15, 20 < T < 30, 0 < \phi < 2\pi \\
     0 & \text{otherwise}
   \end{cases}
 \end{equation}
 
-Next, we must determine the likelihood, $P(D|K,T,\phi)$.
+Next, we must determine the likelihood, $P(D|K,T,\phi)$, or the probability of seeing the data given the parameters. To do this, we calculate the probability of seeing each data point given what the model would predict for that data point. We can assume the model prediction is the mean of a normal distribution of possible points, and the error of each data point is the standard deviation. Using this, we can calculate the probability of obtaining a data point $d_i$ at time $t_i$. Multiplying the probabilities of all the data points gives the probability of seeing the full dataset, which is the likelihood. Mathematically, this is:
+
+\begin{equation}
+  P(D|K,T,\phi) = \prod_{i=1}^{N} \frac{1}{\sqrt{2\pi\sigma_i^2}} \exp\left(-\frac{(D_i - v_r(t_i;K,T,\phi))^2}{2\sigma_i^2}\right),
+\end{equation}
+
+Substituting values for each parameter gives the likelihood of seeing the data given the parameters.
+
+Finally, we must determine the evidence, $P(D)$. It's obvious that when integrating the posterior over the entire parameter space, it must equal one, as the parameters are certain to take on some value within the space. Thus, the evidence can be found by rearranging the equation:
+
+\begin{align}
+  1 &= \iiint P(K,T,\phi|D) dK dT d\phi\nonumber \\
+  1 &= \iiint \frac{P(K,T,\phi)P(D|K,T,\phi)}{P(D)} dK dT d\phi \nonumber \\
+  \therefore P(D) &= \iiint P(K,T,\phi)P(D|K,T,\phi) dK dT d\phi
+\end{align}
+
+Note that this integral is analytically intractable, so it must be calculated numerically.
+
+Using the data in \autoref{fig:rv_data}, we can calculate the posterior distribution of the parameters. The results are shown in \autoref{fig:ex_posteriors}.
+
+\begin{figure}[ht!]
+\centering
+
+\subfigure[Posterior distribution of $K$]{%
+    \includegraphics[width=0.32\textwidth]{../scripts/2.2/figures/k-posterior.png}%
+    \label{fig:k_posterior}%
+}
+\hfill
+\subfigure[Posterior distribution of $T$]{%
+    \includegraphics[width=0.32\textwidth]{../scripts/2.2/figures/t-posterior.png}%
+    \label{fig:t_posterior}%
+}
+\hfill
+\subfigure[Posterior Distribution of $\phi$]{%
+    \includegraphics[width=0.32\textwidth]{../scripts/2.2/figures/phi-posterior.png}%
+    \label{fig:phi_posterior}%
+}
+\caption{The posterior distributions of the parameters $K$, $T$, and $\phi$ given the data in \autoref{fig:rv_data}. These posteriors are normalized with a numerically calculated evidence.}
+\label{fig:ex_posteriors}
+\end{figure}
+
+In reality, we will never know the exact parameters of a system, but posterior distributions give us a close estimate. To quantify how close the estimate is, we will compare the posterior distributions to the true parameters, which are $K=10$ m/s, $T=25$ days, and $\phi=\frac{\pi}{4}$. It is clear to see that the true values are within one standard deviation of the mean of each posterior distribution, indicating that the Bayesian method was successful in estimating the parameters.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.7\textwidth]{../scripts/2.2/figures/prediction.png}
+\caption{The radial velocity data from \autoref{fig:rv_data} along with the mean prediction from the posterior distributions in \autoref{fig:ex_posteriors}. The shaded region represents one standard deviation from the mean prediction.}
+\label{fig:prediction}
+\end{figure}
+
+\autoref{fig:prediction} shows the true model along with the mean prediction from the posterior distributions. Thus, we can apply Bayes' Theorem to predict the parameters for astrophysical models. However, this method is computationally expensive. Computing this numerically, we would have to iterate through all possible values of each parameter. With $d$ data points, $n$ parameters and $m$ possible values for each parameter, this algorithm would have a time complexity of $O(m^n \cdot d)$, which is infeasible for even small $n$ and $m$. To solve this problem, we can use \textit{Monte Carlo methods}.
 
 \subsection{Monte Carlo Methods}
 \subsubsection{High-Dimensional Integration}
