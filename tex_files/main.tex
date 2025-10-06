@@ -2,6 +2,8 @@
 \usepackage{blindtext}
 \usepackage{amsmath}
 
+\numberwithin{equation}{section}
+
 % Note to self: Don't forget to start up Zotero when you start writing!
 
 \begin{document}
@@ -94,6 +96,7 @@ This can be trivially rearranged to give Bayes' Theorem:
 
 \begin{equation}
   P(H|D) = \frac{P(H)P(D|H)}{P(D)}.
+  \label{eq:bayes_theorem}
 \end{equation}
 
 In other words, given the prior, evidence, and the likelihood, you can calculate the posterior $P(H|D)$.
@@ -132,7 +135,66 @@ Before incorporating the data, the probability of picking the double headed coin
 
 In an astrophysical context, Bayes' Theorem is used to calculate the probability of \textit{parameters}, $\theta$, of a model rather than a hypothesis \citep{brewer1BayesianInference2018}.
 
-% Cook up your own example here. Use the brewer and von toussaint examples for reference. Maybe use some data from the DS hw 1?
+\begin{equation}
+  P(\theta|D) = \frac{P(\theta)P(D|\theta)}{P(D)}.
+\end{equation}
+
+Take, for example, measurements of the radial velocity of a star over time. When a start hosts an orbiting planet, both bodies orbit a common center of mass. This induces a 'wobble' in the star's motion which is detected as periodic Doppler shifts from the star's spectrum, also known as the \textit{radial velocity}. The radial velocity $v_r(t)$ of a star with a single planet can be modeled as:
+
+\begin{equation}
+  v_r(t) = K \sin\left(\frac{2\pi t}{T} + \phi\right),
+\end{equation}
+
+where $K$ is the velocity semi-amplitude, $T$ is the orbital period, and $\phi$ is a phase offset. Thus, the parameters of this model are $\theta = \{K,P,\phi\}$.
+
+One could measure the radial velocity of a star over a certain time period and obtain the data shown in \autoref{fig:rv_data}.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.7\textwidth]{../scripts/2.2/figures/data.png}
+\caption{Simulated radial velocity data of a star with a single orbiting planet. Each point has an error of three standard deviations. The data is noisy and incomplete, making it difficult to determine the parameters of the model.}
+\label{fig:rv_data}
+\end{figure}
+
+Bayes' Theorem can be used to determine the posterior distribution of the parameters using the noicy, incomplete data. In this case, \autoref{eq:bayes_theorem} becomes:
+
+\begin{equation}
+  P(K,T,\phi|D) = \frac{P(K,T,\phi)P(D|K,T,\phi)}{P(D)}.
+\end{equation}
+
+To start, we must determine the prior, $P(K,T,\phi)$. For simplicity, we can assume that the parameters are independent, so the prior can be written as:
+
+\begin{equation}
+  P(K,T,\phi) = P(K)P(T)P(\phi).
+\end{equation}
+
+Since we know nothing about the priors, it is reasonable to assume that they are uniformly distributed in a certain range. Looking at the data, we can see that the velocity semi-amplitude $K$ is between 0 and 20 m/s, the period $T$ is between 0 and 20 days, and the phase offset $\phi$ is between 0 and $2\pi$. Thus, the priors are:
+
+\begin{equation*}
+  P(K) = \begin{cases}
+    \frac{1}{20} & 0 < K < 20 \\
+    0 & \text{otherwise}
+  \end{cases} \qquad
+  P(T) = \begin{cases}
+    \frac{1}{20} & 0 < T < 20 \\
+    0 & \text{otherwise}
+  \end{cases} \qquad
+  P(\phi) = \begin{cases}
+    \frac{1}{2\pi} & 0 < \phi < 2\pi \\
+    0 & \text{otherwise}
+  \end{cases}
+\end{equation*}
+
+and the combined prior is then:
+
+\begin{equation}
+  P(K,T,\phi) = \begin{cases}
+    \frac{1}{800\pi} & 0 < K < 20, 0 < T < 20, 0 < \phi < 2\pi \\
+    0 & \text{otherwise}
+  \end{cases}
+\end{equation}
+
+Next, we must determine the likelihood, $P(D|K,T,\phi)$.
 
 \subsection{Monte Carlo Methods}
 \subsubsection{High-Dimensional Integration}
