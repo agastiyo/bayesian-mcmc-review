@@ -7,7 +7,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-np.random.seed(42)  # Set random seed for reproducibility
+np.random.seed(42)  # The meaning of life for reproducibility
 
 #%%
 # --- True Parameter Values ---
