@@ -4,8 +4,29 @@
 \usepackage{amsmath}
 \usepackage{subfigure}
 \usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
 
 \numberwithin{equation}{section}
+
+\lstdefinestyle{pythonstyle}{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{teal!70!black}\itshape,
+  stringstyle=\color{orange!85!black},
+  numberstyle=\tiny\color{gray},
+  numbers=left,
+  stepnumber=1,
+  numbersep=8pt,
+  backgroundcolor=\color{gray!5},
+  frame=tb,
+  rulecolor=\color{black!30},
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  captionpos=b
+}
 
 % Note to self: Don't forget to start up Zotero when you start writing!
 
@@ -262,7 +283,11 @@ In reality, we will never know the exact parameters of a system, but posterior d
 \subsubsection{Software Ecosystem}
 \subsubsection{Common Challenges in Astrophysics}
 
+\appendix
+\section[Appendix A]{Radial Velocity Source Code}
+\label{appx:A}
 
+\lstinputlisting[style=pythonstyle]{../scripts/2.2/toy-data.py}
 
 \bibliography{references}
 
