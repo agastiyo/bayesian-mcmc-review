@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{dsfont}
 
 \numberwithin{equation}{section}
 
@@ -236,7 +237,7 @@ Finally, we must determine the evidence, $P(D)$. It's obvious that when integrat
 
 Note that this integral is analytically intractable, so it must be calculated numerically.
 
-Using the data in \autoref{fig:rv_data}, we can calculate the posterior distribution of the parameters. The results are shown in \autoref{fig:ex_posteriors}.
+Using the data in \autoref{fig:rv_data}, we can calculate the posterior distribution of the parameters using the code given in \autoref{appx:A}. The results are shown in \autoref{fig:ex_posteriors}.
 
 \begin{figure}[ht!]
 \centering
@@ -255,7 +256,7 @@ Using the data in \autoref{fig:rv_data}, we can calculate the posterior distribu
     \includegraphics[width=0.32\textwidth]{../scripts/2.2/figures/phi-posterior.png}%
     \label{fig:phi_posterior}%
 }
-\caption{The posterior distributions of the parameters $K$, $T$, and $\phi$ given the data in \autoref{fig:rv_data}. These posteriors are normalized with a numerically calculated evidence.}
+\caption{The marginal posterior distributions of the parameters $K$, $T$, and $\phi$ given the data in \autoref{fig:rv_data}. These posteriors are normalized with a numerically calculated evidence.}
 \label{fig:ex_posteriors}
 \end{figure}
 
@@ -268,16 +269,54 @@ In reality, we will never know the exact parameters of a system, but posterior d
 \label{fig:prediction}
 \end{figure}
 
-\autoref{fig:prediction} shows the true model along with the mean prediction from the posterior distributions. Thus, we can apply Bayes' Theorem to predict the parameters for astrophysical models. However, this method is computationally expensive. Computing this numerically, we would have to iterate through all possible values of each parameter. With $d$ data points, $n$ parameters and $m$ possible values for each parameter, this algorithm would have a time complexity of $O(m^n \cdot d)$, which is infeasible for even small $n$ and $m$. To solve this problem, we can use \textit{Monte Carlo methods}.
+\autoref{fig:prediction} shows the true model along with the mean prediction from the posterior distributions. Thus, we can apply Bayes' Theorem to predict the parameters for astrophysical models. However, this method is computationally expensive. Computing this numerically, we would have to iterate through all combinations of all values of each parameter. With $n$ parameters and $m$ possible values for each parameter, this algorithm would have a time complexity of $O(m^n)$, which is infeasible for even small $n$ and $m$. To solve this problem, we can use \textit{Monte Carlo methods}.
 
-\subsection{Monte Carlo Methods}
-\subsubsection{High-Dimensional Integration}
-\subsubsection{Basic Limitations}
+\subsection{Monte Carlo Sampling}
+The primary computational challenge in brute force Bayesian inference arises from evaluating the posterior probability at every point in the parameter space. One way to reduce this cost is to sample only a subset of points, distributed according to the posterior itself. These points are called \textit{draws}. If, by some method, a set of draws were obtained, it would be possible to calculate expectation values from the explicit posterior using only the sampled points \citep{vontoussaintBayesianInferencePhysics2011}. This is the idea behind \textit{Monte Carlo Sampling}, which can be used to approximate integrals and expectations that would otherwise require explicit evaluation over a continuous space.
 
-\subsection{Markov Chain Monte Carlo Theory}
+If we know a probability density explicitly, the expectation value of some variable $x$ can be calculated as:
+
+\begin{equation}
+  \langle x \rangle = \int x P(\theta) dx.
+\end{equation}
+
+Using a set of $N$ values of $x$ drawn using Monte Carlo, this can be approximated as:
+
+\begin{equation}
+  \langle x \rangle \approx \frac{1}{N} \sum_{i=1}^{N} x_i,
+\end{equation}
+which generalizes naturally to higher-dimensional parameter spaces, though convergence can become slower as dimensionality increases.
+
+$x$ is a function of the parameters, and can be defined arbitrarily to calculate the expectation value of any value of interest. Given a probability density $P(\theta_1,\theta_2,\hdots,\theta_n)$, some forms of $x$ are listed in \autoref{tab:x_forms}.
+\begin{deluxetable}{ll}
+  \tablewidth{0pt}
+  \tablenum{1}
+  \tablehead{
+    \colhead{$x$} & \colhead{Description}
+  }
+  \startdata
+    $\theta_i$ & Expectation value of parameter $\theta_i$ \\
+    $\theta_i^2$ & Variance of parameter $\theta_i$ \\
+    $f(\theta_1,\theta_2,\hdots,\theta_n)$ & Expectation value of any function of the parameters \\
+    $\mathds{1}(\theta_i = a)$ & Probability that $\theta_i = a$ \\
+    $\mathds{1}(a \le \theta_i \le b)$ & Probability that $\theta_i$ is in the range $[a,b]$ \\
+    $\mathds{1}(\text{condition})$ & Probability that the condition is true \\
+  \enddata
+  \caption{Forms of $x$ to calculate expectation values of different quantities.}
+  \label{tab:x_forms}
+\end{deluxetable}
+
+The usefulness of Monte Carlo sampling becomes apparent when we revisit the computation of marginal posteriors. In the previous example, we used the posterior to calculate the marginal posteriors of each parameter. In the brute force method, this was found by integrating the posterior over all other parameters. Monte Carlo makes this simpler. If we have a set of $N$ draws from the posterior of a parameter space with parameters, $\{\theta_1,\theta_2,\hdots,\theta_n\}$, we can obtain draws for a certain parameter $\theta_i$ by simply ignoring all other parameters. Information about the marginal posterior can then be calculated from those draws as needed.
+
+\subsection{Markov Chain Monte Carlo}
+Before we can use Monte Carlo sampling, we must first obtain draws from the posterior. \textit{Markov Chain Monte Carlo} is one of the many methods used to obtain these draws, and in modern astrophysics, has become a standard tool for Bayesian inference.
+
 \subsubsection{Markov Chains}
-\subsubsection{The Metropolis Algorithm}
-\subsubsection{Advanced MCMC}
+A \textit{Markov Chain} is a sequence of random variables, $X_1, X_2, \hdots, X_n$, where the probability of each variable only depends on the previous variable \citep{trottaBayesSkyBayesian2008}. This is known as the \textit{Markov Property}, and can be written mathematically as:
+
+\begin{equation}
+  P(X_n|X_{n-1},X_{n-2},\hdots,X_1) = P(X_n|X_{n-1}).
+\end{equation}
 
 \subsection{Implementations}
 \subsubsection{Software Ecosystem}
