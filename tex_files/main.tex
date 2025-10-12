@@ -47,27 +47,27 @@
 \section{Introduction}
 \label{sec:Introduction}
 \subsection{The History of Astrostatistics}
-In the 4th century BC, Hipparchus, attempting to estimate the length of a year, found the middle of the range of a scattered set of Babylonian solstice measurements. An achievement for the time, Hipparchus's measurement marked the beginning of what would become a long-standing marriage between astronomy and statistics. In the centuries to come, a number of breakthroughs in astrostatistics followed. Notably, Tycho Brahe in the late 1500s employed repeated positional measurements of stars and used the mean of the data to map them. His work was so precise that it became the foundation of Kepler's laws of planetary motion, and it took astronomers generations to produce better measurements. \citep{leavesleyTychoBrahesWay2018}. Furthermore, in the 1770s, Laplace rediscovered Bayesian statistics, and over the next decade he continued to expand upon his work, using it in a colossal effort to extend Newton's theory of gravity, work that would have him hailed as a monumental genius \citep{stiglerStudiesHistoryProbability1975}.
+In the 4th century BC, Hipparchus, attempting to estimate the length of a year, found the middle of the range of a scattered set of Babylonian solstice measurements \citep{feigelsonStatisticalChallengesModern2004}. An achievement for the time, Hipparchus's measurement marked the beginning of what would become a long-standing marriage between astronomy and statistics. In the centuries to come, a number of breakthroughs in astrostatistics followed. Notably, Tycho Brahe in the late 1500s made repeated positional measurements of stars using naked-eye observations. The data were so precise that their modeling led to Kepler's new laws of planetary motion \citep{leavesleyTychoBrahesWay2018}. Furthermore, in the 1770s, Laplace rediscovered Bayesian statistics, and over the next decade he expanded upon the theory, using it to modernize Newton's theory of gravity \citep{stiglerStudiesHistoryProbability1975}.
 
-The biggest advancement in astrostatistics before the era of computing came in 1805 when Legendre published the method of least squares regression to model the orbit of comets \citep{feigelsonStatisticalChallengesModern2004}. He theorized that the model best fit to a set of data was one that minimized the sum of the squares of the errors. Though Legendre did not provide a formal proof of the method, regarding it only as a convenient trick, later works by Robert Adrain developed formal mathematical proofs of the method \citep{merrimanHistoryMethodLeast1877}. In 1809, Gauss published his own work on least squares, showing it was used to calculate the orbit of the dwarf planet Ceres, even when observing it was impossible due to solar glare. Less elegantly, he also insisted that he had discovered the method years before Legendre \citep{stiglerGaussInventionLeast1981}. As controversial as the development of least squares regression ended up being, it has cemented itself in history as one of the most important leaps in astrostatistics.
+The biggest advance in astrostatistics before the era of computing was in 1805 when Legendre published the method of least squares regression to model the orbit of comets \citep{feigelsonStatisticalChallengesModern2004}. He theorized that the model best fit to a set of data was one that minimized the sum of the squares of the errors. Though Legendre did not provide a formal proof of the method, regarding it only as a convenient trick, later works by Robert Adrain developed formal mathematical proofs of the method \citep{merrimanHistoryMethodLeast1877}. In 1809, Gauss published his own work on least squares, using it to calculate the orbit of the dwarf planet Ceres. Controversially, he also insisted that he had discovered the method years before Legendre \citep{stiglerGaussInventionLeast1981}. Through its impact, least squares regression has cemented itself in history as one of the most important leaps in astrostatistics.
 
-The recurring theme was clear: progress in astronomy often hinged on solving problems of statistical estimation. By the end of the century, astronomy had firmly established itself as a quantitative science, driven by the refinement of statistical methods to identify regularities in scattered measurements, fitting orbital models, and quantifying uncertainty in the presence of noise.
+The recurring theme is clear: progress in astronomy often hinges on solving problems of statistical estimation. By the end of the century, astronomy had firmly established itself as a quantitative science, driven by the refinement of statistical methods to identify regularities in scattered measurements, fitting orbital models, and quantifying uncertainty in the presence of noise.
 
-\subsection{Resolving the Identity Crisis}
+\subsection{The Impact of Astrophysics}
 
-The next 100 years brought two developments that reshaped the relationship between astronomy and statistics: the rise of physics as the foundation of astronomy and the advent of computing, which enabled unprecedented scales of data analysis. As astronomy grew increasingly intertwined with the theories of physics, the field transformed into what we now call astrophysics. As more astronomers began to call themselves astrophysicists, statistics began to fade in prominence. Though a niche field called statistical astronomy persisted, the majority of astronomers made little use of statistics in their work \citep{feigelsonStatisticalChallengesModern2004}. The focus shifted to deriving physical models from first principles, and statistical methods were often seen as secondary or even unnecessary. \citet{hubbleDistributionLuminosityElliptical1930} determined the fit for the light curve of elliptical galaxies by trial-and-error instead of regression. \citet{zwickyMassesNebulaeClusters1937} first observed dark matter using a curve fitted only by eye.
+Later years brought two developments that reshaped the relationship between astronomy and statistics: the rise of physics as the foundation of astronomy and the advent of computing, which enabled unprecedented scales of data analysis. As astronomy grew increasingly intertwined with the theories of physics, the field transformed into what we now call astrophysics. Though a niche field called statistical astronomy persisted, the majority of astronomers made insufficient use of statistics in their work \citep{feigelsonStatisticalChallengesModern2004}. The focus shifted to deriving physical models from first principles, and statistical methods were often seen as secondary or even unnecessary. \citet{hubbleDistributionLuminosityElliptical1930} determined the fit for the light curve of elliptical galaxies by trial-and-error instead of regression. \citet{zwickyMassesNebulaeClusters1937} first observed dark matter using a curve fitted only by eye.
 
-The disdain for statistics stemmed from most astrophysicists' stubborn adherence to Newtonian determinism. Physics was regarded as the fundamental law of nature and an elegant basis for astronomy, while statistics was seen as rough, approximate, and imperfect. Around the same time, statistics flourished in the social sciences, further pushing it from astrophysics.
+The disdain for statistics stemmed from most astrophysicists' stubborn adherence to Newtonian determinism. Physics was regarded as the fundamental law of nature and an elegant basis for astronomy, while statistics was seen as rough, approximate, and imperfect. Statistics also flourished in the social sciences, further alienating it from astrophysics.
 
-However, statistics would not be kept away from astronomy for long. As computers developed, astronomers increasingly adopted new tools for both calculation and simulation. In the 1920s, one of the earliest applications appeared in the production of lunar tables. Previously, astronomers calculated the position of the Moon using complex, error-prone methods that required extensive manual computation \citep{duncombeEarlyApplicationsComputer1988}. By the 1930s, however, \citet{comrieApplicationHollerithTabulating1932} demonstrated how punch card computing machines could automate the process, making lunar ephemerides faster and more reliable. From then on to the 1970s, Comrie's work was continued by Wallace Eckert, who improved the punch-card calculations using IBM computers \citep{olleyTaskThatExceeded2018}. Like lunar calculations, galactic simulations were also performed with computers as early as the 1940s. \citet{holmbergClusteringTendenciesNebulae1940} modeled gravitational interactions using lightbulbs to represent galaxies, demonstrating how spiral structures could emerge. These analog demonstrations laid the groundwork for fully computational N-body simulations in the 1970s, such as \citet{toomreGalacticBridgesTails1972}, who used them to explain tidal tails and bridges in interacting galaxies.
+However, statistics would not be kept away from astronomy for long. As computing machines developed, astronomers increasingly adopted new tools for both calculation and simulation. In the 1920s, one of the earliest applications appeared in the production of lunar tables. Previously, astronomers calculated the position of the Moon using complex, error-prone methods that required extensive manual computation \citep{duncombeEarlyApplicationsComputer1988}. By the 1930s, however, \citet{comrieApplicationHollerithTabulating1932} demonstrated how punch card computing machines could automate the process, making lunar ephemerides faster and more reliable. From then on to the 1970s, Comrie's work was continued by Wallace Eckert, who improved the punch-card calculations using IBM computers \citep{olleyTaskThatExceeded2018}. Like lunar calculations, galactic simulations were also performed with computational devices as early as the 1940s. \citet{holmbergClusteringTendenciesNebulae1940} modeled gravitational interactions using lightbulbs to represent galaxies, demonstrating how spiral structures could emerge. These analog demonstrations laid the groundwork for digital computer N-body simulations in the 1970s, such as \citet{toomreGalacticBridgesTails1972}, who explained tidal tails and bridges in interacting galaxies.
 
-With these advances in computing came a natural resurgence of statistical methods in astronomy. The ability to automate calculations, handle larger datasets, and simulate complex systems meant that statistical analysis became not only feasible but indispensable. In the mid-20th century, the growth of galaxy surveys encouraged quantitative treatments of structure and dynamics. Early work such as \citet{lynden-bellStatisticalMechanicsViolent1967} applied statistical mechanics to stellar systems, laying the foundation for the study of galaxy formation and equilibrium. By the 1970s, statistics was increasingly recognized as a distinct methodological pillar of astronomy. \citet{peeblesStatisticalAnalysisCatalogs1973} systematically catlogued and analyzed extragalactic objects using power spectra and correlation functions, pioneering the statistical study of large-scale structure.
+With these advances in computing came a natural resurgence of statistical methods in astronomy. Given the ability to automate calculations, handle larger datasets, and simulate complex systems, statistical analysis became indispensable. In the mid-20th century, the growth of galaxy surveys encouraged quantitative modeling of structure and dynamics. Early work such as \citet{lynden-bellStatisticalMechanicsViolent1967} applied statistical mechanics to stellar systems, laying the foundation for the study of galaxy formation and equilibrium. By the 1970s, statistics was increasingly recognized as a distinct methodological pillar of astronomy. \citet{peeblesStatisticalAnalysisCatalogs1973} systematically catlogued and analyzed extragalactic objects using power spectra and correlation functions, pioneering the statistical study of large-scale structure.
 
-Where once statistical methods were painfully labor-intensive, computing enabled astronomers to apply them across vast amounts of observational data. While the early history of the field was dominated by statistical reasoning, the growth of physics and computation broadened this into what we now call quantitative analysis (QA). Quantitative analysis thus represents the merging of three traditions that once stood apart: the deductive rigor of physics, the inferential power of statistics, and the scalability of computation. In modern astronomy, progress often relies not on one of these strands in isolation but on their integration. QA therefore serves as both a methodological framework and a philosophy of practice, emphasizing reproducibility, uncertainty quantification, and the ability to extract physical meaning from complex data.
+While the early history of the field was dominated by statistical reasoning and theory, the growth of physics and digital computation broadened this into what we now call quantitative analysis (QA). Quantitative analysis thus represents the merging of three traditions that once stood apart: the deductive rigor of physics, the inferential power of statistics, and the scalability of computation. In modern astronomy, progress often relies not on one of these strands in isolation but on their integration. QA therefore serves as both a methodological framework and a philosophy of practice, emphasizing reproducibility, uncertainty quantification, and the ability to extract physical meaning from complex data.
 
 \subsection{The Data Deluge}
 
-Today, astrophysics sits in the middle of a universe of complex statistical problems that demand new quantitative approaches and more computing power with each passing day. In many respects, QA has become the backbone of research in modern astrophysics, and at a pivotal moment as the 21st century has ushered in an unprecedented era of astronomical data generation. Sky surveys like Gaia DR3 alone provide astrometry and photometry for nearly two billion stars, plus more than ten million variable sources across dozens of types \citep{gaiacollaborationGaiaDataRelease2023}. The nineteenth data release of the Sloan Digital Sky Survey collected robust spectroscopic data from over 6 million objects \citep{collaborationNineteenthDataRelease2025}. Advances in CCD detectors will see data from sky surveys continue to grow in the next decade from gigabytes to terabytes today, and possibly to petabytes in the near future. The same trend can be seen in data from NASA's Solar Dynamics Observatory, which now generates over a terabyte of data per day, and the Rubin LSST, generating close to 30 terabytes per day \citep{borneAstroinformatics21stCentury2009}. Compared to the Henry Draper Catalogue \citep{cannonHenryDraperCatalogue1918}—a century-old counterpart that cataloged roughly 200,000 stars—the explosion in data is striking.
+Today, astrophysics sits in a universe of complex statistical problems that demand new quantitative approaches and more computing power with each passing day. These are compounded by an unprecedented era of astronomical data generation in the 21st century. Sky surveys like Gaia DR3 alone provide astrometry and photometry for nearly two billion stars, plus more than ten million variable sources \citep{gaiacollaborationGaiaDataRelease2023}. The nineteenth data release of the Sloan Digital Sky Survey collected spectroscopic data from over 6 million objects \citep{sdsscollaborationNineteenthDataRelease2025}. Advances in CCD detectors will see data from sky surveys increase in the next decade from gigabytes to terabytes today, and possibly to petabytes in the near future. The same trend can be seen in data from NASA's Solar Dynamics Observatory, which now generates over a terabyte of data per day, and the Rubin LSST, generating close to 30 terabytes per day \citep{borneAstroinformatics21stCentury2009}. Compared to the Henry Draper Catalogue \citep{cannonHenryDraperCatalogue1918}—a century-old counterpart that cataloged roughly 200,000 stars—the explosion in data is striking.
 
 The leap from hundreds of thousands of stars in the Henry Draper Catalogue to billions in Gaia represents more than a change in scale: it is a qualitative transformation in what science becomes possible. With the Draper Catalogue, astronomers could classify stellar spectra and trace broad patterns in stellar populations. With Gaia, it is now possible to reconstruct the full three-dimensional structure and kinematics of the Milky Way, identify hypervelocity stars, and test theories of Galactic evolution with unprecedented detail. Where older surveys allowed the identification of a few rare stellar types, modern surveys allow systematic searches for extreme outliers across billions of objects, transforming the statistical character of astronomy.
 
@@ -89,14 +89,14 @@ The systematic adoption of Bayesian statistics in astronomy gained momentum in t
 
 This review adopts a QA perspective and centers on Bayesian inference and MCMC because of their flexibility, principled uncertainty quantification, and growing ubiquity across astrophysics. In \hyperref[sec:Methodology]{Section II}, the methodology section develops a working foundation: it reviews Bayesian statistics, motivates priors and likelihood construction in realistic astronomical settings, and walks through toy examples before escalating to domain-relevant formulations; it then introduces Monte Carlo methods and builds to Markov Chain Monte Carlo, deriving the Metropolis family and related samplers, and provides step-by-step Python implementations on simple problems.
 
-\hyperref[placeholder]{Section III} presents three focused case studies that illustrate how Bayesian–MCMC pipelines advance frontiers in different subfields while confronting distinct sources of noise, degeneracy, and computational load. For exoplanet direct detection, the section sketches the observational context and the central challenge of disentangling planetary signals from stellar activity and disk structure; it then outlines joint stellar–planet modeling with Gaussian processes and Bayesian classification frameworks for robust detections and non-detections, highlighting benefits and failure modes in low SNR regimes. For CMB parameter estimation, it explains geometric degeneracies in the power spectrum and shows how MCMC accelerators and parallelizable frameworks enable efficient exploration and evidence calculations, including tradeoffs between sampler sophistication and wall-clock efficiency. For gravitational-wave inference, it frames waveform fitting in high-dimensional parameter spaces, discusses the cost of likelihood evaluations, and motivates gradient-informed MCMC strategies that reduce computation without compromising accuracy, with notes on priors, calibration systematics, and real-time constraints.
+\hyperref[sec:CaseStudies]{Section III} presents three focused case studies that illustrate how Bayesian–MCMC pipelines advance frontiers in different subfields while confronting distinct sources of noise, degeneracy, and computational load. For exoplanet direct detection, the section sketches the observational context and the central challenge of disentangling planetary signals from stellar activity and disk structure; it then outlines joint stellar–planet modeling with Gaussian processes and Bayesian classification frameworks for robust detections and non-detections, highlighting benefits and failure modes in low SNR regimes. For CMB parameter estimation, it explains geometric degeneracies in the power spectrum and shows how MCMC accelerators and parallelizable frameworks enable efficient exploration and evidence calculations, including tradeoffs between sampler sophistication and wall-clock efficiency. For gravitational-wave inference, it frames waveform fitting in high-dimensional parameter spaces, discusses the cost of likelihood evaluations, and motivates gradient-informed MCMC strategies that reduce computation without compromising accuracy, with notes on priors, calibration systematics, and real-time constraints.
 
 Finally, \hyperref[placeholder]{Section IV} and \hyperref[placeholder]{V} compare cases where Bayesian–MCMC excels with those where complementary methods are more appropriate, identify methodological gaps revealed by the case studies (e.g., scalable likelihoods, robust priors, multimodal posterior handling), and outline opportunities for future work in astrophysics and related fields that face similar statistical and computational challenges.
 
 \section{Methodology}
 \label{sec:Methodology}
 
-\subsection{Foundations of Bayesian Statistics} % You can also talk about the difference between Bayesian and Frequentist Stats here
+\subsection{Bayesian Preliminaries} % You can also talk about the difference between Bayesian and Frequentist Stats here
 The aim of Bayesian statistics is simple: determine $P(H|D)$, or the probability of a hypotheses $H$ being true given data $D$. A hypothesis is any statement that can be true or false, and data is any information that can be used to evaluate the hypothesis. For example, imagine rolling a die. A hypothesis $H$ would that the die roll is a 3. The data $D$ is the result of the die roll.
 
 Hypotheses live in the \textit{hypothesis space}, which is the set of all possible hypotheses of a system \citep{brewer1BayesianInference2018}. Going back to the die example, the hypothesis space is $\{1,2,3,4,5,6\}$. The hypothesis space will also have a probability distribution, or a \textit{prior}, written as $P(H)$. The prior is the probability of each hypothesis being true before seeing any data. For a fair die, the prior is uniform. It's $\frac{1}{6}$ for all $H$ in the hypothesis space. In other words, $P(H)$ is the probability of the hypothesis being true.
@@ -120,8 +120,8 @@ The second rule is the product rule, which states:
 This can be trivially rearranged to give Bayes' Theorem:
 
 \begin{equation}
-  P(H|D) = \frac{P(H)P(D|H)}{P(D)}.
   \label{eq:bayes_theorem}
+  P(H|D) = \frac{P(H)P(D|H)}{P(D)}.
 \end{equation}
 
 In other words, given the prior, evidence, and the likelihood, you can calculate the posterior $P(H|D)$.
@@ -161,12 +161,14 @@ Before incorporating the data, the probability of picking the double headed coin
 In an astrophysical context, Bayes' Theorem is used to calculate the probability of \textit{parameters}, $\theta$, of a model rather than a hypothesis \citep{brewer1BayesianInference2018}.
 
 \begin{equation}
+  \label{eq:bayes_theorem_params}
   P(\theta|D) = \frac{P(\theta)P(D|\theta)}{P(D)}.
 \end{equation}
 
 Take, for example, measurements of the radial velocity of a star over time. When a start hosts an orbiting planet, both bodies orbit a common center of mass. This induces a 'wobble' in the star's motion which is detected as periodic Doppler shifts from the star's spectrum, also known as the \textit{radial velocity}. The radial velocity $v_r(t)$ of a star with a single planet can be modeled as:
 
 \begin{equation}
+  \label{eq:rv_model}
   v_r(t) = K \sin\left(\frac{2\pi t}{T} + \phi\right),
 \end{equation}
 
@@ -237,27 +239,27 @@ Finally, we must determine the evidence, $P(D)$. It's obvious that when integrat
 
 Note that this integral is analytically intractable, so it must be calculated numerically.
 
-Using the data in \autoref{fig:rv_data}, we can calculate the posterior distribution of the parameters using the code given in \autoref{appx:A}. The results are shown in \autoref{fig:ex_posteriors}.
+Using the data in \autoref{fig:rv_data}, we can calculate the posterior distribution of the parameters using the code given in \autoref{appx:A}. The results are shown in \autoref{fig:bf_posteriors}.
 
 \begin{figure}[ht!]
 \centering
 
-\subfigure[Posterior distribution of $K$]{%
+\subfigure[$\mu = 9.99$ m/s $\quad \sigma = 0.73$ m/s]{%
     \includegraphics[width=0.32\textwidth]{../scripts/2.2/figures/k-posterior.png}%
     \label{fig:k_posterior}%
 }
 \hfill
-\subfigure[Posterior distribution of $T$]{%
+\subfigure[$\mu = 21.72$ days $\quad \sigma = 0.44$ days]{%
     \includegraphics[width=0.32\textwidth]{../scripts/2.2/figures/t-posterior.png}%
     \label{fig:t_posterior}%
 }
 \hfill
-\subfigure[Posterior Distribution of $\phi$]{%
+\subfigure[$\mu = 0.89$ rad $\quad \sigma = 0.13$ rad]{%
     \includegraphics[width=0.32\textwidth]{../scripts/2.2/figures/phi-posterior.png}%
     \label{fig:phi_posterior}%
 }
 \caption{The marginal posterior distributions of the parameters $K$, $T$, and $\phi$ given the data in \autoref{fig:rv_data}. These posteriors are normalized with a numerically calculated evidence.}
-\label{fig:ex_posteriors}
+\label{fig:bf_posteriors}
 \end{figure}
 
 In reality, we will never know the exact parameters of a system, but posterior distributions give us a close estimate. To quantify how close the estimate is, we will compare the posterior distributions to the true parameters, which are $K=10$ m/s, $T=25$ days, and $\phi=\frac{\pi}{4}$. It is clear to see that the true values are within one standard deviation of the mean of each posterior distribution, indicating that the Bayesian method was successful in estimating the parameters.
@@ -265,7 +267,7 @@ In reality, we will never know the exact parameters of a system, but posterior d
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.7\textwidth]{../scripts/2.2/figures/prediction.png}
-\caption{The radial velocity data from \autoref{fig:rv_data} along with the mean prediction from the posterior distributions in \autoref{fig:ex_posteriors}. The shaded region represents one standard deviation from the mean prediction.}
+\caption{The radial velocity data from \autoref{fig:rv_data} along with the mean prediction from the posterior distributions in \autoref{fig:bf_posteriors}. The shaded region represents one standard deviation from the mean prediction.}
 \label{fig:prediction}
 \end{figure}
 
@@ -306,27 +308,144 @@ $x$ is a function of the parameters, and can be defined arbitrarily to calculate
   \label{tab:x_forms}
 \end{deluxetable}
 
-The usefulness of Monte Carlo sampling becomes apparent when we revisit the computation of marginal posteriors. In the previous example, we used the posterior to calculate the marginal posteriors of each parameter. In the brute force method, this was found by integrating the posterior over all other parameters. Monte Carlo makes this simpler. If we have a set of $N$ draws from the posterior of a parameter space with parameters, $\{\theta_1,\theta_2,\hdots,\theta_n\}$, we can obtain draws for a certain parameter $\theta_i$ by simply ignoring all other parameters. Information about the marginal posterior can then be calculated from those draws as needed.
+The usefulness of Monte Carlo sampling becomes apparent when we revisit the computation of marginal posteriors. In the previous example, we used the posterior to calculate the marginal posteriors of each parameter. In the brute force method, this was found by integrating the posterior over all other parameters. Monte Carlo makes this simpler. If we have a set of $N$ draws from the posterior of a parameter space with parameters, $\{\theta_1,\theta_2,\hdots,\theta_n\}$, we can obtain draws for a certain parameter $\theta_i$ by simply ignoring all other parameters. A simple histogram of the draws of $\theta_i$ then gives the marginal posterior of $\theta_i$. This is much simpler than integrating over all other parameters, especially in high-dimensional parameter spaces.
 
 \subsection{Markov Chain Monte Carlo}
-Before we can use Monte Carlo sampling, we must first obtain draws from the posterior. \textit{Markov Chain Monte Carlo} is one of the many methods used to obtain these draws, and in modern astrophysics, has become a standard tool for Bayesian inference.
+Before we can use Monte Carlo sampling, we must first obtain draws from the posterior. \textit{Markov Chain Monte Carlo} (MCMC) is one of the many methods used to obtain these draws, and in modern astrophysics, has become a standard tool for Bayesian inference. Using MCMC, the posterior of even a high-dimensional parameter space can be numerically mapped without using unfeasible amounts of computing power \citep{trottaBayesSkyBayesian2008}. MCMC does this by creating a sequence of draws in the form of a \textit{Markov Chain}.
 
 \subsubsection{Markov Chains}
-A \textit{Markov Chain} is a sequence of random variables, $X_1, X_2, \hdots, X_n$, where the probability of each variable only depends on the previous variable \citep{trottaBayesSkyBayesian2008}. This is known as the \textit{Markov Property}, and can be written mathematically as:
+
+A Markov Chain is a sequence of random variables, $x_0, x_1, \hdots, x_n$, where the probability of each variable only depends on the previous variable. This is known as the \textit{Markov Property}, and can be written mathematically as:
 
 \begin{equation}
-  P(X_n|X_{n-1},X_{n-2},\hdots,X_1) = P(X_n|X_{n-1}).
+  P(x_{n+1}|x_n,x_{n-1},\hdots,x_0) = P(x_{n+1}|x_n).
 \end{equation}
 
-\subsection{Implementations}
-\subsubsection{Software Ecosystem}
-\subsubsection{Common Challenges in Astrophysics}
+To create a Markov chain, we must first decide an initial value $x_0$ using an initial probability distribution $P_0(x_0)$. After this, the probability distribution of the next value is evolved from the previous probability distribution using a \textit{transition probability} $T_n(x_n,x_{n+1})$. The next value is then drawn using the new probability density.
+
+\begin{equation}
+  P(x_{n+1}) = P(x_n)T_n(x_n,x_{n+1})
+\end{equation}
+This process can be repeated as many times as necessary.
+
+If the transition probability does not depend on the point in the chain, the chain is \textit{homogenous}, or \textit{stationary}. We can then write the transition probability as $T(x_n,x_{n+1})$ \citep{neal1993probabilistic}.
+
+Markov chains can be shown to converge to a \textit{stationary distribution} $P^*(x)$, which is independent of the initial distribution \citep{trottaBayesSkyBayesian2008}. A stationary distribution, once reached, does not change as the chain evolves further.
+
+Markov chains can also be \textit{ergodic}, which means that a stationary distribution can be reached from any initial distribution. A chain being ergodic also implies its irreducibility and aperiodicity \citep{neal1993probabilistic}. Irreducibility means that it is possible to reach any point in the space from any other point, and aperiodicity means that the chain does not get stuck in cycles \citep{vontoussaintBayesianInferencePhysics2011}.
+
+In the context of Bayesian inference, the goal of MCMC is to construct a Markov chain whose stationary distribution is the unknown posterior distribution. To ensure that the chain converges to the desired posterior, the choice of transition probability $T(x_n, x_{n+1})$ is crucial. The transition rule must satisfy the condition of \textit{detailed balance}, which guarantees that, at equilibrium, the probability flow between any two states is symmetric:
+\begin{equation}
+  P(x_n)T(x_n, x_{n+1}) = P(x_{n+1})T(x_{n+1}, x_n).
+\end{equation}
+This condition ensures that the chain does not drift away from the target distribution once it has been reached \citep{vontoussaintBayesianInferencePhysics2011}.
+
+\subsubsection{The Metropolis-Hastings Algorithm}
+
+One of the simplest and most widely used algorithms that satisfies detailed balance is the \textit{Metropolis algorithm} \citep{metropolisEquationStateCalculations1953}. More specifically, its generalization, the \textit{Metropolis–Hastings algorithm} \citep{hastingsMonteCarloSampling1970}. The algorithm constructs a Markov chain by iteratively proposing new states in the parameter space and deciding whether to accept or reject them based on the target distribution. \citet{brewer1BayesianInference2018} outlines the steps of the Metropolis-Hastings algorithm as follows:
+
+\begin{enumerate}
+  \item Initialize the chain with a starting point $x_0$.
+  \item Generate a candidate point $x_{n+1}$ from a proposal distribution $q(x_{n+1}|x_n)$ based on the current state $x_n$.
+  \item Accept or reject the proposal
+  \item Repeat steps 2 and 3 for a large number of iterations to generate a sequence of samples.
+\end{enumerate}
+
+The algorithm depends on two things: the proposal distribution $q(x_{n+1}|x_n)$ and the acceptance criterion. Commonly, a 'random walk' proposal is used to generate candidates by adding a small random perturbation to the current state. For an $n$-dimensional parameter space, the random walk proposal is a symmetric (usually Gaussian) distribution, also of $n$-dimensions, with the current state as its mean \citep{vontoussaintBayesianInferencePhysics2011}. If the proposal distribution is indeed symmetric, then the following is implied:
+\begin{equation}
+  \label{eq:symmetric_proposal}
+  q(x_{n+1}|x_n) = q(x_n|x_{n+1}).
+\end{equation}
+In this case, the Metropolis-Hastings algorithm simplifies to the original Metropolis algorithm \citep{brewer1BayesianInference2018}. Asymmetric proposal distributions are more general, and can also be used. However, they are less common in practice.
+
+The acceptance criterion is based on the ratio of the posterior at the proposed and current states, adjusted by the proposal distribution. This is the probability of the proposal being accepted. Mathematically, this is:
+
+\begin{equation}
+  \alpha = \min\left(1, \frac{P(x_{n+1}|D) q(x_n|x_{n+1})}{P(x_n|D) q(x_{n+1}|x_n)}\right) = \min\left(1, \frac{P(D|x_{n+1}) P(x_{n+1}) q(x_n|x_{n+1})}{P(D|x_n) P(x_n) q(x_{n+1}|x_n)}\right).
+\end{equation}
+If the proposal distribution is symmetric, we can further apply \autoref{eq:symmetric_proposal} to get:
+\begin{equation}
+  \alpha = \min\left(1, \frac{P(D|x_{n+1}) P(x_{n+1})}{P(D|x_n) P(x_n)}\right).
+\end{equation}
+
+This criterion accepts any proposal that increases the posterior probability, while proposals that decrease it are accepted with a probability proportional to the decrease. If a proposal is rejected, the current state is counted again. This allows the chain sample high-probability regions more frequently while still having the ability to escape local maxima and explore the full parameter space.
+
+A consideration one may take when using the Metropolis-Hastings algorithm is the \textit{burn-in} period. The initial samples of the chain may not be representative of the target distribution, especially if the starting point is far from high-probability regions. To mitigate this, it is common practice to discard a certain number of initial samples, known as the burn-in period, before using the remaining samples for inference \citep{vanravenzwaaijSimpleIntroductionMarkov2018}. This allows the algorithm to forget its initial state and generate samples that are more representative of the posterior distribution.
+
+The Metropolis-Hastings algorithm outputs a Markov chain of samples that approximate the target posterior distributiion. Since the probability is only calculated for proposed points instead of the full parameter space, the algorithm is much more computationally efficient than brute force methods. The time complexity is reduced to $O(N)$, where $N$ is the number of samples drawn, which, unlike brute-force Bayesian inferencing, is feasible for even high-dimensional parameter spaces.
+
+\subsection{MCMC in Astrophysics}
+
+Revisiting the radial velocity example, we can use MCMC to obtain draws from the posterior distribution of the parameters $\{K,T,\phi\}$ from \autoref{eq:rv_model} given the data in \autoref{fig:rv_data}. Using the Metropolis-Hastings algorithm, 10 chains were run, each with 12,000 samples. The first 1,000 samples of each chain were discarded as burn-in. The code used to run the MCMC is given in \autoref{appx:B}.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\textwidth]{../scripts/2.5/figures/traces.png}
+\caption{Trace plots of the Markov chains for each parameter. A total of 10 chains were run, each with 12,000 samples. The first 1,000 samples of each chain were discarded as burn-in.}
+\label{fig:mcmc_trace}
+\end{figure}
+
+The trace plots of the chains are shown in \autoref{fig:mcmc_trace}. These are visualizations of the Markov chains for each parameter. The chains appear to be well-mixed and stationary, indicating that they have converged to the target distribution. Plotting the marginal posterior distributions of each parameter gives \autoref{fig:mcmc_posteriors}.
+
+\begin{figure}[ht!]
+\centering
+
+\subfigure[$\mu = 10.02$ m/s $\quad \sigma = 0.73$ m/s]{%
+    \includegraphics[width=0.32\textwidth]{../scripts/2.5/figures/k-posterior.png}%
+    \label{fig:k_mcmc_posterior}%
+}
+\hfill
+\subfigure[$\mu = 21.71$ days $\quad \sigma = 0.43$ days]{%
+    \includegraphics[width=0.32\textwidth]{../scripts/2.5/figures/t-posterior.png}%
+    \label{fig:t_mcmc_posterior}%
+}
+\hfill
+\subfigure[$\mu = 0.89$ rad $\quad \sigma = 0.13$ rad]{%
+    \includegraphics[width=0.32\textwidth]{../scripts/2.5/figures/phi-posterior.png}%
+    \label{fig:phi_mcmc_posterior}%
+}
+\caption{The histograms of the draws from the posterior distributions of the parameters $K$, $T$, and $\phi$ given the data in \autoref{fig:rv_data}.}
+\label{fig:mcmc_posteriors}
+\end{figure}
+
+Comparing these posteriors to the ones obtained using the brute-force method, we can see that they are very similar. \autoref{tab:comparison} summarizes the comparison between the true parameter values, the estimates from the brute-force method (\autoref{fig:bf_posteriors}), and the estimates from the MCMC method (\autoref{fig:mcmc_posteriors}). The two algorithms are compared using the mean and standard deviation of each posterior distribution, as well as the Z-score of the true value from the mean of each posterior distribution. The Z-score is a measure of how many standard deviations a value is from the mean, and is calculated as:
+\begin{equation}
+  Z = \frac{X - \mu}{\sigma},
+\end{equation}
+where $X$ is the value being compared, $\mu$ is the mean of the distribution, and $\sigma$ is the standard deviation of the distribution. A Z-score of 0 indicates that the value is equal to the mean, while a Z-score of 1 indicates that the value is one standard deviation above the mean. A Z-score of -1 indicates that the value is one standard deviation below the mean. A Z-score within the range of -2 to 2 is generally considered to be acceptable, as it indicates that the value is within two standard deviations of the mean.
+
+\begin{deluxetable}{llllll}
+  \tablewidth{0pt}
+  \tablenum{2}
+  \tablehead{
+    \colhead{Parameter} & \colhead{True} & \colhead{Brute-Force} & \colhead{Brute-Force Z-score} & \colhead{MCMC}  & \colhead{MCMC Z-score}
+  }
+  \startdata
+    $K$ (m/s) & $10.00$ & $9.99 \pm 0.73$ & -0.01 & $10.02 \pm 0.73$ & 0.03 \\
+    $T$ (days) & $21.4$ & $21.72 \pm 0.44$ & 0.68 & $21.71 \pm 0.43$ & 0.66 \\
+    $\phi$ (rad) & $0.25\pi$ & $0.89 \pm 0.13$ & 0.77 & $0.89 \pm 0.13$ & 0.77 \\
+  \enddata
+  \caption{Comparison of the true parameter values, the estimates from the brute-force method, and the estimates from the MCMC method.}
+  \label{tab:comparison}
+\end{deluxetable}
+
+From \autoref{tab:comparison}, we can see that both methods give very similar results. The Z-scores of the true values from the means of each posterior distribution are all within 1, indicating that both methods were successful in estimating the parameters. The MCMC method, however, was far more computationally efficient. As shown in the code in \autoref{appx:A}, the brute-force method had to evaluate the posterior at $100^3 = 1,000,000$ points in the parameter space. The MCMC method, given in \autoref{appx:B}, only had to evaluate the posterior at $10 \times (12,000 - 1,000) = 110,000$ points, a reduction of nearly an order of magnitude, to provide virtually the same results.
+
+Generalizing this to higher-dimensional parameter spaces, the computational savings of MCMC become even more apparent. In a hypothetical 10-dimensional parameter space with 100 possible values for each parameter, the brute-force method would have to evaluate the posterior at $100^{10} = 10^{20}$ points, which is infeasible. The MCMC method, on the other hand, would still only have to evaluate the posterior at $N$ points, where $N$ is the number of samples drawn, which is feasible for even high-dimensional parameter spaces.
+
+\section{Case Studies}
+\label{sec:CaseStudies}
 
 \appendix
-\section[Appendix A]{Radial Velocity Source Code}
+\section[Appendix A]{Radial Velocity Brute-Force Approach}
 \label{appx:A}
 
-\lstinputlisting[style=pythonstyle]{../scripts/2.2/toy-data.py}
+\lstinputlisting[style=pythonstyle]{../scripts/2.2/brute-force-ex.py}
+
+\section[Appendix B]{Radial Velocity MCMC Approach}
+\label{appx:B}
+
+\lstinputlisting[style=pythonstyle]{../scripts/2.5/mcmc-ex.py}
 
 \bibliography{references}
 
