@@ -459,9 +459,23 @@ Bayesian inference and MCMC has found its place in contemporary astrophysical ch
 
 \subsection{Direct Imaging of Exoplanets}
 
-\subsubsection{Introduction}
+Exoplanets are planets that orbit stars outside our solar system, with each being a unique laboratory for studying planetary formation and evolution \citep{kaushikExoplanetDetectionDetailed2025}. Studying their atmospheres, compositions, and orbital dynamics can provide insights into the conditions necessary for life and the diversity of planetary systems in the universe.
 
-Exoplanets are planets that orbit stars outside our solar system, with each being a unique laboratory for studying planetary formation and evolution \citep{kaushikExoplanetDetectionDetailed2025}.
+Detection of exoplanets is conducted through various methods, including transit photometry, radial velocity measurements, direct imaging, and other less common techniques \citep{weiSurveyExoplanetaryDetection2018}. Direct imaging is the most straighforward strategy, but also the most challenging. The primary difficulty arises from the overwhelming brightness of the host star compared to the relatively dim light reflected or emitted by the exoplanet \citep{currieDirectImagingSpectroscopy2023}.
+
+A number of methods have been developed to enhance the contrast between the star and the planet, both pre- and post-detection. Starlight can be filtered out before reaching the detector using coronagraphs or starshades, or in post by classifying and separating starlight from the planetary signal \textbf{[cite fischer here when bibtex decides to work]}.
+
+\subsubsection{Preprocess methods}
+
+Images of exoplanets created by telescopes, even in the absence of noise and artifacts caused by equipement, are still masked by flux from their host star. This is due to diffraction and scattering of light in the telescope optics, which creates a point spread function (PSF) that spreads the starlight over a larger area of the image \textbf{[fischer]}. To mitigate this, preprocess methods are used to model and subtract the PSF from the image, enhancing the visibility of the exoplanet.
+
+Originally, PSF subtraction was done using a coronagraph, developed by \citet{lyotStudySolarCorona1939}. This optical device is placed in the light path of the telescope to block out the light from the central star, allowing the much dimmer light from surrounding objects, such as exoplanets, to be observed.
+
+etc.etc.
+
+\subsubsection{Postprocess methods}
+
+
 
 \appendix
 \section[Appendix A]{Radial Velocity Brute-Force Approach}
