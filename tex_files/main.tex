@@ -7,6 +7,11 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{dsfont}
+\usepackage{etoolbox}
+
+\makeatletter
+\pretocmd{\@footnotetext}{\hbadness=10000 \hfuzz=1pt}{}{}
+\makeatother
 
 \numberwithin{equation}{section}
 
@@ -455,21 +460,23 @@ Generalizing this to higher-dimensional parameter spaces, the computational savi
 \section{Case Studies}
 \label{sec:CaseStudies}
 
-Bayesian inference and MCMC has found its place in contemporary astrophysical challenges. The adaptability of the Bayesian–MCMC framework makes it useful in tackling problems of parameter estimation, model selection, and uncertainty quantification across various subfields. Specifically, we will explore the detection of exoplanets through direct imaging, the estimation of cosmological parameters from the cosmic microwave background (CMB), and the inference of gravitational wave signals.
+Bayesian inference and MCMC has found its place in contemporary astrophysical challenges. The adaptability of the Bayesian–MCMC framework makes it useful in tackling problems of parameter estimation, model selection, and uncertainty quantification across various subfields. Specifically, we will explore the detection of exoplanets through direct imaging, the estimation of cosmological parameters from the cosmic microwave background (CMB), and the inference of gravitational wave signals. These examples highlight the diversity of applications and the effectiveness of Bayesian–MCMC methods in extracting meaningful insights from complex astrophysical data. Each case study will cover background information, challenges currently facing the field, and how Bayesian–MCMC methods have been applied to address these challenges.
 
 \subsection{Direct Imaging of Exoplanets}
 
-Exoplanets are planets that orbit stars outside our solar system, with each being a unique laboratory for studying planetary formation and evolution \citep{kaushikExoplanetDetectionDetailed2025}. Studying their atmospheres, compositions, and orbital dynamics can provide insights into the conditions necessary for life and the diversity of planetary systems in the universe.
+Exoplanets are planets that orbit stars outside our solar system, with each being a unique laboratory for studying planetary formation and evolution \citep{kaushikExoplanetDetectionDetailed2025}. Studying their atmospheres, compositions, and orbital dynamics can provide insights into the conditions necessary for life and the diversity of planetary systems in the universe. These properties are key to understanding not only the planets themselves but also the broader processes that govern planetary system formation and evolution \citep{madhusudhanExoplanetaryAtmospheresKey2019}.
 
-Detection of exoplanets is conducted through various methods, including transit photometry, radial velocity measurements, direct imaging, and other less common techniques \citep{weiSurveyExoplanetaryDetection2018}. Direct imaging is the most straighforward strategy, but also the most challenging. The primary difficulty arises from the overwhelming brightness of the host star compared to the relatively dim light reflected or emitted by the exoplanet \citep{currieDirectImagingSpectroscopy2023}.
+Detection of exoplanets is conducted through various methods, including transit photometry, radial velocity measurements, direct imaging, and other less common techniques \citep{weiSurveyExoplanetaryDetection2018}. Each method probes a different region of parameter space, with transit and radial velocity methods being most sensitive to close-in planets, while direct imaging targets young, massive planets at wide separations \textbf{[fischer]}. Of these, direct imaging is the most straightforward in concept, as it aims to spatially resolve a planet from its host star, capturing the planet’s own light rather than relying on indirect signatures. The flux of light from an exoplanet, whether reflected starlight or thermal emission, is directly captured by a telescope and recorded as an image \citep{kaushikExoplanetDetectionDetailed2025}. This approach enables direct spectroscopic analysis, offering unique access to the planet’s atmospheric composition, temperature, and cloud structure. Although the yield of direct imaging is lower than that of indirect methods, directly imaged exoplanets constitute a crucial subset of targets for atmospheric and dynamical characterization \citep{currieDirectImagingSpectroscopy2023}.
 
-A number of methods have been developed to enhance the contrast between the star and the planet, both pre- and post-detection. Starlight can be filtered out before reaching the detector using coronagraphs or starshades, or in post by classifying and separating starlight from the planetary signal \textbf{[cite fischer here when bibtex decides to work]}.
+Direct imaging has achieved several notable successes since its first confirmed detections in the early 2000s. The HR 8799 system, imaged by \citet{maroisDirectImagingMultiple2008}, revealed four massive exoplanets orbiting a young A-type star, marking a milestone in multi-planet imaging. Other examples include $\beta$ Pictoris b \citep{lagrangeGiantPlanetImaged2010} and 51 Eridani b \citep{macintoshDiscoverySpectroscopyYoung2015}, both of which have become benchmark systems for understanding the atmospheres of young gas giants. More recently, the James Webb Space Telescope (JWST) and ground-based instruments such as SPHERE on the Very Large Telescope (VLT) and GPI on Gemini South have expanded the scope of direct imaging, achieving higher contrasts and enabling spectroscopy of fainter, cooler companions such as HIP 65426 b \citep{carterJWSTEarlyRelease2023}.
+
+However, direct imaging faces substantial observational and technical challenges. The primary limitation arises from the extreme contrast between the stellar and planetary fluxes: even a bright exoplanet is typically $10^{9}$ times fainter than its host star \textbf{[fischer]}. The dominant obstacle is the \textit{point spread function} (PSF), which is the diffraction pattern created by the telescope optics. The PSF spreads starlight over the detector and can easily obscure faint companions \textbf{[fischer]}.
+
+PSFs come in various shapes, ranging from circular rings around the point source to more complex shapes depending on the specifics of the telescope aperture \textbf{[fischer]}. By modeling the PSF of the host star, astronomers can subtract it from the image, enhancing the visibility of the exoplanet. To address these challenges, various image processing techniques are employed to enhance the visibility of the exoplanet against the stellar background. These techniques can be broadly categorized into \textit{preprocess} and \textit{postprocess} methods.
 
 \subsubsection{Preprocess methods}
 
-Images of exoplanets created by telescopes, even in the absence of noise and artifacts caused by equipement, are still masked by flux from their host star. This is due to diffraction and scattering of light in the telescope optics, which creates a point spread function (PSF) that spreads the starlight over a larger area of the image \textbf{[fischer]}. To mitigate this, preprocess methods are used to model and subtract the PSF from the image, enhancing the visibility of the exoplanet.
-
-Originally, PSF subtraction was done using a coronagraph, developed by \citet{lyotStudySolarCorona1939}. This optical device is placed in the light path of the telescope to block out the light from the central star, allowing the much dimmer light from surrounding objects, such as exoplanets, to be observed.
+Originally, PSF subtraction was done using a coronagraph, developed by \citet{lyotStudySolarCorona1939}. This optical device is placed in the light path of the telescope to block out the light from the central star, allowing the much dimmer light from surrounding objects, such as exoplanets, to be observed. 
 
 etc.etc.
 
