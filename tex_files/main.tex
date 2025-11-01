@@ -103,105 +103,101 @@ Finally, in \hyperref[placeholder]{Section IV} and \hyperref[placeholder]{V} we 
 \label{sec:Methodology}
 
 \subsection{Bayesian Preliminaries} % You can also talk about the difference between Bayesian and Frequentist Stats here
-The aim of Bayesian statistics is simple: determine $P(H|D)$, or the probability of a hypotheses $H$ being true given data $D$. A hypothesis is any statement that can be true or false, and data is any information that can be used to evaluate the hypothesis. For example, imagine rolling a die. A hypothesis $H$ would that the die roll is a 3. The data $D$ is the result of the die roll.
+The aim of Bayesian statistics is to determine $P(H|D)$, or the probability of a hypotheses $H$ being true given data $D$. A hypothesis is any statement that can be true or false, and data is any information that can be used to evaluate the hypothesis. For example, for the roll of a single die, an hypothesis $H$ would that the die roll is a 3. The data $D$ is the result of the die roll.
 
-Hypotheses live in the \textit{hypothesis space}, which is the set of all possible hypotheses of a system \citep{brewer1BayesianInference2018}. Going back to the die example, the hypothesis space is $\{1,2,3,4,5,6\}$. The hypothesis space will also have a probability distribution, or a \textit{prior}, written as $P(H)$. The prior is the probability of each hypothesis being true before seeing any data. For a fair die, the prior is uniform. It's $\frac{1}{6}$ for all $H$ in the hypothesis space. In other words, $P(H)$ is the probability of the hypothesis being true.
+Hypotheses live in the \textit{hypothesis space}, which is the set of all possible hypotheses of a system \citep{brewer1BayesianInference2018}. For the die example, the hypothesis space is $\{1,2,3,4,5,6\}$. The hypothesis space will also have a probability distribution, or a \textit{prior}, written as $P(H)$ \citep{brewer1BayesianInference2018}. The prior is the probability of each hypothesis being true absent any data. For a fair die, the prior is uniform: $\frac{1}{6}$ for all $H$ in the hypothesis space. In other words, $P(H)$ is the probability of the hypothesis being true.
 
-The data $D$ also has a probability distribution called the \textit{evidence}, $P(D)$ \citep{brewer1BayesianInference2018}. The evidence is the probability of seeing the data before knowing anything about the hypothesis. In the die example, if you roll a 3, then $P(D)$ is $\frac{1}{6}$ because there is a $\frac{1}{6}$ chance of rolling a 3 on a fair die. The evidence lives in the \textit{data space}, which is the set of all possible data of a system. In the die example, the data space is also $\{1,2,3,4,5,6\}$.
+The data $D$ also has a probability distribution called the \textit{evidence}, $P(D)$ \citep{brewer1BayesianInference2018}. The evidence is the probability of the data absent any hypothesis. In the die example, $P(D)$ is $\frac{1}{6}$ for rolling a $3$ on a fair die. The evidence lives in the \textit{data space}, which is the set of all possible data outcomes. In the die example, the data space is also $\{1,2,3,4,5,6\}$.
 
-A \textit{likelihood}, $P(D|H)$, is the probability of seeing the data assuming that the hypothesis is true. In the die example, if $H$ is that the die roll is a 3, then $P(D|H)$ is 1 if the die roll is a 3 and 0 otherwise. Using the prior, evidence, and likelihood to calculate $P(H|D)$, which is the probability of a hypothesis being true given the data. This is called the \textit{posterior}. In the die example, if you roll a 3, then $P(H|D)$ is 1 if $H$ is that the die roll is a 3 and 0 otherwise.
+A \textit{likelihood}, $P(D|H)$, is the probability of the data assuming that the hypothesis is true \citep{brewer1BayesianInference2018}. In the die example, if $H$ is that the die roll is a $3$, then $P(D|H)$ is unity if the die roll is a $3$ and zero otherwise. We use the prior, evidence, and likelihood to calculate $P(H|D)$, which is the probability of a hypothesis being true given the data. This is called the \textit{posterior} \citep{brewer1BayesianInference2018}. In the die example, if you roll a $3$, then $P(H|D)$ is unity if the hypothesis $H$ is that the die roll is a $3$. It is zero otherwise.
 
-The framework for finding $P(H|D)$ is called Bayes' Theorem, and it forms the center of Bayesian inference. It can be derived using two rules \citep{coxProbabilityFrequencyReasonable1946}. Firstly, the probability that a hypothesis is true and the probability that it is not true add up to 1:
+The posterior $P(H|D)$ is defined by Bayes' Theorem. It can be derived using two rules, as outlined in \citet{coxProbabilityFrequencyReasonable1946}. Firstly, the probability that a hypothesis is true $P(H)$ and the probability that it is not true $P(\tilde{H})$ add up to unity:
 
 \begin{equation}
   P(H) + P(\tilde{H}) = 1.
 \end{equation}
 
-The second rule is the product rule, which states:
+The second rule is the product rule for conditional probabilities, which states:
 
 \begin{equation}
   P(H)P(D|H) = P(D)P(H|D).
 \end{equation}
 
-This can be trivially rearranged to give Bayes' Theorem:
+This can be rearranged to give Bayes' Theorem:
 
 \begin{equation}
-  \label{eq:bayes_theorem}
   P(H|D) = \frac{P(H)P(D|H)}{P(D)}.
+  \label{eq:bayes_theorem}
 \end{equation}
 
-In other words, given the prior, evidence, and the likelihood, you can calculate the posterior $P(H|D)$.
-
 \subsubsection{Example: The Double-Headed Coin}
-The previous example of a die roll was trivial. The data, the result of the die roll, completely determined the hypothesis. Bayesian statistics becomes more useful when the data is incomplete, as is often the case in Astrophysics.
+For the previous example of a die roll, the data, the result of the die roll, completely determined the hypothesis. Bayesian statistics becomes more useful when the data are incomplete, as is often the case in astrophysics.
 
-To demonstrate this, consider the following setup. You have 5 coins, four of which are fair, and one of which is double-headed. You pick a coin at random and flip it, and it lands heads. \textit{What is the probability that you picked the double-headed coin?}
+Consider five coins, four of which are fair, and one of which is double-headed. A random coin lands heads. We calculate the probability that the double headed coin was randomly selected.
 
-The first step is to determine $H$ and $D$ from the hypotheses and data spaces. The hypothesis space is $\{\text{Picked Fair},\text{Picked Double-Headed}\}$. For the sake of conciseness, it can be written as $\{\text{fair},\text{double}\}$. For this problem, we hypothesize that the double-headed coin was picked. So, $H$ is 'double'. The data space is $\{\text{heads},\text{tails}\}$, and for this problem, $D$ is 'heads'.
+The first step is to determine $H$ and $D$ from their respective spaces. The hypothesis space is $\{\text{Picked Fair},\text{Picked Double-Headed}\}$, which can be written concisely as $\{\text{fair},\text{double}\}$. We hypothesize that the double-headed coin was picked ($ H = \text{'double'}$). The data space is $\{\text{heads},\text{tails}\}$, and $D$ is 'heads'.
 
-Next, we determine the prior and evidence. There are 4 fair coins and 1 double-headed coin, so it is easy to find for the prior that $P(\text{fair}) = \frac{4}{5} = 0.8$ and $P(\text{double}) = \frac{1}{5} = 0.2$. The evidence is more complex to find in this case. Since the chance of flipping heads or tails includes the case that you picked up the double headed coin, the evidence cannot simply be 50-50. We must calculate the probability of getting heads and tails across all the coins:
+For four fair coins and one double-headed coin the priors are: $P(\text{fair}) = \frac{4}{5} = 0.8$ and $P(\text{double}) = \frac{1}{5} = 0.2$. The evidence is more complex to find in this case. Since the chance of flipping heads or tails includes the case that the double headed coin was picked, the evidence cannot be 50-50. We must calculate the probability of getting heads and tails across all the coins:
 
 \begin{align*}
   P(\text{heads}) &= \frac{4(0.5)+1(1)}{5} = 0.6 \\
   P(\text{tails}) &= \frac{4(0.5)+1(0)}{5} = 0.4
 \end{align*}
 
-Note the implicit rule for any space:
+Note the implicit rule for any probability space:
 
 \begin{equation}
   \sum_n P(x_n) = 1,
 \end{equation}
 
-where $x_n$ is a value in a space.
+where $x_n$ is a value in the space.
 
-The final step before solving is to find the likelihood, $P(\text{heads}|\text{double})$. This is trivially 1, as you can only get heads from the double-headed coin. Now, we can solve for the posterior:
+The likelihood $P(\text{heads}|\text{double})$ is unity, as it is only possible to get heads from the double-headed coin. Using Bayes' Theorem (\autoref{eq:bayes_theorem}):
 
 \begin{align*}
   P(\text{double}|\text{heads}) &= \frac{P(\text{double})P(\text{heads}|\text{double})}{P(\text{heads})} = \frac{0.2}{0.6} = \boxed{0.\bar{3}}
 \end{align*}
 
-Before incorporating the data, the probability of picking the double headed coin was $0.2$, but by using Bayesian statistics, we were able to "learn" from the data and increase the probability to $0.\bar{3}$. This is a simple example, but it demonstrates the power of Bayesian statistics in the face of incomplete data.
+Before incorporating the data, the probability of picking the double headed coin was $0.2$, but by using Bayesian statistics, including information from the data increases the probability to $0.\bar{3}$. This example demonstrates the power of Bayesian statistics for incomplete data.
 
 \subsection{Bayesian Statistics in Astrophysics}
 
 In an astrophysical context, Bayes' Theorem is used to calculate the probability of \textit{parameters}, $\theta$, of a model rather than a hypothesis \citep{brewer1BayesianInference2018}.
 
 \begin{equation}
-  \label{eq:bayes_theorem_params}
   P(\theta|D) = \frac{P(\theta)P(D|\theta)}{P(D)}.
+  \label{eq:bayes_theorem_params}
 \end{equation}
 
-Take, for example, measurements of the radial velocity of a star over time. When a start hosts an orbiting planet, both bodies orbit a common center of mass. This induces a 'wobble' in the star's motion which is detected as periodic Doppler shifts from the star's spectrum, also known as the \textit{radial velocity}. The radial velocity $v_r(t)$ of a star with a single planet in a strictly circular orbit can be modeled by the following equation:
+Consider measurements of the radial velocity of a star over time. When a start hosts an orbiting planet, both bodies orbit a common center of mass. This induces a wobble in the star's motion which is detected as periodic Doppler shifts in the star's spectrum, also known as the \textit{radial velocity}. The radial velocity $v_r(t)$ of a star with a single planet in a strictly circular orbit can be modeled by the following equation \citep{lovisRadialVelocityTechniques2010}:
 
 \begin{equation}
-  \label{eq:rv_model}
   v_r(t) = K \sin\left(\frac{2\pi t}{T} + \phi\right),
+  \label{eq:rv_model}
 \end{equation}
 
-where $K$ is the velocity semi-amplitude, $T$ is the orbital period, and $\phi$ is a phase offset. Thus, the parameters of this model are $\theta = \{K,P,\phi\}$. This is a simplified model derived from \citet{lovisRadialVelocityTechniques2010}. Some parameters, such as eccentricity, system velocity, and argument of periapsis, have been omitted for simplicity.
+where $K$ is the velocity semi-amplitude, $T$ is the orbital period, and $\phi$ is an orbital phase offset. Thus, the parameters of this model are $\theta = \{K,P,\phi\}$. This is simplified to omit the parameters for eccentricity, system velocity, and argument of periapsis.
 
-One could measure the radial velocity of a star over a certain time period and obtain the data shown in \autoref{fig:rv_data}.
+Consider the simulated data for radial velocity of a star shown in \autoref{fig:rv_data}. Bayes' Theorem (\autoref{eq:bayes_theorem_params}) becomes:
 
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.7\textwidth]{../scripts/2.2/figures/data.png}
-\caption{Simulated radial velocity data of a star with a single orbiting planet. Each point has an error of three standard deviations. The data is noisy and incomplete, making it difficult to determine the parameters of the model.}
+\caption{Simulated radial velocity data of a star with a single orbiting planet (\autoref{eq:rv_model}). Each point has an error of three standard deviations. The data are noisy and incomplete, making it difficult to determine the parameters of the model.}
 \label{fig:rv_data}
 \end{figure}
-
-Bayes' Theorem can be used to determine the posterior distribution of the parameters using the noicy, incomplete data. In this case, \autoref{eq:bayes_theorem} becomes:
 
 \begin{equation}
   P(K,T,\phi|D) = \frac{P(K,T,\phi)P(D|K,T,\phi)}{P(D)}.
 \end{equation}
 
-To start, we must determine the prior, $P(K,T,\phi)$. For simplicity, we can assume that the parameters are independent, so the prior can be written as:
+Assuming for simplicity that the parameters are independent, the prior can be written as:
 
 \begin{equation}
   P(K,T,\phi) = P(K)P(T)P(\phi).
 \end{equation}
 
-Since we know nothing about the priors, it is reasonable to assume that they are uniformly distributed in a certain range. Looking at the data, we can see that the velocity semi-amplitude $K$ is between 5 and 15 m/s, the period $T$ is between 20 and 30 days, and the phase offset $\phi$ is between 0 and $2\pi$. Thus, the priors are:
+Absent any information, we assume the priors are uniformly distributed in a certain range. From inspection, the velocity semi-amplitude $K$ is between 5 and 15 m/s, the period $T$ is between 20 and 30 days, and the phase offset $\phi$ is between 0 and $2\pi$. Thus, the adopted uniform priors are:
 
 \begin{equation*}
   P(K) = \begin{cases}
@@ -227,15 +223,19 @@ and the combined prior is then:
   \end{cases}
 \end{equation}
 
-Next, we must determine the likelihood, $P(D|K,T,\phi)$, or the probability of seeing the data given the parameters. To do this, we calculate the probability of seeing each data point given what the model would predict for that data point. We can assume the model prediction is the mean of a normal distribution of possible points, and the error of each data point is the standard deviation. Using this, we can calculate the probability of obtaining a data point $d_i$ at time $t_i$. Multiplying the probabilities of all the data points gives the probability of seeing the full dataset, which is the likelihood. Mathematically, this is:
+The likelihood, $P(D|K,T,\phi)$, is the probability of the data given the parameters. For a given set of parameters, the model prediction is the mean of a normal distribution with standard deviation equal to the error of each data point. This provides the probability $P_i$ of obtaining a data point $d_i$ at time $t_i$. The likelihood for the full dataset is:
 
 \begin{equation}
-  P(D|K,T,\phi) = \prod_{i=1}^{N} \frac{1}{\sqrt{2\pi\sigma_i^2}} \exp\left(-\frac{(D_i - v_r(t_i;K,T,\phi))^2}{2\sigma_i^2}\right),
+  P(D|K,T,\phi) = \prod_{i=1}^{N} P_i
 \end{equation}
 
-Substituting values for each parameter gives the likelihood of seeing the data given the parameters.
+This takes the form:
 
-Finally, we must determine the evidence, $P(D)$. It's obvious that when integrating the posterior over the entire parameter space, it must equal one, as the parameters are certain to take on some value within the space. Thus, the evidence can be found by rearranging the equation:
+\begin{equation}
+  P(D|K,T,\phi) = \prod_{i=1}^{N} \frac{1}{\sqrt{2\pi\sigma_i^2}} \exp\left(-\frac{(D_i - v_r(t_i;K,T,\phi))^2}{2\sigma_i^2}\right)
+\end{equation}
+
+As a probability, the posterior integrated over the entire parameter space must equal unity. Thus, the evidence $P(D)$ can be found as follows:
 
 \begin{align}
   1 &= \iiint P(K,T,\phi|D) dK dT d\phi\nonumber \\
@@ -243,21 +243,21 @@ Finally, we must determine the evidence, $P(D)$. It's obvious that when integrat
   \therefore P(D) &= \iiint P(K,T,\phi)P(D|K,T,\phi) dK dT d\phi
 \end{align}
 
-Note that this integral is analytically intractable, so it must be calculated numerically.
+This integral is analytically intractable, so it must be calculated numerically.
 
-Using the data in \autoref{fig:rv_data}, we can calculate the posterior distribution of the parameters using the code given in \autoref{appx:A}. Note that the code uses the log-prior and log-likelihood. These are used to prevent any underflow errors in the program. These can be calculated by taking the natural logarithm of the prior and likelihood, respectively. The posterior can then be calculated by adding the log-prior and log-likelihood, and then exponentiating the result, then normalizing with the evidence.
+Using the data in \autoref{fig:rv_data}, the posterior distribution can be calculated using the code in \autoref{appx:A}. The code uses the log-prior and log-likelihood to avoid any underflow errors. The posterior can be calculated by adding the log-prior and log-likelihood, and then exponentiating the result, then normalizing with the evidence.
 
 \begin{equation}
   P(K,T,\phi|D) = \frac{e^{\log(P(K,T,\phi)) + \log(P(D|K,T,\phi))}}{P(D)}
 \end{equation}
 
-The program evaluates the posterior on a grid of 100 points for each parameter, giving a total of $100^3 = 1,000,000$ points. The posterior is also cumulatively summed at every evaluated point, giving a numerical estimate of the evidence for normalization. Finally, the marginal posteriors of each parameter are calculated from the total posterior by integrating over the other two parameters:
+The program evaluates the posterior on a grid of 100 points for each parameter, giving a total of $100^3 = 1,000,000$ points. The posterior is also cumulatively summed at every evaluated point, giving a numerical estimate of the evidence $P(D)$. Finally, the marginal posteriors of each parameter are calculated from the total posterior by integrating over the other two parameters:
 \begin{align}
   P(K|D) &= \iint P(K,T,\phi|D) dT d\phi \\
   P(T|D) &= \iint P(K,T,\phi|D) dK d\phi \\
   P(\phi|D) &= \iint P(K,T,\phi|D) dK dT
 \end{align}
-The results of the code are shown in \autoref{fig:bf_posteriors}.
+The resulting posterior distributions are shown in \autoref{fig:bf_posteriors}.
 
 \begin{figure}[ht!]
 \centering
@@ -280,7 +280,7 @@ The results of the code are shown in \autoref{fig:bf_posteriors}.
 \label{fig:bf_posteriors}
 \end{figure}
 
-In reality, we will never know the exact parameters of a system, but posterior distributions give us a close estimate. To quantify how close the estimate is, we will compare the posterior distributions to the true parameters, which are $K=10$ m/s, $T=25$ days, and $\phi=\frac{\pi}{4}$. It is clear to see that the true values are within one standard deviation of the mean of each posterior distribution, indicating that the Bayesian method was successful in estimating the parameters.
+The exact parameters of a model are always unknown, but posterior distributions field a close estimate. The true parameters, $K=10$ m/s, $T=21.4$ days, and $\phi=\frac{\pi}{4}$, fall within one standard deviation of the mean of each posterior distribution (\autoref{fig:bf_posteriors}), indicating that the Bayesian method was successful in estimating the parameters.
 
 \begin{figure}[ht!]
 \centering
@@ -289,23 +289,23 @@ In reality, we will never know the exact parameters of a system, but posterior d
 \label{fig:prediction}
 \end{figure}
 
-\autoref{fig:prediction} shows the true model along with the mean prediction from the posterior distributions. Thus, we can apply Bayes' Theorem to predict the parameters for astrophysical models. However, this method is computationally expensive. Computing this numerically, we would have to iterate through all combinations of all values of each parameter. With $n$ parameters and $m$ possible values for each parameter, this algorithm would have a time complexity of $O(m^n)$, which is infeasible for even small $n$ and $m$. To solve this problem, we can use \textit{Monte Carlo methods}.
+\autoref{fig:prediction} shows the true model and the mean parameter prediction from the posterior distributions. Bayes' Theorem is thus useful to estimate the parameters for astrophysical models. However, this method is computationally expensive. Computing the posterior numerically requires integrating over the full parameter space. For $n$ parameters and $m$ possible values for each parameter, this algorithm would have a time complexity of $O(m^n)$, which is infeasible for even small $n$ and $m$. To solve this problem, we can use \textit{Monte Carlo methods} \citep{brewer1BayesianInference2018}.
 
 \subsection{Monte Carlo Sampling}
-The primary computational challenge in brute force Bayesian inference arises from evaluating the posterior probability at every point in the parameter space. One way to reduce this cost is to sample only a subset of points, distributed according to the posterior itself. These points are called \textit{draws}. If, by some method, a set of draws were obtained, it would be possible to calculate expectation values from the explicit posterior using only the sampled points \citep{vontoussaintBayesianInferencePhysics2011}. This is the idea behind \textit{Monte Carlo Sampling}, which can be used to approximate integrals and expectations that would otherwise require explicit evaluation over a continuous space.
+As noted above, the primary computational challenge in brute force Bayesian inference arises from evaluating the posterior probability at every point in the parameter space. One way to reduce this cost is to sample only a subset of points, distributed according to the posterior itself \citep{vontoussaintBayesianInferencePhysics2011}. These points are called \textit{draws}. These draws make it possible to calculate expectation values from the explicit posterior using only the sampled points \citep{vontoussaintBayesianInferencePhysics2011}. This defines \textit{Monte Carlo sampling}, which can be used to approximate integrals and expectations that would otherwise require explicit evaluation over a continuous space.
 
-If we know a probability density explicitly, the expectation value of some variable $x$ can be calculated as:
+For a known probability density, the expectation value of some variable $x$ can be calculated as:
 
 \begin{equation}
-  \langle x \rangle = \int x P(\theta) dx.
+  \langle x \rangle = \int x P(x|\theta) dx.
 \end{equation}
 
-Using a set of $N$ values of $x$ drawn using Monte Carlo, this can be approximated as:
+For $N$ values of $x$ drawn from $P$ using Monte Carlo, this can be discretely approximated as:
 
 \begin{equation}
   \langle x \rangle \approx \frac{1}{N} \sum_{i=1}^{N} x_i,
 \end{equation}
-which generalizes naturally to higher-dimensional parameter spaces, though convergence can become slower as dimensionality increases.
+which generalizes naturally to higher-dimensional parameter spaces, though convergence can become slower as dimensionality increases \citep{vontoussaintBayesianInferencePhysics2011}.
 
 $x$ is a function of the parameters, and can be defined arbitrarily to calculate the expectation value of any value of interest. Given a probability density $P(\theta_1,\theta_2,\hdots,\theta_n)$, some forms of $x$ are listed in \autoref{tab:x_forms}.
 \begin{deluxetable}{ll}
@@ -322,37 +322,34 @@ $x$ is a function of the parameters, and can be defined arbitrarily to calculate
     $\mathds{1}(a \le \theta_i \le b)$ & Probability that $\theta_i$ is in the range $[a,b]$ \\
     $\mathds{1}(\text{condition})$ & Probability that the condition is true \\
   \enddata
-  \caption{Forms of $x$ to calculate expectation values of different quantities.}
+  \caption{Forms of $x$ to calculate expectation values of various quantities.}
   \label{tab:x_forms}
 \end{deluxetable}
 
-The usefulness of Monte Carlo sampling becomes apparent when we revisit the computation of marginal posteriors. In the previous example, we used the posterior to calculate the marginal posteriors of each parameter. In the brute force method, this was found by integrating the posterior over all other parameters. Monte Carlo makes this simpler. If we have a set of $N$ draws from the posterior of a parameter space with parameters, $\{\theta_1,\theta_2,\hdots,\theta_n\}$, we can obtain draws for a certain parameter $\theta_i$ by simply ignoring all other parameters. A simple histogram of the draws of $\theta_i$ then gives the marginal posterior of $\theta_i$. This is much simpler than integrating over all other parameters, especially in high-dimensional parameter spaces.
+The usefulness of Monte Carlo sampling becomes apparent when considering the computation of marginal posteriors. In the previous example, we used the posterior to calculate the marginal posteriors of each parameter. In the brute force method, this was found by integrating the posterior over all other parameters. Monte Carlo makes this simpler. If we have a set of $N$ draws from the posterior of a parameter space $\{\theta_1,\theta_2,\hdots,\theta_n\}$, we can obtain draws for a certain parameter $\theta_i$ by ignoring all other parameters \citep{brewer1BayesianInference2018}. A histogram of the draws of $\theta_i$ then gives the marginal posterior of $\theta_i$. This is much simpler than integrating over all other parameters, especially in high-dimensional parameter spaces.
 
 \subsection{Markov Chain Monte Carlo}
-Before we can use Monte Carlo sampling, we must first obtain draws from the posterior. \textit{Markov Chain Monte Carlo} (MCMC) is one of the many methods used to obtain these draws, and in modern astrophysics, has become a standard tool for Bayesian inference. Using MCMC, the posterior of even a high-dimensional parameter space can be numerically mapped without using unfeasible amounts of computing power \citep{trottaBayesSkyBayesian2008}. MCMC does this by creating a sequence of draws in the form of a \textit{Markov Chain}.
+\textit{Markov Chain Monte Carlo} (MCMC) is one of the many methods used to obtain posterior draws, and in modern astrophysics, has become a standard tool for Bayesian inference. Using MCMC, the posterior of even a high-dimensional parameter space can computed efficiently \citep{trottaBayesSkyBayesian2008}. MCMC does this by creating a sequence of draws in the form of a \textit{Markov Chain} \citep{neal1993probabilistic}.
 
 \subsubsection{Markov Chains}
 
-A Markov Chain is a sequence of random variables, $x_0, x_1, \hdots, x_n$, where the probability of each variable only depends on the previous variable. This is known as the \textit{Markov Property}, and can be written mathematically as:
-
+A Markov Chain is a sequence of random variables, $x_0, x_1, \hdots, x_n$, where the probability of each variable only depends on the previous variable \citep{neal1993probabilistic}. This is known as the \textit{Markov property}, and can be written mathematically as:
 \begin{equation}
   P(x_{n+1}|x_n,x_{n-1},\hdots,x_0) = P(x_{n+1}|x_n).
 \end{equation}
 
-To create a Markov chain, we must first decide an initial value $x_0$ using an initial probability distribution $P_0(x_0)$. After this, the probability distribution of the next value is evolved from the previous probability distribution using a \textit{transition probability} $T_n(x_n,x_{n+1})$. The next value is then drawn using the new probability density.
-
+To create a Markov chain, we must first decide an initial value $x_0$ using an initial probability distribution $P_0(x_0)$. The probability distribution of the next value is evolved iteratively from the previous probability distribution using a \textit{transition probability} \citep{neal1993probabilistic} $T_n(x_n,x_{n+1})$:
 \begin{equation}
   P(x_{n+1}) = P(x_n)T_n(x_n,x_{n+1})
 \end{equation}
-This process can be repeated as many times as necessary.
 
-If the transition probability does not depend on the point in the chain, the chain is \textit{homogenous}, or \textit{stationary}. We can then write the transition probability as $T(x_n,x_{n+1})$ \citep{neal1993probabilistic}.
+If the transition probability does not depend on the point in the chain, the chain is \textit{homogenous}, or \textit{stationary} \citep{neal1993probabilistic}.
 
 Markov chains can be shown to converge to a \textit{stationary distribution} $P^*(x)$, which is independent of the initial distribution \citep{trottaBayesSkyBayesian2008}. A stationary distribution, once reached, does not change as the chain evolves further.
 
-Markov chains can also be \textit{ergodic}, which means that a stationary distribution can be reached from any initial distribution. A chain being ergodic also implies its irreducibility and aperiodicity \citep{neal1993probabilistic}. Irreducibility means that it is possible to reach any point in the space from any other point, and aperiodicity means that the chain does not get stuck in cycles \citep{vontoussaintBayesianInferencePhysics2011}.
+Markov chains can also be \textit{ergodic} \citep{neal1993probabilistic}, which means that a stationary distribution can be reached from any initial distribution. A ergodic chain is irreducible and aperiodic \citep{neal1993probabilistic}. Irreducibility means that it is possible to reach any point in the space from any other point, and aperiodicity means that the chain does not get stuck in cycles \citep{vontoussaintBayesianInferencePhysics2011}.
 
-In the context of Bayesian inference, the goal of MCMC is to construct a Markov chain whose stationary distribution is the unknown posterior distribution. To ensure that the chain converges to the desired posterior, the choice of transition probability $T(x_n, x_{n+1})$ is crucial. The transition rule must satisfy the condition of \textit{detailed balance}, which guarantees that, at equilibrium, the probability flow between any two states is symmetric:
+For Bayesian inference, the goal of MCMC is to construct a Markov chain whose stationary distribution is the unknown posterior distribution \citep{brewer1BayesianInference2018}. To ensure that the chain converges to the desired posterior, the choice of transition probability $T(x_n, x_{n+1})$ is crucial. The transition rule must satisfy the condition of \textit{detailed balance}, which guarantees that, at equilibrium, the probability flow between any two states is symmetric:
 \begin{equation}
   P(x_n)T(x_n, x_{n+1}) = P(x_{n+1})T(x_{n+1}, x_n).
 \end{equation}
@@ -360,43 +357,42 @@ This condition ensures that the chain does not drift away from the target distri
 
 \subsubsection{The Metropolis-Hastings Algorithm}
 
-One of the simplest and most widely used algorithms that satisfies detailed balance is the \textit{Metropolis algorithm} \citep{metropolisEquationStateCalculations1953}. More specifically, its generalization, the \textit{Metropolis–Hastings algorithm} \citep{hastingsMonteCarloSampling1970}. The algorithm constructs a Markov chain by iteratively proposing new states in the parameter space and deciding whether to accept or reject them based on the target distribution. \citet{brewer1BayesianInference2018} outlines the steps of the Metropolis-Hastings algorithm as follows:
+One of the simplest and most widely used algorithms that satisfies detailed balance is the \textit{Metropolis algorithm} \citep{metropolisEquationStateCalculations1953}, more specifically, its generalization, the \textit{Metropolis–Hastings algorithm} \citep{hastingsMonteCarloSampling1970}. The algorithm constructs a Markov chain by iteratively proposing new states in the parameter space and deciding whether to accept or reject them based on the target distribution. \citet{brewer1BayesianInference2018} outlines the steps of the Metropolis-Hastings algorithm as follows:
 
 \begin{enumerate}
   \item Initialize the chain with a starting point $x_0$.
   \item Generate a candidate point $x_{n+1}$ from a proposal distribution $q(x_{n+1}|x_n)$ based on the current state $x_n$.
   \item Accept or reject the proposal
-  \item Repeat steps 2 and 3 for a large number of iterations to generate a sequence of samples.
+  \item Repeat steps 2 and 3 for a large number of iterations to generate a sequence of samples until convergence.
 \end{enumerate}
 
-The algorithm depends on two things: the proposal distribution $q(x_{n+1}|x_n)$ and the acceptance criterion. Commonly, a 'random walk' proposal is used to generate candidates by adding a small random perturbation to the current state. For an $n$-dimensional parameter space, the random walk proposal is a symmetric (usually Gaussian) distribution, also of $n$-dimensions, with the current state as its mean \citep{vontoussaintBayesianInferencePhysics2011}. If the proposal distribution is indeed symmetric, then the following is implied:
+The algorithm depends on the proposal distribution $q(x_{n+1}|x_n)$ and the acceptance criterion. Commonly, a 'random walk' proposal is used to generate candidates by adding a small random perturbation to the current state. For an $n$-dimensional parameter space, the random walk proposal is a symmetric (usually Gaussian) distribution, also of $n$-dimensions, with the current state as its mean \citep{vontoussaintBayesianInferencePhysics2011}. If the proposal distribution is indeed symmetric, then the following is implied:
 \begin{equation}
   \label{eq:symmetric_proposal}
   q(x_{n+1}|x_n) = q(x_n|x_{n+1}).
 \end{equation}
-In this case, the Metropolis-Hastings algorithm simplifies to the original Metropolis algorithm \citep{brewer1BayesianInference2018}. Asymmetric proposal distributions are more general, and can also be used. However, they are less common in practice.
+In this case, the Metropolis-Hastings algorithm simplifies to the original Metropolis algorithm \citep{brewer1BayesianInference2018}. Asymmetric proposal distributions are more general, and can also be used. However, they are less common in practice due to their specificity to the problem.
 
-The acceptance criterion is based on the ratio of the posterior at the proposed and current states, adjusted by the proposal distribution. This is the probability of the proposal being accepted. Mathematically, this is:
-
+The acceptance criterion is based on the ratio of the posterior at the proposed and current states, adjusted by the proposal distribution. This is the probability of the proposal being accepted. Mathematically, this is \citep{brewer1BayesianInference2018}:
 \begin{equation}
   \alpha = \min\left(1, \frac{P(x_{n+1}|D) q(x_n|x_{n+1})}{P(x_n|D) q(x_{n+1}|x_n)}\right) = \min\left(1, \frac{P(D|x_{n+1}) P(x_{n+1}) q(x_n|x_{n+1})}{P(D|x_n) P(x_n) q(x_{n+1}|x_n)}\right).
 \end{equation}
-If the proposal distribution is symmetric, we can further apply \autoref{eq:symmetric_proposal} to get:
+If the proposal distribution is symmetric, we can further apply \autoref{eq:symmetric_proposal} to obtain \citep{brewer1BayesianInference2018}:
 \begin{equation}
   \alpha = \min\left(1, \frac{P(D|x_{n+1}) P(x_{n+1})}{P(D|x_n) P(x_n)}\right).
 \end{equation}
-Working with log-priors and log-likelihoods makes this even simpler:
+Simplified with log-priors and log-likelihoods:
 \begin{equation}
   \log(\alpha) = \min\left(0, \log(P(D|x_{n+1})) + \log(P(x_{n+1})) - \log(P(D|x_n)) - \log(P(x_n))\right).
 \end{equation}
 
-This criterion accepts any proposal that increases the posterior probability, while proposals that decrease it are accepted with a probability proportional to the decrease. If a proposal is rejected, the current state is counted again. This allows the chain sample high-probability regions more frequently while still having the ability to escape local maxima and explore the full parameter space.
+This criterion accepts any proposal that increases the posterior probability, while proposals that decrease it are accepted with a probability proportional to the decrease. If a proposal is rejected, the current state is counted again. This allows the chain to sample high-probability regions more frequently while still having the ability to escape local maxima and explore the full parameter space \citep{brewer1BayesianInference2018}.
 
-The choice of proposal distribution can also significantly affect the efficiency of the algorithm. If the proposal steps are too small, the chain will explore the parameter space slowly, leading to high autocorrelation between samples. Conversely, if the steps are too large, many proposals will be rejected, also resulting in inefficient sampling. Tuning the proposal distribution to balance exploration and acceptance rates is often necessary for optimal performance \citep{vontoussaintBayesianInferencePhysics2011}. A common heuristic is to adjust the proposal distribution to achieve an acceptance rate between $0.2$ and $0.5$, depending on the dimensionality of the parameter space \citep{gelmanWeakConvergenceOptimal1997}.
+The choice of proposal distribution can also significantly affect the efficiency of the algorithm \citep{vontoussaintBayesianInferencePhysics2011}. If the proposal steps are too small, the chain will explore the parameter space slowly, leading to high correlation between samples. Conversely, if the steps are too large, many proposals will be rejected, also resulting in inefficient sampling. Tuning the proposal distribution to balance exploration and acceptance rates is often necessary for optimal performance \citep{vontoussaintBayesianInferencePhysics2011}. A common heuristic is to adjust the proposal distribution to achieve an acceptance rate between $0.2$ and $0.5$, depending on the dimensionality of the parameter space \citep{gelmanWeakConvergenceOptimal1997}.
 
-A consideration one may take when using the Metropolis-Hastings algorithm is the \textit{burn-in} period. The initial samples of the chain may not be representative of the target distribution, especially if the starting point is far from high-probability regions. To mitigate this, it is common practice to discard a certain number of initial samples, known as the burn-in period, before using the remaining samples for inference \citep{vanravenzwaaijSimpleIntroductionMarkov2018}. This allows the algorithm to forget its initial state and generate samples that are more representative of the posterior distribution.
+The Metropolis-Hastings algorithm has a \textit{burn-in} period. The initial samples of the chain may not be representative of the target distribution, especially if the starting point is far from high-probability regions. To mitigate this, it is common practice to discard a certain number of initial samples, from the burn-in period, before using the remaining samples for inference \citep{vanravenzwaaijSimpleIntroductionMarkov2018}.
 
-The Metropolis-Hastings algorithm outputs a Markov chain of samples that approximate the target posterior distributiion. Since the probability is only calculated for proposed points instead of the full parameter space, the algorithm is much more computationally efficient than brute force methods. The time complexity is reduced to $O(n*m)$, where $n$ is the number of samples drawn and $m$ is the number of walks, which, unlike brute-force Bayesian inferencing, is feasible for even high-dimensional parameter spaces.
+The Metropolis-Hastings algorithm outputs a Markov chain of samples that approximate the target posterior distribution \citep{hastingsMonteCarloSampling1970}. Since the probability is only calculated for proposed points instead of the full parameter space, the algorithm is much more computationally efficient than brute force methods. The time complexity is reduced to $O(n*m)$, where $n$ is the number of samples drawn and $m$ is the number of walks, which is feasible for even high-dimensional parameter spaces.
 
 \subsection{MCMC in Astrophysics}
 
@@ -409,7 +405,7 @@ Revisiting the radial velocity example, we can use MCMC to obtain draws from the
 \label{fig:mcmc_trace}
 \end{figure}
 
-The trace plots of the chains are shown in \autoref{fig:mcmc_trace}. These are visualizations of the Markov chains for each parameter. The chains appear to be well-mixed and stationary, indicating that they have converged to the target distribution. Plotting the marginal posterior distributions of each parameter gives \autoref{fig:mcmc_posteriors}.
+The trace plots of the chains are shown in \autoref{fig:mcmc_trace}. These are visualizations of the Markov chains for each parameter. The chains appear to be well-mixed and stationary, indicating that they have converged to the target distribution. The marginal posterior distributions of each parameter is shown in \autoref{fig:mcmc_posteriors}.
 
 \begin{figure}[ht!]
 \centering
@@ -432,12 +428,11 @@ The trace plots of the chains are shown in \autoref{fig:mcmc_trace}. These are v
 \label{fig:mcmc_posteriors}
 \end{figure}
 
-Comparing these posteriors to the ones obtained using the brute-force method, we can see that they are very similar. \autoref{tab:comparison} summarizes the comparison between the true parameter values, the estimates from the brute-force method (\autoref{fig:bf_posteriors}), and the estimates from the MCMC method (\autoref{fig:mcmc_posteriors}). The two algorithms are compared using the mean and standard deviation of each posterior distribution, as well as the Z-score of the true value from the mean of each posterior distribution. The Z-score is a measure of how many standard deviations a value is from the mean, and is calculated as:
+Comparing these posteriors to the ones obtained using the brute-force method, we see that they are very similar. \autoref{tab:comparison} summarizes the comparison between the true parameter values, the estimates from the brute-force method (\autoref{fig:bf_posteriors}), and the estimates from the MCMC method (\autoref{fig:mcmc_posteriors}). The two algorithms are compared using the mean and standard deviation of each posterior distribution, as well as the Z-score of the true value from the mean of each posterior distribution. The Z-score is a measure of how many standard deviations a value is from the mean, and is calculated as:
 \begin{equation}
   Z = \frac{X - \mu}{\sigma},
 \end{equation}
-where $X$ is the value being compared, $\mu$ is the mean of the distribution, and $\sigma$ is the standard deviation of the distribution. A Z-score of 0 indicates that the value is equal to the mean, while a Z-score of 1 indicates that the value is one standard deviation above the mean. A Z-score of -1 indicates that the value is one standard deviation below the mean. A Z-score within the range of -2 to 2 is generally considered to be acceptable, as it indicates that the value is within two standard deviations of the mean.
-
+where $X$ is the value being compared, $\mu$ is the mean of the distribution, and $\sigma$ is the standard deviation of the distribution. A Z-score of zero indicates that the value is equal to the mean, while a Z-score of 1 indicates that the value is one standard deviation above the mean. A Z-score of -1 indicates that the value is one standard deviation below the mean. A Z-score within the range of -2 to 2 is generally considered to be acceptable, as it indicates that the value is within two standard deviations of the mean.
 \begin{deluxetable}{llllll}
   \tablewidth{0pt}
   \tablenum{2}
@@ -453,15 +448,15 @@ where $X$ is the value being compared, $\mu$ is the mean of the distribution, an
   \label{tab:comparison}
 \end{deluxetable}
 
-From \autoref{tab:comparison}, we can see that both methods give very similar results. The Z-scores of the true values from the means of each posterior distribution are all within 1, indicating that both methods were successful in estimating the parameters. The MCMC method, however, was far more computationally efficient. As shown in the code in \autoref{appx:A}, the brute-force method had to evaluate the posterior at $100^3 = 1,000,000$ points in the parameter space. The MCMC method, given in \autoref{appx:B}, only had to evaluate the posterior at $10 \times (12,000 - 1,000) = 110,000$ points, a reduction of nearly an order of magnitude, to provide virtually the same results.
+Both methods give very similar results (\autoref{tab:comparison}). The Z-scores of the true values are all within 1, indicating that both methods were successful in estimating the parameters. The MCMC method, however, was far more computationally efficient. As described above, the brute-force method had to evaluate the posterior at $100^3 = 1,000,000$ points in the parameter space. The MCMC method, as implemented in \autoref{appx:B}, only had to evaluate the posterior at $10 \times 12,000 = 120,000$ points, a reduction of nearly an order of magnitude, to provide virtually the same results.
 
-Generalizing this to higher-dimensional parameter spaces, the computational savings of MCMC become even more apparent. In a hypothetical 10-dimensional parameter space with 100 possible values for each parameter, the brute-force method would have to evaluate the posterior at $100^{10} = 10^{20}$ points, which is infeasible. The MCMC method, on the other hand, would still only have to evaluate the posterior at $N$ points, where $N$ is the number of samples drawn, which is feasible for even high-dimensional parameter spaces.
+Generalizing this to higher-dimensional parameter spaces, the computational savings of MCMC become even more apparent. In a hypothetical 10-dimensional parameter space with 100 possible values for each parameter, the brute-force method would have to evaluate the posterior at $100^{10} = 10^{20}$ points, which is infeasible. The MCMC method, on the other hand, would still provide reasonably accurate results with no significant increase in computing cost. The number of required samples and walks increases with the number of dimensions based on the discretion of the experimenter. Usually, this increase is sub-exponential, even linear with respect to an $n$-dimensional parameter space.
 
 \subsection{Applications in Research}
 
-As it turns out, using Bayesian inference and MCMC in astrophysics is far more complex than the simple radial velocity example given above. Real-world astrophysical models often have many more parameters, complex likelihood functions, and intricate prior distributions. Additionally, not all problems are based on data that can be neatly displayed on a quantity vs time plot. In practice, astrophysical analyses must contend with challenges such as correlated noise in observations, hierarchical modeling of populations, and significant computational bottlenecks when scaling to high-dimensional or large datasets. Applying the Bayesian–MCMC framework to these complex problems requires careful consideration of model formulation, computational techniques, and interpretation of results, though the underlying principles remain the same. This adaptability of the Bayesian–MCMC framework makes it useful in tackling problems of parameter estimation, model selection, and uncertainty quantification across various subfields.
+Using Bayesian inference and MCMC in astrophysics is far more complex than the radial velocity example given above. Real-world astrophysical models often have many more parameters, complex likelihood functions, and intricate prior distributions. In practice, astrophysical analyses must contend with challenges such as correlated noise in observations, hierarchical modeling of populations, and significant computational bottlenecks when scaling to high-dimensional or large datasets. The adaptability of the Bayesian–MCMC framework makes it useful in these conditions to tackle problems of parameter estimation, model selection, and uncertainty quantification across various astrophysical subfields.
 
-In the following sections, we will explore some case studies where Bayesian inference and MCMC have been successfully applied to various types of problems, including those in exoplanet detection, cosmological parameter estimation, and gravitational wave data analysis.
+In the following sections, we will explore some case studies where Bayesian inference and MCMC have been successfully applied, including exoplanet detection, cosmological parameter estimation, and gravitational wave data analysis.
 
 \section{Direct Imaging of Exoplanets}
 \label{sec:CaseStudies}
@@ -470,33 +465,33 @@ In the following sections, we will explore some case studies where Bayesian infe
 
 Exoplanets are planets that orbit stars outside our solar system, with each being a unique laboratory for studying planetary formation and evolution \citep{kaushikExoplanetDetectionDetailed2025}. Studying their atmospheres, compositions, and orbital dynamics can provide insights into the conditions necessary for life and the diversity of planetary systems in the universe. These properties are key to understanding not only the planets themselves but also the broader processes that govern planetary system formation and evolution \citep{madhusudhanExoplanetaryAtmospheresKey2019}.
 
-Detection of exoplanets is conducted through various methods, including transit photometry, radial velocity measurements, direct imaging, and other less common techniques \citep{weiSurveyExoplanetaryDetection2018}. Each method probes a different region of parameter space, with transit and radial velocity methods being most sensitive to close-in planets, while direct imaging targets young, massive planets at wide separations \citep{fischerExoplanetDetectionTechniques2014b}. Of these, direct imaging is the most straightforward in concept, as it aims to spatially resolve a planet from its host star, capturing the planet’s own light rather than relying on indirect signatures. The flux of light from an exoplanet, whether reflected starlight or thermal emission, is directly captured by a telescope and recorded as an image \citep{kaushikExoplanetDetectionDetailed2025}. This approach enables direct spectroscopic analysis, offering unique access to the planet’s atmospheric composition, temperature, and cloud structure. Although the yield of direct imaging is lower than that of indirect methods, directly imaged exoplanets constitute a crucial subset of targets for atmospheric and dynamical characterization \citep{currieDirectImagingSpectroscopy2023}.
+Exoplanets are detected using various methods, including transit photometry, radial velocity measurements, direct imaging, and other less common techniques \citep{weiSurveyExoplanetaryDetection2018}. Each method probes a different region of exoplanet parameter space, with transit and radial velocity methods being most sensitive to close-in planets, while direct imaging is sensitive to young, massive planets at wide separations \citep{fischerExoplanetDetectionTechniques2014b}. Of these, direct imaging is the most straightforward in concept, as it does not rely on indirect signatures. The brightness of an exoplanet, whether reflected starlight or thermal emission, is directly imaged by a telescope \citep{kaushikExoplanetDetectionDetailed2025}. This approach enables direct spectroscopic analysis, offering unique access to the planet’s atmospheric composition, temperature, and cloud structure. Although the yield of direct imaging is lower than that of indirect methods, directly imaged exoplanets constitute a crucial subset of targets for atmospheric and dynamical characterization \citep{currieDirectImagingSpectroscopy2023}.
 
-Direct imaging has achieved several notable successes since its first confirmed detections in the early 2000s. The HR 8799 system, imaged by \citet{maroisDirectImagingMultiple2008}, revealed four massive exoplanets orbiting a young A-type star, marking a milestone in multi-planet imaging. Other examples include $\beta$ Pictoris b \citep{lagrangeGiantPlanetImaged2010} and 51 Eridani b \citep{macintoshDiscoverySpectroscopyYoung2015}, both of which have become benchmark systems for understanding the atmospheres of young gas giants. More recently, the James Webb Space Telescope (JWST) and ground-based instruments such as SPHERE on the Very Large Telescope (VLT) and GPI on Gemini South have expanded the scope of direct imaging, achieving higher contrasts and enabling spectroscopy of fainter, cooler companions such as HIP 65426 b \citep{carterJWSTEarlyRelease2023}.
+Direct imaging has achieved several notable successes since its first confirmed detections in the early 2000s. The HR 8799 system, imaged by \citet{maroisDirectImagingMultiple2008}, revealed four massive exoplanets orbiting a young A-type star, marking a milestone in multi-planet imaging. Other examples include $\beta$ Pictoris b \citep{lagrangeGiantPlanetImaged2010} and 51 Eridani b \citep{macintoshDiscoverySpectroscopyYoung2015}, both of which have become benchmark systems for understanding the atmospheres of young gas giants. More recently, the James Webb Space Telescope (JWST) \textbf{[ADD FOOTNOTE]} and ground-based instruments such as SPHERE \textbf{[ADD FOOTNOTE]} on the Very Large Telescope (VLT) \textbf{[ADD FOOTNOTE]} and GPI \textbf{[ADD FOOTNOTE]} on Gemini South have achieved higher contrasts and enabled spectroscopy of fainter, cooler companions such as HIP 65426 b \citep{carterJWSTEarlyRelease2023}.
 
-However, direct imaging faces substantial observational and technical challenges. The primary limitation arises from the extreme contrast between the stellar and planetary fluxes: even a bright exoplanet is typically $10^{9}$ times fainter than its host star \citep{fischerExoplanetDetectionTechniques2014b}. The dominant obstacle is the \textit{point spread function} (PSF), which is the diffraction pattern created by the telescope optics. The PSF spreads starlight over the detector and can easily obscure faint companions \citep{fischerExoplanetDetectionTechniques2014b}. PSFs come in various shapes, ranging from circular rings around the point source to more complex shapes depending on the specifics of the telescope aperture \citep{fischerExoplanetDetectionTechniques2014b}. Various image processing techniques are employed to enhance the visibility of the exoplanet against the stellar background. These techniques can be broadly categorized into \textit{preprocess} and \textit{postprocess} methods.
+However, direct imaging faces substantial observational and technical challenges. The primary limitation arises from the extreme contrast between the stellar and planetary brightness: even a bright exoplanet is typically $10^{9}$ times fainter than its host star \citep{fischerExoplanetDetectionTechniques2014b}. A dominant obstacle is also the \textit{point spread function} (PSF), which is the diffraction pattern created by the telescope optics \citep{fischerExoplanetDetectionTechniques2014b}. The PSF spreads starlight over the detector and can easily obscure faint companions \citep{fischerExoplanetDetectionTechniques2014b}. PSFs come in various shapes, ranging from circular Airy rings to more complex forms depending on the specifics of the telescope aperture \citep{fischerExoplanetDetectionTechniques2014b}. Various image processing techniques are employed to enhance the visibility of the exoplanet against the stellar background. These techniques can be broadly categorized into \textit{preprocessing} and \textit{postprocessing} methods.
 
-\subsubsection{Preprocess methods}
+\subsubsection{Preprocessing methods}
 
-Preprocess methods aim to modify the incoming light before it reaches the detector, reducing the intensity of the PSF and improving the contrast between the star and the exoplanet. Originally, PSF subtraction was done using a \textit{coronagraph}, developed by \citet{lyotStudySolarCorona1939}. This optical device is placed in the light path of the telescope to block out the light from the central star, allowing the much dimmer light from surrounding objects, such as exoplanets, to become promiment. This reduces the intensity of the central star by up to 2 orders of magnitude \citep{chauvinDirectImagingExoplanets2023}.
+Preprocessing methods aim to reduce the intensity of the central PSF and improve the contrast between the star and the exoplanet. This was first performed using a \textit{coronagraph} \citep{lyotStudySolarCorona1939}. This optical device is placed in the light path of the telescope to block out the light from the central star, allowing the much dimmer light from surrounding objects, such as exoplanets, to become more promiment. This reduces the intensity of the central star by up to 2 orders of magnitude \citep{chauvinDirectImagingExoplanets2023}.
 
-Changing the shape of the telescope aperture can also change the shape of the PSF into simpler shapes. \citet{zanoniReductionDiffractedLight1965} argue for the usage of a square aperture, constaining the PSF to the \textit{x} and \textit{y-axes} and suppressing the diagonals, which reduce the intensity of the PSF by four orders of magnitude.
+Changing the shape of the telescope aperture can also advantageously change the shape of the PSF. \citet{zanoniReductionDiffractedLight1965} argue for a square aperture, thereby constaining the PSF to the \textit{x} and \textit{y}-axes and suppressing the diagonals, which reduce the intensity of diffracted light from the central star by four orders of magnitude.
 
-Modern preprocess methods include \textit{apodization}, which is a technique to reduce the brightness of the PSF without blocking out the host star. This is accomplished through altering the shape and transmission of a telescope aperture \citep{nisensonDetectionEarthlikePlanets2001}. A number of apodization techniques are used, ranging from pupil-plane masks \citep{reddyApodizationPupilsDesign2018}, to phase-induced approaches \citep{guyonExoplanetImagingPhaseinduced2005}.
+Modern preprocessing methods include \textit{apodization}, which is a technique to reduce the brightness of the PSF without blocking out the host star. This is accomplished by altering the shape and transmission of a telescope aperture \citep{nisensonDetectionEarthlikePlanets2001}. A number of apodization techniques are used, ranging from pupil-plane masks \citep{reddyApodizationPupilsDesign2018}, to phase-induced approaches \citep{guyonExoplanetImagingPhaseinduced2005}.
 
-\subsubsection{Postprocess methods}
+\subsubsection{Postprocessing methods}
 
-Once an image has been acquired, postprocess methods play a crucial role in distinguishing faint planetary signals from residual starlight. These techniques operate on the recorded data to suppress the PSF of the host star by constructing and subtracting a model representation of the starlight pattern, revealing features masked by the intense starlight \citep{lafreniereNewAlgorithmPoint2007}. A simple approach is \textit{reference differential imaging} (RDI), which involves taking images of a reference star with similar properties to the target star. The reference PSF is then subtracted from the target image to remove the stellar contribution \citep{folletteIntroductionHighContrast2023}. However, in the presence of temporal variations in the atmosphere and instrument, RDI may not accurately capture the PSF variations, leading to residual artifacts.
+Once an image has been acquired, postprocessing methods play a crucial role in distinguishing faint planetary signals from residual starlight. These techniques operate on the recorded data to remove the effect of the PSF, revealing features masked by the intense starlight \citep{lafreniereNewAlgorithmPoint2007}. A simple approach is \textit{reference differential imaging} (RDI), which involves taking images of a reference star with similar properties to the target star. The reference image is then subtracted from the target image to remove the stellar contribution \citep{folletteIntroductionHighContrast2023}. However, in the presence of temporal variations in the atmosphere and instrument, RDI may not accurately capture the PSF variations, leading to residual artifacts.
 
-To account for this, more advanced techniques such as \textit{angular differential imaging} (ADI) and \textit{spectral differential imaging} (SDI) have been developed. ADI leverages the rotation of the field of view during observations to distinguish between static PSF features and rotating planetary signals \citep{maroisAngularDifferentialImaging2006}. SDI, on the other hand, exploits the spectral differences between the star and planet by observing at multiple wavelengths, allowing for differential subtraction based on color contrasts \citep{folletteIntroductionHighContrast2023}.
+To account for this, more advanced techniques such as \textit{angular differential imaging} (ADI) \citep{maroisAngularDifferentialImaging2006} and \textit{spectral differential imaging} (SDI) \citep{folletteIntroductionHighContrast2023} have been developed. ADI leverages the rotation of the field of view during observations to distinguish between static PSF features and rotating planetary signals \citep{maroisAngularDifferentialImaging2006}. SDI, on the other hand, exploits the spectral differences between the star and planet by observing at multiple wavelengths, allowing for differential subtraction based on color contrasts \citep{folletteIntroductionHighContrast2023}.
 
-In addition to these methods, statistical PSF modeling techniques have become widely adopted. Locally Optimized Combination of Images (LOCI) \citep{lafreniereNewAlgorithmPoint2007} constructs a linear combination of reference frames that minimizes residual noise within localized regions of the image. Later methods such as Principal Component Analysis (PCA) or Karhunen-Loève Image Projection (KLIP) extended this concept, representing the PSF as a combination of orthogonal basis images derived from large reference libraries \citep{folletteIntroductionHighContrast2023}.
+In addition to these methods, statistical PSF modeling techniques have become widely adopted. Locally Optimized Combination of Images (LOCI) \citep{lafreniereNewAlgorithmPoint2007} constructs a linear combination of reference frames that minimizes residual noise within localized regions of the image. Principal Component Analysis (PCA) or Karhunen-Loève Image Projection (KLIP) extended this concept, representing the PSF as a combination of orthogonal basis images derived from large reference libraries \citep{folletteIntroductionHighContrast2023}.
 
 \subsection{Challenges}
 
-Even after filtering out the stellar PSF, several challenges remain in the direct imaging of exoplanets. One major challenge is the presence of \textit{speckle noise}, which arises from residual wavefront errors (microscopic impoerfections in the telescope lense) and residual atmospheric turbulence. Instead of adding on to the smooth PSF, these errors create discrete speckles can mimic the appearance of point sources, making it difficult to distinguish between true planetary signals and noise artifacts \citep{fischerExoplanetDetectionTechniques2014b}. Furthermore, overfiltering during PSF subtraction can lead to \textit{self-subtraction}, where part of the planet's signal is inadvertently removed along with the stellar PSF, leading to \textit{non-detections} \citep{kaushikExoplanetDetectionDetailed2024}. This effect is particularly pronounced for planets located close to their host stars, where the PSF is most intense.
+Even after filtering out the stellar emission, several challenges remain in the direct imaging of exoplanets. One major challenge is the presence of \textit{speckle noise}, which arises from residual wavefront errors (microscopic imperfections in the telescope aperture) and residual refractive atmospheric \citep{fischerExoplanetDetectionTechniques2014b}. These errors create discrete speckles that can mimic the appearance of point sources, making it difficult to distinguish between true planetary signals and noise artifacts \citep{fischerExoplanetDetectionTechniques2014b}. Furthermore, overfiltering during PSF subtraction can lead to \textit{self-subtraction}, where part of the planet's signal is inadvertently removed along with the stellar PSF, leading to \textit{non-detections} \citep{kaushikExoplanetDetectionDetailed2024}. This effect is particularly pronounced for planets located close to their host stars.
 
-Rather than relying solely on algorithmic subtraction, modern analyses construct generative residual models of the image, allowing the use of Bayesian hypothesis testing and MCMC sampling to infer contrasts, spectra, and uncertainties \citep{ruffioBayesianFrameworkExoplanet2018}. In the next stage, we adopt a correlated-noise likelihood and physically motivated priors to evaluate planet-versus-no-planet hypotheses across the field, yielding posterior detection maps and upper limits that are robust to speckle statistics and algorithmic throughput losses.
+Rather than relying solely on algorithmic subtraction, modern postprocessing analyses construct generative residual models of the image, allowing the use of Bayesian hypothesis testing and MCMC sampling to infer contrasts, spectra, and uncertainties \citep{ruffioBayesianFrameworkExoplanet2018}. In the next stage, we adopt a correlated-noise likelihood and physically motivated priors to evaluate planet-versus-no-planet hypotheses across the imaged field, yielding posterior detection maps and upper limits that are robust to speckle statistics and algorithmic throughput losses.
 
 \appendix
 \section[Appendix A]{Radial Velocity Brute-Force Approach}
