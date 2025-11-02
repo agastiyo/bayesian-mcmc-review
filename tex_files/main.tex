@@ -95,9 +95,9 @@ The wider adoption of Bayesian statistics in astronomy gained momentum in the la
 
 We review here Bayesian inference and MCMC within an astrophysical perspective because of their flexibility, principled uncertainty quantification, and growing ubiquity across astrophysics. In \hyperref[sec:Methodology]{Section II}, the methodology section develops a working foundation: here we review Bayesian statistics, priors, and likelihood construction in realistic astronomical settings. We cover toy examples before escalating to domain-relevant formulations. Then, we introduce Monte Carlo methods and build to Markov Chain Monte Carlo, deriving the Metropolis family and related samplers, providing step-by-step Python implementations on simple problems.
 
-\hyperref[sec:CaseStudies]{Section III} presents three focused case studies that illustrate how Bayesian–MCMC pipelines advance frontiers in different subfields. For exoplanet direct detection, the section outlines the observational context and the central challenge of disentangling planetary signals from stellar activity and disk structure in direct imaging. It then outlines joint stellar–planet modeling with Gaussian processes and Bayesian classification frameworks for robust detections and non-detections, highlighting benefits and failure modes in low SNR regimes. For CMB parameter estimation, we consider geometric degeneracies in the power spectrum and shows how MCMC accelerators and parallelizable frameworks enable efficient exploration and evidence calculations, including tradeoffs between sampler sophistication and wall-clock efficiency. For gravitational-wave inference, we consider waveform fitting in high-dimensional parameter spaces, discuss the cost of likelihood evaluations, and motivate gradient-informed MCMC strategies that reduce computation without compromising accuracy.
+The next three sections present focused case studies that illustrate how Bayesian–MCMC pipelines advance frontiers in different subfields. \hyperref[sec:CaseStudies_DirectImaging]{Section III} outlines the observational context and challenges facing the direct detection of exoplanets, such as disentangling planetary signals from stellar activity, classifying threshold for non-detections, and classifying imaged exoplanets. It then outlines the methodology and advantages of Bayesian solutions to these problems. \hyperref[sec:CaseStudies_CMB]{Section IV} covers CMB parameter estimation, considering geometric degeneracies in the power spectrum and showing how MCMC accelerators and parallelizable frameworks enable efficient exploration and evidence calculations, including tradeoffs between sampler sophistication and wall-clock efficiency. Finally, \hyperref[placeholder]{Section V} deals with gravitational-wave inference, considering waveform fitting in high-dimensional parameter spaces, the cost of likelihood evaluations, and motivates gradient-informed MCMC strategies that reduce computation without compromising accuracy.
 
-Finally, in \hyperref[placeholder]{Section IV} and \hyperref[placeholder]{V} we compare cases where Bayesian–MCMC excels with those where complementary methods are more appropriate, identify methodological gaps revealed by the case studies, and outline opportunities for future work in astrophysics and related fields that face similar statistical and computational challenges.
+Finally, in \hyperref[placeholder]{Section VI} and \hyperref[placeholder]{VII} we compare cases where Bayesian–MCMC excels with those where complementary methods are more appropriate, identify methodological gaps revealed by the case studies, and outline opportunities for future work in astrophysics and related fields that face similar statistical and computational challenges.
 
 \section{Methodology}
 \label{sec:Methodology}
@@ -459,7 +459,7 @@ Using Bayesian inference and MCMC in astrophysics is far more complex than the r
 In the following sections, we will explore some case studies where Bayesian inference and MCMC have been successfully applied, including exoplanet detection, cosmological parameter estimation, and gravitational wave data analysis.
 
 \section{Direct Imaging of Exoplanets}
-\label{sec:CaseStudies}
+\label{sec:CaseStudies_DirectImaging}
 
 \subsection{Introduction}
 
@@ -489,9 +489,11 @@ In addition to these methods, statistical PSF modeling techniques have become wi
 
 \subsection{Challenges}
 
-Even after filtering out the stellar emission, several challenges remain in the direct imaging of exoplanets. One major challenge is the presence of \textit{speckle noise}, which arises from residual wavefront errors (microscopic imperfections in the telescope aperture) and residual refractive atmospheric \citep{fischerExoplanetDetectionTechniques2014b}. These errors create discrete speckles that can mimic the appearance of point sources, making it difficult to distinguish between true planetary signals and noise artifacts \citep{fischerExoplanetDetectionTechniques2014b}. Furthermore, overfiltering during PSF subtraction can lead to \textit{self-subtraction}, where part of the planet's signal is inadvertently removed along with the stellar PSF, leading to \textit{non-detections} \citep{kaushikExoplanetDetectionDetailed2024}. This effect is particularly pronounced for planets located close to their host stars.
+Even after filtering out the stellar emission, several challenges remain in the direct imaging of exoplanets. One major challenge is the presence of \textit{speckle noise}, which arises from residual wavefront errors (microscopic imperfections in the telescope aperture) and residual refractive atmospheric \citep{fischerExoplanetDetectionTechniques2014b}. These errors create discrete speckles that can mimic the appearance of point sources, making it difficult to distinguish between true planetary signals and noise artifacts \citep{fischerExoplanetDetectionTechniques2014b}. Furthermore, overfiltering during PSF subtraction can lead to \textit{self-subtraction}, where part of the planet's signal is inadvertently removed along with the stellar PSF, leading to \textit{non-detections} \citep{kaushikExoplanetDetectionDetailed2024}. This effect is particularly pronounced for planets close to their host stars.
 
-Rather than relying solely on algorithmic subtraction, modern postprocessing analyses construct generative residual models of the image, allowing the use of Bayesian hypothesis testing and MCMC sampling to infer contrasts, spectra, and uncertainties \citep{ruffioBayesianFrameworkExoplanet2018}. In the next stage, we adopt a correlated-noise likelihood and physically motivated priors to evaluate planet-versus-no-planet hypotheses across the imaged field, yielding posterior detection maps and upper limits that are robust to speckle statistics and algorithmic throughput losses.
+The spectroscopic analysis of directly imaged exoplanets is also complicated by the amount of observational time required to obtain sufficient data to classify planetary features \citep{ruaneDeepImagingSearch2017}. The faintness of exoplanets relative to their host stars means that long integration times are often necessary to achieve the desired signal-to-noise ratio for spectral characterization \citep{bixelIdentifyingExoEarthCandidates2019}. This is further exacerbated by the need to observe multiple spectral bands to capture the full range of atmospheric features, which can be time-consuming and resource-intensive.
+
+Bayesian inference and MCMC methods provide a powerful framework to address these challenges in direct imaging. Rather than relying solely on algorithmic subtraction, modern postprocessing analyses construct generative residual models of the image, allowing the use of Bayesian hypothesis testing and MCMC sampling to infer contrasts, spectra, and uncertainties \citep{ruffioBayesianFrameworkExoplanet2018}. Monte Carlo is also used to determine high-priority exoplanets for follow-up spectroscopic observations based on their inferred atmospheric properties \citep{bixelIdentifyingExoEarthCandidates2019}.
 
 \subsection{Bayesian Classification of Non-Detections}
 
@@ -579,7 +581,56 @@ After integrating over all values of $S$, the Bayesian upper limit on the planet
 
 \textbf{[Explain Bayesian model comparison in methodology before writing this section, if it is decided to be included.]}
 
-\section{Bayesian Classification of Exo-Earths}
+\subsection{Bayesian Classification of Exo-Earths}
+
+A poignant advantage of direct imaging that it allows for spectroscopic characterization of exoplanet atmospheres \citep{currieDirectImagingSpectroscopy2023}. This is particularly important for the detection of biosignatures, which are spectral features that indicate the presence of life. Common biosignatures include oxygen, ozone, methane, and water vapor \citep{seagerListMoleculesPotential2016}. The detection of these features in the atmosphere of an exoplanet could indicate the presence of life, or as evidence for the exoplanet's habitability.
+
+Two telescopes currently in development, the Habitable Exoplanet Observatory (HabEx) \textbf{[ADD FOOTNOTE]} and the Large UV/Optical/IR Surveyor (LUVOIR) \textbf{[ADD FOOTNOTE]}, aim to directly image Earth-like exoplanets, with an expected yield of dozens of exo-Earths. However, exo-Earth detection suffers from a false-positive rate of up to 77\% when using detection data from a single spectral band, and 47\% with prior constrains on the planet's orbit \citep{guimondDirectImagingSearch2018}. Furthermore, reducing the false-positive rate by collecting data from more bands is a time-consuming process, up to days or weeks per target \citep{bixelIdentifyingExoEarthCandidates2019}.
+
+In order to minimize the telescope time required to confirm exo-Earth candidates (EECs), \citet{bixelIdentifyingExoEarthCandidates2019} developed a Monte Carlo framework to optimize the observing strategy for direct imaging missions. This framework uses Bayesian inference to classify EECs based on their observed spectra, allowing for the prioritization of targets for follow-up observations. The methodology of this is covered in this section.
+\begin{deluxetable}{lll}
+  \tablewidth{0pt}
+  \tablenum{3}
+  \tablehead{
+    \colhead{Case} & \colhead{Description} & \colhead{Information Gained}
+  }
+  \startdata
+    $1$ & Direct imaging detection in a single band & \\
+    $2$ & + Radial velocity observations & Period and semi-amplitude \\
+    $3$ & + Observations of a debris disk & Orbital inclination \\
+    $4$ & + Multiple direct imaging epochs & Phase, semi-major axis, eccentricity \\
+    $5$ & + Astromentry data & Mass \\
+    $6$ & + Color information from multiple bands & Color-based discrimination\\
+    $7$ & All of the above &
+  \enddata
+  \caption{The observables used to classify exo-Earth candidates. Each case adds additional information to the previous case, with case 7 being the most comprehensive.}
+  \label{tab:observables}
+\end{deluxetable}
+
+The framework compares two competing hypotheses: that the planet is an EEC, or that it is not. The comparison uses both the intrinsic properties $\theta$ (properties that determine if a planet is an EEC) and the observable quantities $x$ shown in \autoref{tab:observables}. Mathematically, we can write this as a posterior probability using Bayes' Theorem:
+\begin{equation}
+  P(\theta|x) = \frac{P(x|\theta)P(\theta)}{P(x)}
+\end{equation}
+
+To determine the prior $P(EEC)$, a Monte Carlo population of simulated planetary systems was constructed. Each simulated planet was assigned a radius, mass, orbital period, eccentricity, and albedo drawn from the Kepler occurrence rates. From these properties, the corresponding observable quantities $x_{sim}$ were calculated, producing a prior sample of what future imaging surveys are likely to detect.
+
+The likelihood $P(x|\theta)$ is calculated by comparing real observed quantities $x_{obs}$ to the simulated quantities $x_{sim}$ using a Gaussian distribution:
+\begin{equation}
+  P(x|\theta) = \prod_i \exp\left(\frac{(x_{obs,i} - x_{sim,i})^2}{2\sigma_{obs,i}^2}\right)
+\end{equation}
+where $\sigma_{obs,i}$ is the uncertainty in the observed quantity $x_{obs,i}$.
+
+The evidence $P(x)$ is a normalization constant, calculated by integrating over all values of $\theta$:
+\begin{equation}
+  P(x) = \int P(x|\theta)P(\theta) d\theta
+\end{equation}
+
+The posterior probability $P(\theta|x)$ can then be used to classify the planet as an EEC or not. For each detected planet, the subset of simulated planets consistent with its observed brightness and separation (within measurement uncertainties) is identified, and the distribution of their physical properties defines the posterior. A threshold probability can be set, above which the planet is classified as an EEC, and below which it is classified as a non-EEC. This allows for the prioritization of targets for follow-up observations, reducing the telescope time required to confirm EECs.
+
+Overall, \citet{bixelIdentifyingExoEarthCandidates2019} found that with single-band detections alone, even genuine exo-Earths cannot be identified with high confidence—typical posterior probabilities were below 50\%. However, adding incorporating more information about the exoplanet provides an additional powerful discriminant between Earth-like and non-habitable planets. In Case 7 (the most data-rich scenario), the average confidence in correctly identifying exo-Earths exceeded 80–85\%. This is equivalent to reducing the false-positive rate to below 20\%, a significant improvement over direct imaging alone.
+
+\section{Cosmic Microwave Background Analysis}
+\label{sec:CaseStudies_CMB}
 
 \appendix
 \section[Appendix A]{Radial Velocity Brute-Force Approach}
