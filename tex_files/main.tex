@@ -629,8 +629,65 @@ The posterior probability $P(\theta|x)$ can then be used to classify the planet 
 
 Overall, \citet{bixelIdentifyingExoEarthCandidates2019} found that with single-band detections alone, even genuine exo-Earths cannot be identified with high confidence—typical posterior probabilities were below 50\%. However, adding incorporating more information about the exoplanet provides an additional powerful discriminant between Earth-like and non-habitable planets. In Case 7 (the most data-rich scenario), the average confidence in correctly identifying exo-Earths exceeded 80–85\%. This is equivalent to reducing the false-positive rate to below 20\%, a significant improvement over direct imaging alone.
 
-\section{Cosmic Microwave Background Analysis}
+\section{CMB Parameter Estimation}
 \label{sec:CaseStudies_CMB}
+
+\subsection{Introduction}
+
+The Cosmic Microwave Background (CMB) is the residual thermal radiation from the Big Bang, permeating the entire universe. It provides a snapshot of the universe when it was just 380,000 years old, offering invaluable insights into its early conditions, composition, and evolution \citep{staggsRecentDiscoveriesCosmic2018}. The CMB is remarkably uniform, with temperature fluctuations at the level of one part in 100,000. These tiny anisotropies, discovered by \citet{smootStructureCOBEDifferential1992}, encode information about the density fluctuations that eventually led to the formation of galaxies and large-scale structures in the universe \citep{planckcollaborationPlanck2018Results2020}. Such structures have been attributed to the gravitational collapse of primordial overdensities, which are believed to have originated from quantum fluctuations during the inflationary epoch \citep{guthInflationaryUniversePossible1981}. These overdensities are described by a power spectrum $P(k)$, which quantifies the amplitude of fluctuations as a function of spatial scale (wavenumber $k$) \citep{staggsRecentDiscoveriesCosmic2018}.
+
+The analysis of CMB data has been instrumental in establishing the standard model of cosmology, known as the Lambda Cold Dark Matter ($\Lambda$CDM) model. This model posits that the universe is composed of approximately 5\% ordinary matter, 27\% dark matter, and 68\% dark energy \citep{planckcollaborationPlanck2015Results2016}. $\Lambda$CDM is based on six fundamental parameters: the physical densities of baryons ($\Omega_b h^2$) and cold dark matter ($\Omega_c h^2$), the angular size of the sound horizon at recombination ($\theta_s$), the optical depth due to reionization ($\tau$), the amplitude of the primordial power spectrum ($A_s$), and the scalar spectral index ($n_s$) \citep{planckcollaborationPlanck2018Results2020}. The final Planck analysis provides the most precise measurements of these parameters to date, with uncertainties at the sub-percent level for most parameters \citep{planckcollaborationPlanck2018Results2020}. The values are shown in \autoref{tab:planck_params}.
+\begin{deluxetable}{lll}
+  \tablewidth{0pt}
+  \tablenum{4}
+  \tablehead{
+    \colhead{Parameter} & \colhead{Value} & \colhead{Description}
+  }
+  \startdata
+    $\Omega_b h^2$ & $0.0224 \pm 0.0001$ & Physical baryon density \\
+    $\Omega_c h^2$ & $0.120 \pm 0.001$ & Physical cold dark matter density \\
+    $\theta_s$ & $0.01041 \pm 0.00001$ & Angular size of sound horizon \\
+    $\tau$ & $0.054 \pm 0.007$ & Optical depth to reionization \\
+    $\ln(10^{10} A_s)$ & $3.044 \pm 0.014$ & Amplitude of primordial power spectrum \\
+    $n_s$ & $0.9649 \pm 0.0042$ & Scalar spectral index \\
+  \enddata
+  \caption{The six parameters of the $\Lambda$CDM model as measured by the Planck satellite \citep{planckcollaborationPlanck2018Results2020}.}
+  \label{tab:planck_params}
+\end{deluxetable}
+
+\subsection{Challenges}
+
+Despite the remarkable success of CMB observations in constraining the six-parameter $\Lambda$CDM model, extracting cosmological parameters with greater precision from CMB data confronts several substantial challenges that complicate the analysis.
+
+The most fundamental challenge arises from geometric and acoustic degeneracies among cosmological parameters. Since the CMB power spectrum encodes information about how sound waves propagate through the early universe, different combinations of parameters can produce nearly indistinguishable anisotropy patterns \citep{efstathiouCosmicConfusionDegeneracies1999}. The primary geometric degeneracy relates the angular size of the sound horizon at recombination $r_s$ to the comoving anglular-diameter distance $D_A(z_*)$ through combinations of total matter density $\Omega_m$, dark energy density $\Omega_\Lambda$, and the Hubble parameter $H_0$ \citep{efstathiouCosmicConfusionDegeneracies1999}, where
+\begin{equation*}
+  \Omega_m = \frac{\Omega_b h^2 + \Omega_c h^2}{h^2} \qquad \text{and} \qquad \Omega_\Lambda = 1 - \Omega_m - \Omega_k
+\end{equation*}
+where $\Omega_k$ is the curvature density, which is consistent with zero based on CMB observations \citep{planckcollaborationPlanck2018Results2020}. This means that increasing $\Omega_\Lambda$ while simultaneously reducing $\Omega_m$ in the right proportion keeps the position of acoustic peaks nearly unchanged, producing a strong correlation between these parameters.
+
+Furthermore, extracting the six $\Lambda$CDM parameters from CMB data requires sampling from a high-dimensional posterior probability distribution in the presence of strong parameter correlations. MCMC methods are the standard approach, but they face significant computational challenges when the number of dimensions exceeds six or seven \citep{wandeltStatisticalChallengesCosmic2003}. This is beacause the likelihood function for CMB data is extremely complex, with each likelihood evaluation requiring running a relativistic Boltzmann solver (such as CAMB or CLASS) to generate predicted CMB power spectra as a function of proposed parameters \citep{wandeltStatisticalChallengesCosmic2003,aricoAcceleratingLargeScaleStructureData2022}. For high-precision analyses, millions of likelihood evaluations may be required to adequately sample the posterior, leading to total computation times of weeks or months on high-performance computing clusters.
+
+CMB cosmology stands at the frontier of precision: the challenges of parameter degeneracies and computational complexity must be overcome to extract maximal science return from exquisite measurements. Future missions such as CMB-S4 \textbf{[ADD FOOTNOTE]}, LiteBIRD\textbf{[ADD FOOTNOTE]}, and Simons Observatory\textbf{[ADD FOOTNOTE]} will push sensitivity and resolution further, demanding ever-more sophisticated data analysis strategies and highlighting the necessity of MCMC and Bayesian methods for robustly inferring fundamental cosmological parameters \citep{dunkleyFastReliableMarkov2005}. In order to meet these challenges, improvements to MCMC algorithms have been proposed to reduce the computational cost of building likelihoods with Boltzmann solvers \citep{akeretCosmoHammerCosmologicalParameter2013}. On the other hand, novel methods such as Bayesian Neural Networks (BNNs) respresent a divergence from traditional MCMC appriaches \citep{hortuaParameterEstimationCosmic2020}.
+
+\subsection{Optimizations to MCMC}
+
+Traditionally, CMB parameter estimation has relied on MCMC methods such as the Metropolis-Hastings algorithm. \citet{lewisCosmologicalParametersCMB2002} developed CosmoMC, a widely used MCMC engine specifically designed for cosmological parameter estimation from CMB data, based on the Metropolis-Hastings algorithm and the Boltzmann solver CAMB \citep{lewisEfficientComputationCosmic2000}. While CosmoMC has been highly successful, it faces significant computational challenges due to the high dimensionality of the parameter space and the complexity of the likelihood function \citep{akeretCosmoHammerCosmologicalParameter2013}. Metropolis-based MCMC methods reqire the evaluation of the likelihood function at each proposed step, which involves running a Boltzmann solver to generate predicted CMB power spectra. This can be computationally expensive, especially when millions of likelihood evaluations are needed to adequately sample the posterior distribution \citep{wandeltStatisticalChallengesCosmic2003}.
+
+To address these challenges, \citet{akeretCosmoHammerCosmologicalParameter2013} developed CosmoHammer, an MCMC framework that leverages parallel computing to accelerate the sampling process. CosmoHammer uses the affine-invariant ensemble sampler implemented in the \texttt{emcee} package \citep{foreman-mackeyEmceeMCMCHammer2013}, which is well-suited for high-dimensional parameter spaces with strong correlations. The methodology of CosmoHammer is covered in this section.
+
+Given a prior $q(\theta)$ and a likelihood function $\mathcal{L}(\theta)$, the posterior distribution is given by Bayes' Theorem:
+\begin{equation}
+  P(\theta) \propto \mathcal{L}(\theta) q(\theta)
+\end{equation}
+In this case, $\theta$ represents the set of cosmological parameters being estimated. The evidence has been omitted, as it is a normalization constant that does not affect the sampling process.
+
+$\mathcal{L}(\theta)$ depends on the CMB power spectra, which can only be evaluated numerically via a Boltzmann solver such as CAMB, which has alread been established to be computationally expensive at large scales. To mitigate this, a parellelized approach is used based on the GW algorithm \citep{goodmanEnsembleSamplersAffine2010}, where multiple chains (or \textit{walkers}) are run simultaneously on different processors, and the \texttt{emcee} package \citep{foreman-mackeyEmceeMCMCHammer2013}, which further optimizes likelihood evaluations by dividing walkers into two groups that update their positions based on the other group's positions. This allows for efficient exploration of the parameter space while minimizing the number of Boltzmann solvers required.
+
+CosmoHammer wraps the \texttt{emcee} sampler and CAMB Boltzmann solver into a modular framework that can be easily deployed on high-performance computing clusters. The framework allows for the parallel execution of multiple walkers, with each walker evaluating the likelihood function independently on a separate processor. This parallelization significantly reduces the overall computation time required to sample the posterior distribution. Furthermore, CosmoHammer includes features such as adaptive step sizes and convergence diagnostics to ensure efficient sampling and reliable parameter estimates.
+
+CosmoHammer achieves comparable statistical precision to CosmoMC for while dramatically reducing wall-clock time by exploiting ensemble parallelism. With 350 walkers and 250 post-burn-in steps (87,500 samples), CosmoHammer attains mean errors around 3.4\% of each parameter's marginal standard deviation. CosmoMC achieves similar precision with 35,000 post-burn-in samples, but it pays substantial tuning overhead if not pre-tuned, requiring on the order of 2000 adaptation steps before efficient sampling begins. In wall time, analysis that takes ~30 hours on a dual-core laptop with a single long Metropolis-Hastings chain can be completed in ~16 minutes using CosmoHammer on 2048 cores.
+
+\subsection{Bayesian Neural Networks}
 
 \appendix
 \section[Appendix A]{Radial Velocity Brute-Force Approach}
