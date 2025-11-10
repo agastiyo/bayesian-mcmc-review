@@ -95,7 +95,7 @@ The wider adoption of Bayesian statistics in astronomy gained momentum in the la
 
 We review here Bayesian inference and MCMC within an astrophysical perspective because of their flexibility, principled uncertainty quantification, and growing ubiquity across astrophysics. In \hyperref[sec:Methodology]{Section II}, the methodology section develops a working foundation: here we review Bayesian statistics, priors, and likelihood construction in realistic astronomical settings. We cover toy examples before escalating to domain-relevant formulations. Then, we introduce Monte Carlo methods and build to Markov Chain Monte Carlo, deriving the Metropolis family and related samplers, providing step-by-step Python implementations on simple problems.
 
-The next three sections present focused case studies that illustrate how Bayesian–MCMC pipelines advance frontiers in different subfields. \hyperref[sec:CaseStudies_DirectImaging]{Section III} outlines the observational context and challenges facing the direct detection of exoplanets, such as disentangling planetary signals from stellar activity, classifying threshold for non-detections, and classifying imaged exoplanets. It then outlines the methodology and advantages of Bayesian solutions to these problems. \hyperref[sec:CaseStudies_CMB]{Section IV} covers CMB parameter estimation, considering geometric degeneracies in the power spectrum and showing how MCMC accelerators and parallelizable frameworks enable efficient exploration and evidence calculations, including tradeoffs between sampler sophistication and wall-clock efficiency. Finally, \hyperref[placeholder]{Section V} deals with gravitational-wave inference, considering waveform fitting in high-dimensional parameter spaces, the cost of likelihood evaluations, and motivates gradient-informed MCMC strategies that reduce computation without compromising accuracy.
+The next three sections present focused case studies that illustrate how Bayesian–MCMC pipelines advance frontiers in different subfields. \hyperref[sec:CaseStudies_DirectImaging]{Section III} outlines the observational context and challenges facing the direct detection of exoplanets, such as disentangling planetary signals from stellar activity, classifying threshold for non-detections, and classifying imaged exoplanets. It then outlines the methodology and advantages of Bayesian solutions to these problems. \hyperref[sec:CaseStudies_CMB]{Section IV} covers CMB parameter estimation, considering geometric degeneracies in the power spectrum. It explores how parallelizable frameworks for MCMC and Bayesian treatments of neural networks enable efficient posterior calculations, including tradeoffs between sampler sophistication and wall-clock efficiency. Finally, \hyperref[sec:CaseStudies_Other]{Section V} covers a non-exhaustive set of other astrophysical applications, including gravitational wave detection, dark matter searches, and black hole modeling.
 
 Finally, in \hyperref[placeholder]{Section VI} and \hyperref[placeholder]{VII} we compare cases where Bayesian–MCMC excels with those where complementary methods are more appropriate, identify methodological gaps revealed by the case studies, and outline opportunities for future work in astrophysics and related fields that face similar statistical and computational challenges.
 
@@ -688,6 +688,80 @@ CosmoHammer wraps the \texttt{emcee} sampler and CAMB Boltzmann solver into a mo
 CosmoHammer achieves comparable statistical precision to CosmoMC for while dramatically reducing wall-clock time by exploiting ensemble parallelism. With 350 walkers and 250 post-burn-in steps (87,500 samples), CosmoHammer attains mean errors around 3.4\% of each parameter's marginal standard deviation. CosmoMC achieves similar precision with 35,000 post-burn-in samples, but it pays substantial tuning overhead if not pre-tuned, requiring on the order of 2000 adaptation steps before efficient sampling begins. In wall time, analysis that takes ~30 hours on a dual-core laptop with a single long Metropolis-Hastings chain can be completed in ~16 minutes using CosmoHammer on 2048 cores.
 
 \subsection{Bayesian Neural Networks}
+
+Alternatives to MCMC methods involving neural networks have also been proposed for CMB parameter estimation. A typical neural network is a graph of interconnected nodes or \textit{neurons} organized into layers. Each neuron applies a nonlinear activation function to a weighted sum of its inputs, allowing the network to learn complex mappings from inputs to outputs \citep{gurneyIntroductionNeuralNetworks2018}. Neural networks have been used extensively in cosmology for tasks such as model discrimination \citep{schmelzleCosmologicalModelDiscrimination2017} and cosmic string detection \citep{ciucaConvolutionalNeuralNetwork2019}. However, traditional neural networks provide point estimates of parameters without quantifying uncertainties, and they can be prone to overfitting, especially when trained on limited data \citep{hortuaParameterEstimationCosmic2020}. The most promising solution to these issues is the use of Bayesian Neural Networks (BNNs) for parameter estimation \citep{galDropoutBayesianApproximation2016}. In a BNN, the weights of the network are treated as random variables with prior distributions, allowing for uncertainty quantification in the predictions \citep{hortuaParameterEstimationCosmic2020}. The BNN approach to CMB parameter estimation developed by \citet{hortuaParameterEstimationCosmic2020} is covered in this section.
+
+Given the prior distribution over weights $p(w)$ and the likelihood function $p(D|w)$, the posterior distribution over weights given the data $D$ is given by Bayes' Theorem:
+\begin{equation}
+  p(w|D) = \frac{p(D|w) p(w)}{p(D)}
+\end{equation}
+where $P(D)$ is the evidence, which is a normalization constant. If the data consists of input-output pairs $(x,y)$, the likelihood function can be expressed as:
+\begin{equation}
+  p(D|w) = \prod_{i} p(y_i|x_i, w)
+\end{equation}
+where $p(y_i|x_i, w)$ is the probability of observing output $y_i$ given input $x_i$ and weights $w$.
+
+However, computing the posterior distribution over weights is intractable for most neural networks due to the high dimensionality of the weight space. To address this, \citet{hortuaParameterEstimationCosmic2020} employ variational inference, which approximates the true posterior $p(w|D)$ with a simpler distribution $q(w|\theta)$ parameterized by $\theta$. The parameters $\theta$ are optimized by minimizing the Kullback-Leibler (KL) divergence between the true posterior and the approximate distribution:
+\begin{equation}
+  \text{KL}(q(w|\theta) || p(w|D)) = \int q(w|\theta) \ln \frac{q(w|\theta)}{p(w|D)} dw
+\end{equation}
+
+Once the posterior distribution over weights is obtained, predictions for new inputs $x^*$ can be estimated by marginalizing over the weights:
+\begin{equation}
+  p(y^*|x^*, D) = \int p(y^*|x^*, w) p(w|D) dw
+\end{equation}
+The posterior predictive distribution $p(y^*|x^*, D)$ can be estimated by Monte Carlo sampling. This allows the BNN to produce both a mean prediction and credible intervals that reflect epistemic (model-based) and aleatoric (data-based) uncertainties.
+
+To train the networks, 50,000 synthetic full-sky CMB realizations were generated using the Boltzmann solver CLASS and HEALPY. Each realization was projected into $20\times20$ degree patches of $256\times256$ pixels. The model varied three $\Lambda$CDM parameters: baryon density $\Omega_b h^2$, cold dark matter density $\Omega_c h^2$, and the amplitude of the primordial power spectrum $A_s$. Other parameters were fixed to values from \citet{planckcollaborationPlanck2018Results2020}.
+
+BNNs were able to recover the posterior distributions of cosmological parameters with correlations comparable to MCMC methods. Using the best-performing configuration, the network generated thousands of posterior samples in seconds, achieving speedups to the order of $10^4$ over MCMC while maintaining realistic uncertainty estimates.
+
+\section{Other Case Studies}
+\label{sec:CaseStudies_Other}
+
+Beyond the applications covered in \hyperref[sec:CaseStudies_DirectImaging]{Section III} and \hyperref[sec:CaseStudies_CMB]{Section IV}, MCMC methods have been successfully applied to a variety of other astrophysical parameter estimation problems. A non-exhaustive list of such applications includes work in Gravitational Wave paremeter estimation, Dark Matter detection, and Black Hole modeling.
+
+\subsection{Gravitational Wave Parameter Estimation}
+
+Gravitational waves (GWs) are ripples in spacetime caused by accelerating massive objects, such as merging black holes or neutron stars, first detected by \citep{abbottObservationGravitationalWaves2016}. The detection and analysis of GWs provide a new window into the universe, allowing for the study of extreme astrophysical phenomena and tests of general relativity \citep{abbottObservationGravitationalWaves2016}. MCMC methods have been extensively used in GW data analysis to estimate the parameters of GW sources from noisy detector data. These parameters include the masses, spins, sky locations, and distances of the merging objects \citep{christensenParameterEstimationGravitational2022}. The likelihood function for GW data is typically complex, involving the convolution of theoretical waveform models with detector noise characteristics \citep{veitchParameterEstimationCompact2015}. MCMC algorithms, such as the Metropolis-Hastings and Hamiltonian Monte Carlo, have been employed to sample the posterior distributions of source parameters, including masses, spins, and sky locations \citep{christensenParameterEstimationGravitational2022,veitchParameterEstimationCompact2015}.
+
+The key challenge MCMC methods face is the high dimensionality of the parameter space, often exceeding 15 dimensions \citep{christensenParameterEstimationGravitational2022}. Like CMB parameter estimation (see \hyperref[sec:CaseStudies_CMB]{Section IV}), traditional MCMC methods can struggle to efficiently explore such high-dimensional spaces \citep{veitchParameterEstimationCompact2015}. This complexity requires efficient sampling techniques and careful tuning of proposal distributions to ensure convergence and adequate exploration of the posterior.
+
+These challenges have been addressed by optimizing MCMC algorithms for GW data analysis. For example, \citet{wongFastGravitationalWave2023} developed a high-performance Bayesian inference framework by integrating likelihood heterodyning and a gradient-based MCMC sampler to optimize parameter estimation. Likelihood heterodyning reduces the computational cost of evaluating the likelihood function by taking advantage of the fact that waveforms corresponding to nearby points in parameter space are very similar, meaning that their ratio varies smoothly with frequency. By decomposing the likelihood into a fixed, highly oscillatory reference term and a smooth ratio term, the likelihood can be computed accurately using far fewer frequency bins \citep{zackayRelativeBinningFast2018}. This dramatically accelerates likelihood evaluations without loss of precision. The framework also employs a gradient-based MCMC sampler: the Metropolis-adjusted Langevin algorithm (MALA) \citep{grenanderRepresentationsKnowledgeComplex1994}.  MALA uses the gradient of the posterior probability to propose new samples more efficiently. Instead of exploring parameter space through random jumps, it moves preferentially toward regions of higher posterior probability.
+
+In injection-recovery tests of 1,200 synthetic GW signals, the \citet{wongFastGravitationalWave2023} pipeline successfully recovered the injected parameters with statistically consistent credible intervals. When applied to real events, the method produced posterior distributions consistent with previous estimations, but with speedup to the order of $10^3$.
+
+\subsection{Dark Matter Detection}
+
+Dark matter comprises approximately 85\% of the matter in the universe, yet its nature remains one of the most fundamental unsolved problems in physics \citep{cushmanWIMPDarkMatter2013}. Direct detection experiments aim to observe the scattering of dark matter particles, such as weakly interacting massive particles (WIMPs), off atomic nuclei in deep underground detectors such as XENON and LUX \citep{arinaBayesianAnalysisMultiple2014}. Parameter estimation in these experiments involves constraining dark matter particle model parameters such as the WIMP-nucleon scattering cross section, dark matter mass, and interaction type using nuclear recoil energy spectra and event rates \citep{cushmanWIMPDarkMatter2013}.
+
+The primary challenge in dark matter direct detection analysis, as with many other fields, is the computational expense of likelihood function evaluation combined with the high dimensionality of particle physics parameter spaces \citep{cerdenoBayesianTechniqueCombine2025}. To address these challenges, \citet{cerdenoBayesianTechniqueCombine2025} developed  the Truncated Marginal Neural Ratio Estimation (TMNRE) approach. TMNRE avoids explicit likelihood calculations by training neural networks on simulated dark matter scattering data to estimate the likelihood ratio from the data alone, similar to the BNN approach discussed in \hyperref[sec:CaseStudies_CMB]{Section IV}. In validation studies comparing TMNRE with conventional MCMC for WIMP dark matter with spin-dependent and spin-independent interactions with protons and neutrons in xenon experiments, the machine learning approach recovered identical posterior distributions to traditional MCMC but achieved speedups of several orders of magnitude.
+
+\subsection{Black Hole Modeling}
+
+Black holes are among the most extreme objects in the universe, and measuring their fundamental properties provides crucial tests of general relativity and constraints on black hole formation and evolution mechanisms. X-ray reflection spectroscopy has emerged as the leading method for measuring black hole spins in both stellar-mass black holes in X-ray binaries and supermassive black holes in active galactic nuclei (AGN) \citep{reynoldsMonteCarloMarkov2012}. This technique exploits relativistically broadened iron emission lines from black hole accretion disks, where frame-dragging effects depend sensitively on black hole spin \citep{reynoldsMonteCarloMarkov2012}.
+
+Black hole spin measurement via X-ray reflection spectroscopy faces significant challenges from degeneracies between model parameters \citep{reynoldsMonteCarloMarkov2012}. The analysis requires fitting complex spectral models with numerous parameters including black hole spin, accretion disk inclination angle, iron abundance, reflection fraction, and coronal geometry. A critical degeneracy exists between the iron abundance of the innermost accretion disk and the black hole spin parameter: supersolar iron abundances can mimic the spectral signatures of rapid spin, or alternatively, rapid spin can appear less extreme when paired with subsolar iron abundance assumptions.
+
+\citet{reynoldsMonteCarloMarkov2012} employed MCMC-based spectral analysis to address this degeneracy through analysis of high-quality X-ray spectra from the Suzaku satellite for the AGN NGC 3783. The MCMC analysis revealed a strong correlation between iron abundance and black hole spin, demonstrating that assuming solar iron abundance led to biased spin estimates. By allowing iron abundance to vary freely in the MCMC fitting, they obtained a more accurate and reliable measurement of the black hole spin parameter. The analysis concluded that NGC 3783 hosts a rapidly spinning black hole with spin parameter $a > 0.88$, while also constraining the iron abundance to be supersolar at $Z_{\text{Fe}} = 2-4 Z_{\odot}$.
+
+\citet{sisk-reynesEvidenceModerateSpin2022} further applied MCMC-based X-ray reflection spectroscopy to measure the spin of the supermassive black hole in the quasar H1821+643 using data from the Chandra X-ray Observatory. Their MCMC analysis yielded a the first well-defined spin measurement of $a = 0.62^{+0.22}_{-0.37}$, an inclination angle of $i = 44.6^{+3.3}_{-3.3}$, and an iron abundance of $Z_{\text{Fe}} = 1.02^{+1.33}_{-0.38} Z_{\odot}$.
+
+\subsection{Further Case Studies}
+
+Many more applications of Bayesian inference and MCMC methods exist in astrophysics beyond those covered in this review. A few notable examples are listed, along with their references for further reading:
+
+\begin{enumerate}
+  \item Creation of pulsar timing arrays \citep{laiAcceleratedBayesianInference2025}
+  \item Quasar light curve analysis \citep{donnanBayesianAnalysisQuasar2021}
+  \item Asteriod mass estimation \citep{siltalaAsteroidMassEstimation2020}
+\end{enumerate}
+
+Overall, MCMC methods have become indispensable tools across a wide range of astrophysical problems, enabling robust inference in the presence of complex models, high-dimensional parameter spaces, and challenging data characteristics. Despite the computational challenges involved, ongoing methodological advancements continue to expand the applicability and efficiency of MCMC techniques in astrophysics for application to further research.
+
+\section{Discussion}
+
+\section{Conclusion}
 
 \appendix
 \section[Appendix A]{Radial Velocity Brute-Force Approach}
