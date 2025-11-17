@@ -750,18 +750,68 @@ Black hole spin measurement via X-ray reflection spectroscopy faces significant 
 \subsection{Further Case Studies}
 
 Many more applications of Bayesian inference and MCMC methods exist in astrophysics beyond those covered in this review. A few notable examples are listed, along with their references for further reading:
-
 \begin{enumerate}
   \item Creation of pulsar timing arrays \citep{laiAcceleratedBayesianInference2025}
   \item Quasar light curve analysis \citep{donnanBayesianAnalysisQuasar2021}
-  \item Asteriod mass estimation \citep{siltalaAsteroidMassEstimation2020}
+  \item Asteroid mass estimation \citep{siltalaAsteroidMassEstimation2020}
 \end{enumerate}
 
 Overall, MCMC methods have become indispensable tools across a wide range of astrophysical problems, enabling robust inference in the presence of complex models, high-dimensional parameter spaces, and challenging data characteristics. Despite the computational challenges involved, ongoing methodological advancements continue to expand the applicability and efficiency of MCMC techniques in astrophysics for application to further research.
 
 \section{Discussion}
 
+\subsection{Optimization versus Transformation}
+
+The case studies reveal a fundamental pattern: Bayesian-MCMC frameworks are primarily being leveraged to optimize and refine existing research methodologies rather than to fundamentally transform the underlying scientific questions being asked.
+
+In the direct imaging of exoplanets (\hyperref[sec:CaseStudies_DirectImaging]{Section III}), Bayesian inference is applied to enhance the rigor of detection thresholds and to prioritize targets for follow-up observations. Rather than replacing traditional PSF subtraction techniques, Bayesian methods augment these approaches by providing uncertainty quantification and hypothesis testing frameworks. Similarly, in CMB parameter analysis (\hyperref[sec:CaseStudies_CMB]{Section IV}), the introduction of CosmoHammer and ensemble MCMC methods does not change the core physics of parameter estimation. The approaches serve to accelerate computation while remaining faithful to the underlying Boltzmann solvers. \hyperref[sec:CaseStudies_Other]{Section V} further illustrates this pattern: sophisticated MCMC implementations and advanced likelihood engineering reduce computational barriers but preserve the essential physical models and methodologies.
+
+This observation reflects the maturity of the field. In domains where physical theories are well-developed and observational techniques are proven, the role of statistical methods is to extract maximum precision from existing frameworks. The case studies demonstrate that modern astrophysics has largely solved the methodological question of how to do Bayesian inference at scale; the remaining focus is on doing it faster and more efficiently.
+
+As of the time of writing, MCMC methods such as Metropolis-Hastings variants and ensemble samplers remain the standard for Bayesian parameter estimation across astrophysics. This dominance is well-earned: MCMC methods are widely understood and validated against decades of astronomical data. Their robustness in handling complex likelihood functions, multi-modal posteriors, and high-dimensional parameter spaces makes them a reliable tool. Furthermre, tuning MCMC for a well-understood problem is a lower-risk path than adopting untested methods. Researchers can leverage existing codebases, validation protocols, and community expertise. The payoff is immediate and quantifiable—wall-clock time reduced by orders of magnitude translates directly to increased scientific productivity.
+
+\subsection{Competing Paradigms}
+
+Beneath the optimization narrative, a competing methodological paradigm is emerging. The case studies containing Bayesian Neural Networks (Section 4.4) and neural ratio estimation (Section 5.2) represent a departure from traditional MCMC. These approaches do not merely accelerate the existing framework, but replace it with a learned emulator or surrogate model, fundamentally altering how statistical inference is performed.
+
+The results are striking. \citet{hortuaParameterEstimationCosmic2020} achieved 10,000-fold speedups for CMB parameter estimation while maintaining realistic uncertainty quantification. \citet{cerdenoBayesianTechniqueCombine2025} demonstrated that neural ratio estimation recovers identical posterior distributions to MCMC but at speedups of several orders of magnitude. These are far from incremental gains. Instead, Bayesian Neural Networks represent a different regime of computational feasibility.
+
+Yet, these methods have yet to reach a point of general use in astrophysics. The majority of active research continues to refine MCMC pipelines rather than exploring neural network alternatives. This lag may be a result of both institutional inertia and technical questions about the reliability of machine learning methods for novel problems. \citet{hortuaParameterEstimationCosmic2020} outlines a number of concerns about the application of deep learning models in physics, including the models being prone to overfitting and generating unreliable data. Though \citet{hortuaParameterEstimationCosmic2020} studied a Bayesian treatment of these models as a possible solution to these concerns, the BNNs still required large training datasets of simulated data. When confronted with observational regimes that differ substantially from the training domain, the question of these method's applicability remains.
+
+The existence of these competing methodologies, however, creates a decision point for practitioners: when is it scientifically and computationally justified to adopt advanced machine learning approaches over optimized MCMC?
+
+Based on the case studies, MCMC tended to be the optimal choice for when:
+\begin{enumerate}
+  \item The posterior was well-understood:\\When prior physics strongly constrained the parameter space (as in CMB cosmology with the six $\Lambda$CDM parameters), MCMC could be tuned to exploit this structure. The dimensionality remained manageable, and validation was straightforward.
+  \item Likelihood evaluations were not expensive:\\If the bottleneck was not likelihood computation but rather posterior exploration, MCMC techniques provided substantial gains without the overhead of training machine learning models.
+  \item Interpretability and explainability were critical:\\When a clear understanding was required of why particular parameters were inferred, MCMC was the better chouce due to its transparent sampling history. Neural network predictions, on the other hand, acted as a black box.
+\end{enumerate}
+
+On the contrary, machine learning approached were used when likelihood evaluation was the computational bottleneck. When thousands or millions of likelihood evaluations were required, amortizing the cost through pre-trained emulators became optimal. CMB parameter estimation is an example of this: thousands of Boltzmann solver calls justify the upfront investment in training a neural network.
+
+Looking forward, the most likely scenario is not the wholesale replacement of MCMC but rather methodological differentiation based on problem characteristics. Established, well-understood research programs with stable parameter spaces will increasingly adopt neural network-based methods, trading some interpretability for computational efficiency. Frontier research, exploratory studies, and problem domains with evolving theoretical frameworks will retain MCMC as the preferred tool for its transparency and generality.
+
+The field will ultimately benefit from both traditions existing in productive tension. MCMC methods will continue to improve through algorithmic refinement and better proposal engineering. Machine learning approaches will mature through larger training datasets and improved uncertainty quantification. The division of labor will reflect the nature of the science: MCMC for precision measurement and validation; neural networks for throughput and scale.
+
 \section{Conclusion}
+
+Bayesian inference and MCMC methods have become essential infrastructure for contemporary astrophysics. However, these methods are optimizing the existing scientific basis rather than fundamentally transforming it. Whether applied to refining PSF subtraction in direct imaging or accelerating Boltzmann solver calls in cosmology, the statistical machinery operates within well-established theoretical frameworks. The advancement manifests itself by extracting more precision and speed from known physics.
+
+This maturation reflects the field's sophistication. Modern astrophysics has largely resolved the technical question of how to perform Bayesian inference at the scales demanded by contemporary observations. The remaining challenge is methodological: choosing among competing approaches that increasingly offer comparable accuracy with vastly different computational profiles.
+
+The case studies reveal clear patterns in this choice. MCMC retains dominance in established, well-understood research programs where interpretability and generality are valued, and where likelihood evaluations, while expensive, are not the primary bottleneck. Machine learning alternatives emerge as compelling when amortizing computational cost becomes advantageous—in high-dimensional problems. The question is not which method is universally superior, but rather which method best matches the scientific problem at hand.
+
+\subsection{Future Work}
+
+Despite the maturity of MCMC and the promise of machine learning alternatives, the case studies reveal several gaps that neither paradigm has fully addressed.
+
+Firstly, Neither MCMC nor BNNs naturally address scenarios where the physical model itself may be incomplete or incorrect. Both methods assume the model is true and focus on inferring parameters. Developing Bayesian frameworks that simultaneously infer parameters and model uncertainty remains an open frontier.
+
+Furthermore, as surveys like LSST and Rubin Observatory generate unprecedented data volumes, the question becomes not just how to estimate parameters for individual sources but how to allocate computational resources across millions of sources, some of which may be faint or unusual. This problem of combining statistical efficiency with practical resource management has not been comprehensively addressed by either MCMC or neural network approaches.
+
+Bayesian inference through MCMC has established itself as a cornerstone methodology in astrophysics: reliable across diverse applications, adaptable to novel problems, and increasingly augmented by machine learning alternatives. While these methods will not fundamentally alter the underlying physics being studied, they have transformed how that physics is evaluated. MCMC provides a principled computational framework that converts complex observational data into quantitative constraints on physical models, enabling discoveries that observations alone cannot reveal.
+
+Future astrophysics will demand both the interpretability and robustness of MCMC and the scalability and efficiency of machine learning approaches. The most productive path forward lies in recognizing these as complementary rather than competing paradigm. As astronomical surveys and physical simulations grow increasingly sophisticated, the ability to fluently deploy multiple inference strategies will distinguish the most effective research programs.
 
 \appendix
 \section[Appendix A]{Radial Velocity Brute-Force Approach}
