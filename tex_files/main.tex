@@ -489,27 +489,27 @@ In addition to these methods, statistical PSF modeling techniques have become wi
 
 \subsection{Challenges}
 
-Even after filtering out the stellar emission, several challenges remain in the direct imaging of exoplanets. One major challenge is the presence of \textit{speckle noise}, which arises from residual wavefront errors (microscopic imperfections in the telescope aperture) and residual refractive atmospheric \citep{fischerExoplanetDetectionTechniques2014b}. These errors create discrete speckles that can mimic the appearance of point sources, making it difficult to distinguish between true planetary signals and noise artifacts \citep{fischerExoplanetDetectionTechniques2014b}. Furthermore, overfiltering during PSF subtraction can lead to \textit{self-subtraction}, where part of the planet's signal is inadvertently removed along with the stellar PSF, leading to \textit{non-detections} \citep{kaushikExoplanetDetectionDetailed2024}. This effect is particularly pronounced for planets close to their host stars.
+Even after filtering out the stellar emission, several challenges remain in the direct imaging of exoplanets. One major challenge is the presence of \textit{speckle noise}, which arises from residual wavefront errors (microscopic imperfections in the telescope aperture) and residual refractive atmospheric errors \citep{fischerExoplanetDetectionTechniques2014b}. These errors create discrete speckles that can mimic the appearance of point sources, making it difficult to distinguish between true planetary signals and noise artifacts \citep{fischerExoplanetDetectionTechniques2014b}. Furthermore, overfiltering during PSF subtraction can lead to \textit{self-subtraction}, where part of the planet's signal is inadvertently removed along with the stellar PSF, leading to \textit{non-detections} \citep{kaushikExoplanetDetectionDetailed2024}. This effect is particularly pronounced for planets close to their host stars.
 
-The spectroscopic analysis of directly imaged exoplanets is also complicated by the amount of observational time required to obtain sufficient data to classify planetary features \citep{ruaneDeepImagingSearch2017}. The faintness of exoplanets relative to their host stars means that long integration times are often necessary to achieve the desired signal-to-noise ratio for spectral characterization \citep{bixelIdentifyingExoEarthCandidates2019}. This is further exacerbated by the need to observe multiple spectral bands to capture the full range of atmospheric features, which can be time-consuming and resource-intensive.
+Furthermore, spectroscopy of directly imaged exoplanets requires significant observational time to classify planetary features \citep{ruaneDeepImagingSearch2017, bixelIdentifyingExoEarthCandidates2019}. This is further exacerbated by the need to observe multiple spectral bands to capture the full range of atmospheric features, which can be time-consuming and resource-intensive.
 
-Bayesian inference and MCMC methods provide a powerful framework to address these challenges in direct imaging. Rather than relying solely on algorithmic subtraction, modern postprocessing analyses construct generative residual models of the image, allowing the use of Bayesian hypothesis testing and MCMC sampling to infer contrasts, spectra, and uncertainties \citep{ruffioBayesianFrameworkExoplanet2018}. Monte Carlo is also used to determine high-priority exoplanets for follow-up spectroscopic observations based on their inferred atmospheric properties \citep{bixelIdentifyingExoEarthCandidates2019}.
+Bayesian inference and MCMC methods provide a powerful framework to address these challenges in direct imaging. Rather than relying solely on algorithmic subtraction, modern postprocessing analyses construct generative residual models of the image, allowing the use of Bayesian hypothesis testing and MCMC sampling to infer contrasts, spectra, and uncertainties \citep{ruffioBayesianFrameworkExoplanet2018}. Using these methods high-priority exoplanets are determined for follow-up spectroscopic observations based on their inferred atmospheric properties \citep{bixelIdentifyingExoEarthCandidates2019}.
 
 \subsection{Bayesian Classification of Non-Detections}
 
-Direct imaging surveys currently produce non-detections roughly 98\% of the time \citep{ruffioBayesianFrameworkExoplanet2018}. These non-detections are determined using a defined upper limit to the signal-to-noise ratio (SNR), typically set at 5$\sigma$ \citep{meshkatFURTHEREVIDENCEPLANETARY2013,ruffioBayesianFrameworkExoplanet2018}. SNR is calculated by dividing the measured flux at a given location by the standard deviation of the noise in an annulus around that location \citep{meshkatFURTHEREVIDENCEPLANETARY2013}:
+Direct imaging surveys currently produce non-detections roughly 98\% of the time \citep{ruffioBayesianFrameworkExoplanet2018}. These non-detections are determined by a defined upper limit to the signal-to-noise ratio (SNR), typically 5$\sigma$ \citep{meshkatFURTHEREVIDENCEPLANETARY2013,ruffioBayesianFrameworkExoplanet2018}. SNR is calculated by dividing the measured flux density at a given location by the standard deviation of the noise in an annulus around that location \citep{meshkatFURTHEREVIDENCEPLANETARY2013}:
 \begin{equation}
   \text{SNR} = \frac{F_{\text{planet}}}{\sigma(r)\sqrt{\pi r_{\text{ap}}^2}}
 \end{equation}
 where $F_{\text{planet}}$ is the measured flux at the location of interest, $\sigma(r)$ is the standard deviation of the noise at radius $r$ from the star, and $r_{\text{ap}}$ is the radius of the photometric aperture used to measure the flux.
 
-If the SNR is below the $5\sigma$ limit at a point in the image, the location is classified as a non-detection. However, this method does not account for the possibility of false negatives, where a planet is present but undetected due to noise or other factors. To address this, \citet{ruffioBayesianFrameworkExoplanet2018} developed a Bayesian framework to classify non-detections, the methodology of which is covered in this section.
+Image features below the $5\sigma$ limit are classified as non-detections. However, this method does not account for the possibility of false negatives, where a planet is present but undetected due to noise or other factors. To address this, \citet{ruffioBayesianFrameworkExoplanet2018} developed a Bayesian framework to classify non-detections, described below.
 
 \subsubsection{Non-Detections at Known Locations}
 
-In some cases, an exoplanet may be detected in a spectral band, but yield non-detections in another, possibly due to overfiltering of the PSF or excessive noise in the image. Bayesian inference can be used to determine a more probable upper limit on the planet's brightness in the non-detection band.
+In some cases, an exoplanet may be detected in a spectral band, but not be detected in another band, possibly due to overfiltering of the PSF or excessive noise in the image \citep{ruffioBayesianFrameworkExoplanet2018}. Bayesian inference can be used to determine a more probable upper limit on the planet brightness in the non-detection band.
 
-The true planet has flux $F$, which is unknown. At its known location, we measure a flux $\tilde{F}$ with some uncertainty $\sigma$. The posterior $P(F|\tilde{F})$ is the probability distribution of the true flux $F$ given the measured flux $\tilde{F}$. Using Bayes' Theorem, we can write this as:
+Assuming the planet has a true flux density $F$, which is unknown. At its known location, we measure a flux $\tilde{F}$ with some uncertainty $\sigma$. The posterior $P(F|\tilde{F})$ is the probability distribution of the true flux $F$ given the measured flux $\tilde{F}$. Using Bayes' Theorem, \citet{ruffioBayesianFrameworkExoplanet2018} writes this as:
 \begin{equation}
   P(F|\tilde{F}) = \frac{P(\tilde{F}|F)P(F)}{P(\tilde{F})}
 \end{equation}
@@ -529,7 +529,7 @@ Assuming Gaussian noise, the likelihood $P(\tilde{F}|F)$ is given by:
   P(\tilde{F}|F) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(\tilde{F} - F)^2}{2\sigma^2}\right)
   \label{eq:gaussian_distribution}
 \end{equation}
-which is the probability of measuring flux $\tilde{F}$ given the true flux $F$ and uncertainty $\sigma$.
+which is the probability of measuring flux density $\tilde{F}$ given a true flux density $F$ and uncertainty $\sigma$.
 
 The evidence $P(\tilde{F})$ is a normalization constant, given by:
 \begin{equation}
@@ -537,62 +537,58 @@ The evidence $P(\tilde{F})$ is a normalization constant, given by:
   \label{eq:evidence}
 \end{equation}
 
-Using the posterior, the Bayesian upper limit $F_{\text{lim}}$ can be calculated depending on a desired confidence level, or \textit{cutoff probability} $\eta$, which is the probability that the true flux of the planet is below the upper limit. This is given by:
+Using the posterior, the Bayesian upper limit $F_{\text{lim}}$ can be calculated depending on a desired confidence level, or \textit{cutoff probability} $\eta$, which is the probability that the true flux of the planet is below the upper limit \citep{ruffioBayesianFrameworkExoplanet2018}. This is given by:
 \begin{equation}
   \eta = \int_{0}^{F_{\text{lim}}} P(F|\tilde{F}) dF
   \label{eq:upper_limit}
 \end{equation}
-Solving for $F_{\text{lim}}$ gives the Bayesian upper limit on the planet's flux at the desired confidence level. Conversely, using a predefined upper limit $F_{\text{lim}}$ will yield the corresponding cutoff probability $\eta$. This allows for $(a)$ a more accurate upper limit on the planet's brightness in the non-detection band, and $(b)$ a quantification of the probability of a false non-detection based on the usual $5\sigma$ upper limit.
+Solving for $F_{\text{lim}}$ gives the Bayesian upper limit on the planet's flux at the desired confidence level. Conversely, using a predefined upper limit $F_{\text{lim}}$ will yield the corresponding cutoff probability $\eta$. This allows for $(a)$ a more accurate upper limit on the planet's brightness in the non-detection band, and $(b)$ a quantification of the probability of a false non-detection at 5$\sigma$.
 
 \subsubsection{Non-Detections on Known Orbits}
 
-The orbit of a theoretical exoplanet may be known from the existence of a gap in a protoplanetay disk \citep{ruaneDeepImagingSearch2017} or other astrometric indicator of its existence, but direct imaging may yield a non-detection at the expected location of the planet. Bayesian inference can be used to determine the probability that a planet is present on the known orbit, given the non-detection.
+The orbit of a theoretical exoplanet may be known from the existence of a gap in a protoplanetay disk \citep{ruaneDeepImagingSearch2017} or an other astrometric indicator. However, direct imaging may yield a non-detection at the expected location of the planet. Bayesian inference can be used to determine the probability that a planet is present on the known orbit.
 
-In this case, the data $D$ is the entire image with a non-detection at the expected location of the planet. The data is modeled as a random vector:
+In this case, the data $D$ is the entire image with a non-detection at the expected location of the planet. \citet{ruaneDeepImagingSearch2017} models this as a random vector:
 \begin{equation}
   D = Fm(S) + N
 \end{equation}
-where $F$ is the unknown flux of the planet, $m(S)$ is the PSF model at the expected location $S$ of the planet, and $N$ is the noise vector in the image. Using Bayes' Theorem, the posterior $P(F|D)$ is given by:
+where $F$ is the unknown flux density of the planet, $m(S)$ is the PSF model at the expected location $S$ of the planet, and $N$ is the noise vector in the full image. Using Bayes' Theorem, the posterior $P(F|D)$ is given by:
 \begin{equation}
   P(F|D) = \int \frac{P(D|F,S)P(F,S)}{P(D)} dS
 \end{equation}
-Note that the prior $P(F,S)$ includes both the flux location of the planet. It is reasonable to assume that the flux and location are independent, so that:
+Note that the prior $P(F,S)$ includes both the flux density and location of the planet. It is reasonable to assume that the flux desntiy and location are independent, so that the posterior can be written as:
 \begin{equation}
   P(F|D) = \int \frac{P(D|F,S)P(F)P(S)}{P(D)} dS
 \end{equation}
 
-The flux prior $P(F)$ is the same as in the previous section, given with \autoref{eq:flux_prior}. The location prior $P(S)$, however, is based on the known orbit of the planet. Using Kepler's laws, the projected velocity of the planet at a given position on the orbit $v_{\text{proj}}(S)$ is calculated. Using this and the orbital period $T$, the location prior is given by:
+The flux density prior $P(F)$ matches \autoref{eq:flux_prior}. The location prior $P(S)$, however, is based on the known orbit of the planet. The orbit defines the projected velocity of the planet $v_{\text{proj}}(S)$. Using this and the orbital period $T$, \citet{ruaneDeepImagingSearch2017} writes the location prior as:
 \begin{equation}
   P(S) = \frac{1}{Tv_{\text{proj}}(S)}
 \end{equation}
-This prior gives higher probability to locations where the planet spends more time, and lower probability to locations where the planet moves quickly.
+This prior gives higher probability to locations where the planet moves slowly, and lower probability to locations where the planet moves quickly.
 
-Since the data is a random vector, the likelihood $P(D|F,S)$ is given by a multivariate Gaussian distribution:
+Since the data are a random vector, \citet{ruaneDeepImagingSearch2017} expresses the likelihood $P(D|F,S)$ using a multivariate Gaussian distribution:
 \begin{equation}
   P(D|F,S) = \frac{1}{\sqrt{2\pi | \Sigma |}} \exp\left(-\frac{1}{2}(D - Fm(S))^T \Sigma^{-1} (D - Fm(S))\right)
 \end{equation}
-This equation is the matrix form of \autoref{eq:gaussian_distribution}, where $\Sigma$ is the covariance matrix of the noise in the image. Assuming the noise is independent of the data, the covariance matrix is diagonal.
+This equation is the matrix form of \autoref{eq:gaussian_distribution}, where $\Sigma$ is the covariance matrix of the noise in the image, and $T$ denotes the transpose. Assuming the noise is independent of the data, the covariance matrix is diagonal.
 
 The evidence $P(D)$ is a normalization constant, calculated using the same integration method as \autoref{eq:evidence}.
 
-After integrating over all values of $S$, the Bayesian upper limit on the planet's flux $F_{\text{lim}}$ can be calculated at a desired cutoff probability $\eta$, as in \autoref{eq:upper_limit}.
-
-\subsubsection{Point Source Classification}
-
-\textbf{[Explain Bayesian model comparison in methodology before writing this section, if it is decided to be included.]}
+By integrating over all values of $S$, the Bayesian upper limit on the planet's flux $F_{\text{lim}}$ can be calculated at a desired cutoff probability $\eta$, as in \autoref{eq:upper_limit}.
 
 \subsection{Bayesian Classification of Exo-Earths}
 
-A poignant advantage of direct imaging that it allows for spectroscopic characterization of exoplanet atmospheres \citep{currieDirectImagingSpectroscopy2023}. This is particularly important for the detection of biosignatures, which are spectral features that indicate the presence of life. Common biosignatures include oxygen, ozone, methane, and water vapor \citep{seagerListMoleculesPotential2016}. The detection of these features in the atmosphere of an exoplanet could indicate the presence of life, or as evidence for the exoplanet's habitability.
+Direct imaging allows spectroscopic characterization of exoplanet atmospheres \citep{currieDirectImagingSpectroscopy2023}. This is particularly important for the detection of biosignatures, which are spectral features that indicate the presence of life. Common biosignatures include oxygen, ozone, methane, and water vapor \citep{seagerListMoleculesPotential2016}. The detection of these features in the atmosphere of an exoplanet could indicate the presence of life, or as evidence of habitability.
 
-Two telescopes currently in development, the Habitable Exoplanet Observatory (HabEx) \textbf{[ADD FOOTNOTE]} and the Large UV/Optical/IR Surveyor (LUVOIR) \textbf{[ADD FOOTNOTE]}, aim to directly image Earth-like exoplanets, with an expected yield of dozens of exo-Earths. However, exo-Earth detection suffers from a false-positive rate of up to 77\% when using detection data from a single spectral band, and 47\% with prior constrains on the planet's orbit \citep{guimondDirectImagingSearch2018}. Furthermore, reducing the false-positive rate by collecting data from more bands is a time-consuming process, up to days or weeks per target \citep{bixelIdentifyingExoEarthCandidates2019}.
+Two telescopes currently in development, the Habitable Exoplanet Observatory (HabEx) \textbf{[ADD FOOTNOTE]} and the Large UV/Optical/IR Surveyor (LUVOIR) \textbf{[ADD FOOTNOTE]}, aim to directly image Earth-like exoplanets, with an expected yield of dozens of exo-Earths. However, exo-Earth detection suffers from a false-positive rate of up to 77\% when using detection data from a single spectral band, and 47\% with prior constrains on the planet's orbit \citep{guimondDirectImagingSearch2018}. Furthermore, reducing the false-positive rate by collecting data from more bands is a time-consuming process of up to days or weeks per target \citep{bixelIdentifyingExoEarthCandidates2019}.
 
-In order to minimize the telescope time required to confirm exo-Earth candidates (EECs), \citet{bixelIdentifyingExoEarthCandidates2019} developed a Monte Carlo framework to optimize the observing strategy for direct imaging missions. This framework uses Bayesian inference to classify EECs based on their observed spectra, allowing for the prioritization of targets for follow-up observations. The methodology of this is covered in this section.
+In order to minimize the telescope time required to confirm exo-Earth candidates (EECs), \citet{bixelIdentifyingExoEarthCandidates2019} developed a Monte Carlo framework to optimize the observing strategy. This framework uses Bayesian inference to classify EECs based on their observed spectra to prioritize targets for follow-up observations.
 \begin{deluxetable}{lll}
   \tablewidth{0pt}
   \tablenum{3}
   \tablehead{
-    \colhead{Case} & \colhead{Description} & \colhead{Information Gained}
+    \colhead{Case} & \colhead{Observational Data} & \colhead{Information Gained}
   }
   \startdata
     $1$ & Direct imaging detection in a single band & \\
@@ -603,18 +599,18 @@ In order to minimize the telescope time required to confirm exo-Earth candidates
     $6$ & + Color information from multiple bands & Color-based discrimination\\
     $7$ & All of the above &
   \enddata
-  \caption{The observables used to classify exo-Earth candidates. Each case adds additional information to the previous case, with case 7 being the most comprehensive.}
+  \caption{The observables used to classify exo-Earth candidates. Each case includes additional information, with case 7 being the most comprehensive.}
   \label{tab:observables}
 \end{deluxetable}
 
-The framework compares two competing hypotheses: that the planet is an EEC, or that it is not. The comparison uses both the intrinsic properties $\theta$ (properties that determine if a planet is an EEC) and the observable quantities $x$ shown in \autoref{tab:observables}. Mathematically, we can write this as a posterior probability using Bayes' Theorem:
+The framework compares two competing hypotheses: that the planet is an EEC, or that it is not. The comparison uses both the intrinsic properties $\theta$ (that determine if a planet is an EEC) and the observable quantities $x$ shown in \autoref{tab:observables}. They give this as a posterior probability $P(\theta|x)$ using Bayes' Theorem:
 \begin{equation}
   P(\theta|x) = \frac{P(x|\theta)P(\theta)}{P(x)}
 \end{equation}
 
-To determine the prior $P(EEC)$, a Monte Carlo population of simulated planetary systems was constructed. Each simulated planet was assigned a radius, mass, orbital period, eccentricity, and albedo drawn from the Kepler occurrence rates. From these properties, the corresponding observable quantities $x_{sim}$ were calculated, producing a prior sample of what future imaging surveys are likely to detect.
+To determine the prior $P(EEC)$, \citet{bixelIdentifyingExoEarthCandidates2019} constructed a Monte Carlo population of simulated planetary systems. They assigned each predicted planet a radius, mass, orbital period, eccentricity, and albedo drawn from the Kepler mission occurrence rates. From these properties, the corresponding observable quantities $x_{sim}$ were calculated, producing a prior sample of what future imaging surveys are likely to detect.
 
-The likelihood $P(x|\theta)$ is calculated by comparing real observed quantities $x_{obs}$ to the simulated quantities $x_{sim}$ using a Gaussian distribution:
+\citet{bixelIdentifyingExoEarthCandidates2019} calculated the likelihood $P(x|\theta)$ by comparing real observed quantities $x_{obs}$ to the simulated quantities $x_{sim}$ using a Gaussian distribution:
 \begin{equation}
   P(x|\theta) = \prod_i \exp\left(\frac{(x_{obs,i} - x_{sim,i})^2}{2\sigma_{obs,i}^2}\right)
 \end{equation}
