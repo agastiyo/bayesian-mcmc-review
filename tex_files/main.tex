@@ -36,7 +36,6 @@
 % Note to self: Don't forget to start up Zotero when you start writing!
 
 \begin{document}
-\label{placeholder} % Delete this when done!
 
 \title{Bayesian Inference and MCMC Methods in Astrophysics}
 \author{Agastya Gaur}
@@ -89,7 +88,6 @@ The second challenge is that the large volume of data and model complexity creat
 
 In this domain, Bayesian inference via Markov Chain Monte Carlo (MCMC) methods naturally emerges as a potential solution. Bayesian inference offers a principled framework for parameter estimation in complex systems. MCMC methods provide an effective way to explore parameter spaces by sampling from posterior distributions. This has become one of the most widely used and versatile approaches \citep{vontoussaintBayesianInferencePhysics2011}. Computational models are becoming far more complex, and the data being analyzed is often noisy and incomplete. Bayesian methods, with their ability to incorporate prior parameter constraints and handle uncertainty, are particularly well-suited to these challenges. MCMC methods, in particular, provide a practical way to sample from complex posterior distributions that arise in Bayesian analysis. This makes them invaluable for parameter estimation, model comparison, and uncertainty quantification.
 
-%Flesh out this paragraph more
 Another reason for the appeal of Bayesian methods is their contrast with frequentist approaches. Frequentist methods, which were dominant through much of the 20th century, emphasize point parameter estimates and confidence intervals derived from repeated sampling arguments \citep{trottaBayesSkyBayesian2008}. Bayesian inference, in contrast, provides full posterior probability distributions for parameters, naturally incorporating prior information from physics or earlier observations. This framework is particularly powerful where data are sparse, noisy, and incomplete.
 
 The wider adoption of Bayesian statistics in astronomy gained momentum in the late 20th century. Cosmologists have applied Bayesian methods to the cosmic microwave background to extract cosmological parameters from noisy sky maps \citep{tegmarkKarhunenLoeveEigenvalueProblems1997}. In exoplanet science, Bayesian inference became common in the 1990s and 2000s for modeling radial velocity curves and transit signals in the era of larger and more precise datasets \citep{gregoryBayesianAnalysisExtrasolar2005}. Pulsar timing, supernova cosmology, and gravitational lens modeling similarly saw wider use of Bayesian methods. The trend reflects a broader recognition that many of astronomy’s hardest problems demand not just point estimates, but principled uncertainty quantification.
@@ -98,7 +96,7 @@ We review here Bayesian inference and MCMC within an astrophysical perspective b
 
 The next three sections present focused case studies that illustrate how Bayesian–MCMC pipelines advance frontiers in different subfields. \hyperref[sec:CaseStudies_DirectImaging]{Section III} outlines the observational context and challenges facing the direct detection of exoplanets, such as disentangling planetary signals from stellar activity, classifying threshold for non-detections, and classifying imaged exoplanets. It then outlines the methodology and advantages of Bayesian solutions to these problems. \hyperref[sec:CaseStudies_CMB]{Section IV} covers CMB parameter estimation, considering geometric degeneracies in the power spectrum. It explores how parallelizable frameworks for MCMC and Bayesian treatments of neural networks enable efficient posterior calculations, including tradeoffs between sampler sophistication and wall-clock efficiency. Finally, \hyperref[sec:CaseStudies_Other]{Section V} covers a non-exhaustive set of other astrophysical applications, including gravitational wave detection, dark matter searches, and black hole modeling.
 
-Finally, in \hyperref[placeholder]{Section VI} and \hyperref[placeholder]{VII} we compare cases where Bayesian–MCMC excels with those where complementary methods are more appropriate, identify methodological gaps revealed by the case studies, and outline opportunities for future work in astrophysics and related fields that face similar statistical and computational challenges.
+Finally, in \hyperref[sec:Discussion]{Section VI} and \hyperref[sec:Conclusion]{VII} we compare cases where Bayesian–MCMC excels with those where complementary methods are more appropriate, identify methodological gaps revealed by the case studies, and outline opportunities for future work in astrophysics and related fields that face similar statistical and computational challenges.
 
 \section{Methodology}
 \label{sec:Methodology}
@@ -754,6 +752,7 @@ Many more applications of Bayesian inference and MCMC methods exist in astrophys
 Overall, MCMC methods have become indispensable tools across a wide range of astrophysical problems, enabling robust inference in the presence of complex models, high-dimensional parameter spaces, and challenging data characteristics. Despite the computational challenges involved, ongoing methodological advancements continue to expand the applicability and efficiency of MCMC techniques in astrophysics for application to further research.
 
 \section{Discussion}
+\label{sec:Discussion}
 
 \subsection{Optimization versus Transformation}
 
@@ -800,7 +799,8 @@ Bayesian inference through MCMC has established itself as a cornerstone methodol
 
 Future astrophysics will demand both the interpretability and robustness of MCMC and the scalability and efficiency of machine learning approaches. The most productive path forward lies in recognizing these as complementary rather than competing paradigm.
 
-\section{Conclusions}
+\section{Conclusion}
+\label{sec:Conclusion}
 
 Bayesian inference and MCMC methods have become essential infrastructure for contemporary astrophysics. However, these methods are optimizing quantitative analysis rather than fundamentally transforming the underlying physics. Whether applied to refining PSF subtraction in direct imaging or accelerating Boltzmann solver calls in cosmology, the statistical machinery operates within well-established theoretical frameworks. The advancement manifests itself by extracting more precision and speed from known physics.
 
